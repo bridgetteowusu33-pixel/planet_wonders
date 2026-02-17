@@ -1,0 +1,48 @@
+{
+  "id": "airplane_01",
+  "title": "Airplane",
+  "emoji": "✈️",
+  "difficulty": ["easy", "medium", "hard"],
+  "segments": [
+    {
+      "id": "fuselage",
+      "path": "M120,520 C250,470 520,460 780,500 C820,510 860,550 780,590 C520,630 250,620 120,570 Z",
+      "start": [120, 520],
+      "end": [120, 570]
+    },
+    {
+      "id": "wing_top",
+      "path": "M430,500 L560,320 L640,330 L560,520",
+      "start": [430, 500],
+      "end": [560, 520]
+    },
+    {
+      "id": "wing_bottom",
+      "path": "M420,560 L520,720 L600,710 L540,560",
+      "start": [420, 560],
+      "end": [540, 560]
+    },
+    {
+      "id": "tail",
+      "path": "M700,510 L760,390 L810,400 L770,520",
+      "start": [700, 510],
+      "end": [770, 520]
+    },
+    {
+      "id": "tail_fin",
+      "path": "M760,500 L880,470 L880,560 L760,550",
+      "start": [760, 500],
+      "end": [760, 550]
+    },
+    {
+      "id": "windows",
+      "path": "M300,530 L330,530 M360,525 L390,525 M420,522 L450,522",
+      "start": [300, 530],
+      "end": [450, 522]
+    }
+  ],
+  "audio": {
+    "intro": "airplane_intro.mp3",
+    "success": "great_job.mp3"
+  }
+}

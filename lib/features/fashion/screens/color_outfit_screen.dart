@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/services/gallery_service.dart';
 import '../../../core/theme/pw_theme.dart';
 import '../../coloring/models/drawing_state.dart';
-import '../../coloring/painters/flood_fill.dart';
 import '../../coloring/painters/stroke_painter.dart';
 import '../../coloring/providers/drawing_provider.dart';
 import '../../coloring/widgets/brush_size_selector.dart';
@@ -32,43 +31,16 @@ class _ColorOutfitScreenState extends ConsumerState<ColorOutfitScreen> {
   final _canvasKey = GlobalKey();
   bool _saving = false;
 
+  // TODO: Fashion Studio fill tool needs migration to region mask system or separate drawing provider.
+  // For now, fill tool is disabled in Fashion Studio.
   Future<void> _handleFillTap(Offset localPosition) async {
-    final notifier = ref.read(drawingProvider.notifier);
-    final drawingState = ref.read(drawingProvider);
-
-    if (drawingState.filling) return;
-    notifier.setFilling(true);
-
-    try {
-      final boundary = _canvasKey.currentContext?.findRenderObject()
-          as RenderRepaintBoundary?;
-      if (boundary == null) {
-        notifier.setFilling(false);
-        return;
-      }
-
-      final pixelRatio = MediaQuery.devicePixelRatioOf(context);
-      final image = await boundary.toImage(pixelRatio: pixelRatio);
-
-      final startX = (localPosition.dx * pixelRatio).round();
-      final startY = (localPosition.dy * pixelRatio).round();
-
-      final fillResult = await floodFill(
-        source: image,
-        startX: startX,
-        startY: startY,
-        fillColor: ref.read(drawingProvider).currentColor,
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Fill tool temporarily unavailable in Fashion Studio'),
+          duration: Duration(seconds: 2),
+        ),
       );
-
-      image.dispose();
-
-      if (fillResult != null && mounted) {
-        notifier.addFillImage(fillResult);
-      } else {
-        notifier.setFilling(false);
-      }
-    } catch (_) {
-      if (mounted) notifier.setFilling(false);
     }
   }
 
@@ -200,25 +172,12 @@ class _ColorOutfitScreenState extends ConsumerState<ColorOutfitScreen> {
                                       : (_) => ref
                                           .read(drawingProvider.notifier)
                                           .endStroke(),
-                                  child: Stack(
-                                    children: [
-                                      CustomPaint(
-                                        painter: _TransparentStrokePainter(
-                                          strokes: drawingState.strokes,
-                                          activeStroke: drawingState.activeStroke,
-                                          fillImages: drawingState.fillImages,
-                                        ),
-                                        child: const SizedBox.expand(),
-                                      ),
-                                      if (drawingState.filling)
-                                        const Center(
-                                          child: SizedBox(
-                                            width: 28,
-                                            height: 28,
-                                            child: CircularProgressIndicator(strokeWidth: 3),
-                                          ),
-                                        ),
-                                    ],
+                                  child: CustomPaint(
+                                    painter: _TransparentStrokePainter(
+                                      strokes: drawingState.strokes,
+                                      activeStroke: drawingState.activeStroke,
+                                    ),
+                                    child: const SizedBox.expand(),
                                   ),
                                 ),
                               ),
@@ -316,32 +275,18 @@ class _OutfitBase extends StatelessWidget {
 // Transparent stroke painter — no white background
 // ---------------------------------------------------------------------------
 
+// TODO: This painter needs migration to support region fills or a separate drawing state.
 class _TransparentStrokePainter extends CustomPainter {
   _TransparentStrokePainter({
     required this.strokes,
     this.activeStroke,
-    required this.fillImages,
   });
 
   final List<Stroke> strokes;
   final Stroke? activeStroke;
-  final List<ui.Image> fillImages;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final bounds = Offset.zero & size;
-
-    // Fill images (flood-fill results, scaled from pixel coords).
-    for (final img in fillImages) {
-      final src = Rect.fromLTWH(
-        0,
-        0,
-        img.width.toDouble(),
-        img.height.toDouble(),
-      );
-      canvas.drawImageRect(img, src, bounds, Paint());
-    }
-
     // Strokes — no white background so the outfit shows through.
     paintStrokes(canvas, size, strokes: strokes, activeStroke: activeStroke);
   }

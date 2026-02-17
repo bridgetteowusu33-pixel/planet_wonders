@@ -10,28 +10,38 @@ import '../providers/drawing_provider.dart';
 /// Set [showFill] to `false` to hide the Fill button (e.g. on transparent
 /// canvases where flood-fill doesn't work).
 class DrawingToolbar extends ConsumerWidget {
-  const DrawingToolbar({super.key, this.showFill = true});
+  const DrawingToolbar({
+    super.key,
+    this.showFill = true,
+    this.onResetRequested,
+  });
 
   final bool showFill;
+  final VoidCallback? onResetRequested;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentTool =
-        ref.watch(drawingProvider.select((s) => s.currentTool));
+    final currentTool = ref.watch(drawingProvider.select((s) => s.currentTool));
     final canUndo = ref.watch(drawingProvider.select((s) => s.canUndo));
+    final canRedo = ref.watch(drawingProvider.select((s) => s.canRedo));
+    final precisionMode = ref.watch(
+      drawingProvider.select((s) => s.precisionMode),
+    );
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Wrap(
+      alignment: WrapAlignment.center,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      spacing: 16,
+      runSpacing: 8,
       children: [
         _ToolButton(
           icon: Icons.brush_rounded,
           label: 'Brush',
-          isActive: currentTool == DrawingTool.brush,
+          isActive: currentTool == DrawingTool.marker,
           onTap: () =>
-              ref.read(drawingProvider.notifier).setTool(DrawingTool.brush),
+              ref.read(drawingProvider.notifier).setTool(DrawingTool.marker),
         ),
-        if (showFill) ...[
-          const SizedBox(width: 16),
+        if (showFill)
           _ToolButton(
             icon: Icons.format_color_fill_rounded,
             label: 'Fill',
@@ -39,8 +49,6 @@ class DrawingToolbar extends ConsumerWidget {
             onTap: () =>
                 ref.read(drawingProvider.notifier).setTool(DrawingTool.fill),
           ),
-        ],
-        const SizedBox(width: 16),
         _ToolButton(
           icon: Icons.auto_fix_high_rounded,
           label: 'Eraser',
@@ -48,7 +56,6 @@ class DrawingToolbar extends ConsumerWidget {
           onTap: () =>
               ref.read(drawingProvider.notifier).setTool(DrawingTool.eraser),
         ),
-        const SizedBox(width: 16),
         _ToolButton(
           icon: Icons.undo_rounded,
           label: 'Undo',
@@ -56,6 +63,26 @@ class DrawingToolbar extends ConsumerWidget {
           enabled: canUndo,
           onTap: () => ref.read(drawingProvider.notifier).undo(),
         ),
+        _ToolButton(
+          icon: Icons.redo_rounded,
+          label: 'Redo',
+          isActive: false,
+          enabled: canRedo,
+          onTap: () => ref.read(drawingProvider.notifier).redo(),
+        ),
+        _ToolButton(
+          icon: Icons.center_focus_strong_rounded,
+          label: 'Precision',
+          isActive: precisionMode,
+          onTap: () => ref.read(drawingProvider.notifier).togglePrecisionMode(),
+        ),
+        if (onResetRequested != null)
+          _ToolButton(
+            icon: Icons.restart_alt_rounded,
+            label: 'Reset',
+            isActive: false,
+            onTap: onResetRequested!,
+          ),
       ],
     );
   }
@@ -96,7 +123,9 @@ class _ToolButton extends StatelessWidget {
                 color: isActive ? PWColors.blue : Colors.white,
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(
-                  color: isActive ? PWColors.blue : PWColors.navy.withValues(alpha: 0.15),
+                  color: isActive
+                      ? PWColors.blue
+                      : PWColors.navy.withValues(alpha: 0.15),
                   width: isActive ? 2 : 1,
                 ),
               ),
@@ -112,7 +141,9 @@ class _ToolButton extends StatelessWidget {
               style: TextStyle(
                 fontSize: 10,
                 fontWeight: FontWeight.w600,
-                color: isActive ? PWColors.blue : PWColors.navy.withValues(alpha: 0.6),
+                color: isActive
+                    ? PWColors.blue
+                    : PWColors.navy.withValues(alpha: 0.6),
               ),
             ),
           ],

@@ -1,0 +1,48 @@
+{
+  "id": "gift_01",
+  "title": "Gift Box",
+  "emoji": "🎁",
+  "difficulty": ["easy", "medium", "hard"],
+  "segments": [
+    {
+      "id": "box",
+      "path": "M260,420 L740,420 L740,820 L260,820 Z",
+      "start": [260, 420],
+      "end": [260, 420]
+    },
+    {
+      "id": "lid",
+      "path": "M220,360 L780,360 L780,460 L220,460 Z",
+      "start": [220, 360],
+      "end": [220, 360]
+    },
+    {
+      "id": "ribbon_vertical",
+      "path": "M470,360 L530,360 L530,820 L470,820 Z",
+      "start": [470, 360],
+      "end": [470, 360]
+    },
+    {
+      "id": "ribbon_horizontal",
+      "path": "M220,560 L780,560",
+      "start": [220, 560],
+      "end": [780, 560]
+    },
+    {
+      "id": "bow_left",
+      "path": "M500,360 C430,300 360,330 380,390 C450,410 500,390 500,360 Z",
+      "start": [500, 360],
+      "end": [500, 360]
+    },
+    {
+      "id": "bow_right",
+      "path": "M500,360 C570,300 640,330 620,390 C550,410 500,390 500,360 Z",
+      "start": [500, 360],
+      "end": [500, 360]
+    }
+  ],
+  "audio": {
+    "intro": "gift_intro.mp3",
+    "success": "great_job.mp3"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "vehicles_basic",
+  "title": "Zoom Vehicles",
+  "emoji": "🚗",
+  "age_range": "4-8",
+  "icon": "toys",
+  "difficulty_levels": ["easy", "medium", "hard"],
+  "shape_files": [
+    "car.json",
+    "airplane.json",
+    "boat.json",
+    "bicycle.json",
+    "bus.json",
+    "rocket.json"
+  ],
+  "shapes": [
+    {"id": "car_01", "title": "City Car", "emoji": "🚗", "file": "car.json"},
+    {"id": "airplane_01", "title": "Airplane", "emoji": "✈️", "file": "airplane.json"},
+    {"id": "boat_01", "title": "Sailing Boat", "emoji": "🛳", "file": "boat.json"},
+    {"id": "bicycle_01", "title": "Bicycle", "emoji": "🚲", "file": "bicycle.json"},
+    {"id": "bus_01", "title": "School Bus", "emoji": "🚌", "file": "bus.json"},
+    {"id": "rocket_01", "title": "Rocket", "emoji": "🚀", "file": "rocket.json"}
+  ]
+}

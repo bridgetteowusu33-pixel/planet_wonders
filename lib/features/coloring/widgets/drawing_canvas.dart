@@ -63,5 +63,8 @@ class _DrawingPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _DrawingPainter old) => true;
+  bool shouldRepaint(covariant _DrawingPainter old) {
+    return old.activeStroke != activeStroke ||
+        old.strokes.length != strokes.length;
+  }
 }

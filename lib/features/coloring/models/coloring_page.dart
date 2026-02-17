@@ -17,6 +17,7 @@ class ColoringPage {
   final String emoji; // thumbnail placeholder
   final OutlinePainter? paintOutline;
   final String? outlineAsset; // e.g. 'assets/coloring/ghana/kente.png'
+  final String? maskAsset; // e.g. 'assets/coloring/usa/masks/usa_01_map_mask.png'
   final String? fact; // "Did You Know?" text
   final String? factCategory; // Culture, History, etc.
 
@@ -27,6 +28,7 @@ class ColoringPage {
     required this.emoji,
     this.paintOutline,
     this.outlineAsset,
+    this.maskAsset,
     this.fact,
     this.factCategory,
   }) : assert(
@@ -36,4 +38,5 @@ class ColoringPage {
 
   bool get hasFact => fact != null;
   bool get isImageBased => outlineAsset != null;
+  bool get hasMask => maskAsset != null;
 }

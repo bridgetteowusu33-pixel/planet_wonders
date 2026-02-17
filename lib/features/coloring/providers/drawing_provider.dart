@@ -8,12 +8,18 @@ import '../models/drawing_state.dart';
 /// a fresh canvas, and memory is freed when they leave.
 final drawingProvider =
     NotifierProvider.autoDispose<DrawingNotifier, DrawingState>(
-  DrawingNotifier.new,
-);
+      DrawingNotifier.new,
+    );
 
 class DrawingNotifier extends Notifier<DrawingState> {
+  static const double _minPointDistanceSquared = 9.0;
+  final Set<Image> _ownedBitmapImages = <Image>{};
+
   @override
-  DrawingState build() => const DrawingState();
+  DrawingState build() {
+    ref.onDispose(_disposeOwnedBitmapImages);
+    return const DrawingState();
+  }
 
   // --- touch lifecycle (brush / eraser) ---
 
@@ -22,90 +28,181 @@ class DrawingNotifier extends Notifier<DrawingState> {
     // Fill tool uses tap, not stroke — ignore pan events.
     if (tool == DrawingTool.fill) return;
 
+    final isEraser = tool == DrawingTool.eraser;
+
     final stroke = Stroke(
       points: [point],
-      color: tool == DrawingTool.eraser
-          ? const Color(0x00000000)
-          : state.currentColor,
+      color: isEraser ? const Color(0x00000000) : state.currentColor,
       width: state.activeWidth,
-      tool: tool,
+      brushType: state.currentBrushType,
+      isEraser: isEraser,
     );
+
     state = state.copyWith(activeStroke: stroke);
   }
 
   void updateStroke(Offset point) {
     final active = state.activeStroke;
     if (active == null) return;
+    final points = active.points;
+    if (points.isNotEmpty) {
+      final last = points.last;
+      final dx = point.dx - last.dx;
+      final dy = point.dy - last.dy;
+      if ((dx * dx + dy * dy) < _minPointDistanceSquared) {
+        return;
+      }
+    }
     state = state.copyWith(activeStroke: active.addPoint(point));
   }
 
   void endStroke() {
     final active = state.activeStroke;
     if (active == null) return;
+
+    _disposeBitmapImages(state.redoStack);
+
+    // Push StrokeAction to actions, clear redoStack
     state = state.copyWith(
-      strokes: [...state.strokes, active],
-      actionHistory: [...state.actionHistory, ActionType.stroke],
+      actions: [...state.actions, StrokeAction(active)],
+      redoStack: [], // new action clears redo
       clearActiveStroke: true,
     );
   }
 
-  // --- fill tool ---
+  // --- fill tool (region-based) ---
 
+  /// Fills a region with the current color.
+  ///
+  /// Pushes a RegionFillAction to the action stack.
+  /// If the same region is filled again, it just replaces the color.
+  void fillRegion(int regionId, Color color) {
+    _disposeBitmapImages(state.redoStack);
+    state = state.copyWith(
+      actions: [
+        ...state.actions,
+        RegionFillAction(regionId: regionId, color: color),
+      ],
+      redoStack: [], // new action clears redo
+      filling: false,
+    );
+  }
+
+  /// Adds a flood-fill bitmap overlay action.
+  void addBitmapFill(Image image) {
+    _ownedBitmapImages.add(image);
+    _disposeBitmapImages(state.redoStack);
+    state = state.copyWith(
+      actions: [...state.actions, BitmapFillAction(image)],
+      redoStack: [],
+      filling: false,
+    );
+  }
+
+  /// Legacy setter for filling state (used during async flood fill).
+  /// In Phase 1 with region masks, fills are instant, so this is rarely used.
   void setFilling(bool value) {
     state = state.copyWith(filling: value);
   }
 
-  void addFillImage(Image image) {
+  // --- undo / redo ---
+
+  void undo() {
+    if (!state.canUndo) return;
+
+    final actions = [...state.actions];
+    final lastAction = actions.removeLast();
+
     state = state.copyWith(
-      fillImages: [...state.fillImages, image],
-      actionHistory: [...state.actionHistory, ActionType.fill],
+      actions: actions,
+      redoStack: [...state.redoStack, lastAction],
+    );
+  }
+
+  void redo() {
+    if (!state.canRedo) return;
+
+    final redoStack = [...state.redoStack];
+    final action = redoStack.removeLast();
+
+    state = state.copyWith(
+      actions: [...state.actions, action],
+      redoStack: redoStack,
+    );
+  }
+
+  void clear() {
+    _disposeBitmapImages(state.actions);
+    _disposeBitmapImages(state.redoStack);
+    state = state.copyWith(actions: [], redoStack: [], clearActiveStroke: true);
+  }
+
+  /// Replaces the current drawing state with a restored snapshot.
+  ///
+  /// Used by the persistence layer when a page is reopened.
+  void restoreState(DrawingState restored) {
+    _disposeBitmapImages(state.actions);
+    _disposeBitmapImages(state.redoStack);
+
+    // Restored data contains only serializable actions (strokes + region fills).
+    state = restored.copyWith(
+      redoStack: const [],
+      clearActiveStroke: true,
       filling: false,
     );
   }
 
   // --- toolbar actions ---
 
-  void undo() {
-    if (!state.canUndo) return;
-
-    final history = [...state.actionHistory];
-    final lastAction = history.removeLast();
-
-    if (lastAction == ActionType.stroke) {
-      state = state.copyWith(
-        strokes: state.strokes.sublist(0, state.strokes.length - 1),
-        actionHistory: history,
-      );
-    } else {
-      // Remove last fill image.
-      final fills = [...state.fillImages];
-      if (fills.isNotEmpty) fills.removeLast();
-      state = state.copyWith(
-        fillImages: fills,
-        actionHistory: history,
-      );
-    }
-  }
-
-  void clear() {
-    state = state.copyWith(
-      strokes: [],
-      fillImages: [],
-      actionHistory: [],
-      clearActiveStroke: true,
-    );
-  }
-
   void setTool(DrawingTool tool) {
     state = state.copyWith(currentTool: tool);
   }
 
+  void setBrushType(BrushType type) {
+    state = state.copyWith(currentBrushType: type);
+  }
+
   void setColor(Color color) {
-    // Picking a color automatically switches back to brush.
-    state = state.copyWith(currentColor: color, currentTool: DrawingTool.brush);
+    // Keep Fill selected when changing colors in fill mode.
+    // Otherwise preserve the existing behavior of returning to brush.
+    final nextTool = state.currentTool == DrawingTool.fill
+        ? DrawingTool.fill
+        : DrawingTool.marker;
+
+    state = state.copyWith(currentColor: color, currentTool: nextTool);
   }
 
   void setBrushSize(BrushSize size) {
     state = state.copyWith(currentBrushSize: size);
+  }
+
+  void setPrecisionMode(bool enabled) {
+    state = state.copyWith(precisionMode: enabled);
+  }
+
+  void togglePrecisionMode() {
+    state = state.copyWith(precisionMode: !state.precisionMode);
+  }
+
+  void setPaperTextureEnabled(bool enabled) {
+    state = state.copyWith(paperTextureEnabled: enabled);
+  }
+
+  void _disposeBitmapImages(Iterable<DrawingAction> actions) {
+    for (final action in actions) {
+      if (action is BitmapFillAction) {
+        final image = action.image;
+        if (_ownedBitmapImages.remove(image)) {
+          image.dispose();
+        }
+      }
+    }
+  }
+
+  void _disposeOwnedBitmapImages() {
+    for (final image in _ownedBitmapImages) {
+      image.dispose();
+    }
+    _ownedBitmapImages.clear();
   }
 }

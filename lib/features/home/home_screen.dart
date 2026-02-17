@@ -9,124 +9,233 @@ import '../coloring/data/coloring_data.dart';
 import '../stories/data/story_data.dart';
 import '../world_explorer/data/world_data.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  bool _didPrecache = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_didPrecache) return;
+    _didPrecache = true;
+    precacheImage(
+      const AssetImage('assets/backgrounds/home_beach_bg.png'),
+      context,
+    );
+    precacheImage(
+      const AssetImage('assets/logos/planet_wonders_logo.png'),
+      context,
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GradientBackground(
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: [
-              const SizedBox(height: 12),
+    return Scaffold(
+      body: Stack(
+        children: [
+          const _HomeScenicBackground(),
+          SafeArea(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final isTablet = constraints.maxWidth >= 900;
+                final contentMaxWidth = isTablet ? 980.0 : 760.0;
+                final horizontalPadding = isTablet ? 28.0 : 20.0;
 
-              // --- Title ---
-              const _ColorfulTitle(),
-              const SizedBox(height: 2),
-              Text(
-                'Color the World.',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w800,
-                      fontSize: 18,
-                    ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                'What wonder will you explore today?',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Colors.white.withValues(alpha: 0.85),
-                    ),
-              ),
+                return Align(
+                  alignment: Alignment.topCenter,
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: contentMaxWidth),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: horizontalPadding,
+                      ),
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 12),
 
-              const SizedBox(height: 16),
+                          // --- Title ---
+                          _HomeLogo(isTablet: isTablet),
+                          const SizedBox(height: 2),
+                          Text(
+                            'Color the World.',
+                            style: Theme.of(context).textTheme.titleMedium
+                                ?.copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: isTablet ? 22 : 18,
+                                ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'What wonder will you explore today?',
+                            style: Theme.of(context).textTheme.bodyMedium
+                                ?.copyWith(
+                                  color: Colors.white.withValues(alpha: 0.9),
+                                  fontSize: isTablet ? 17 : null,
+                                ),
+                          ),
 
-              // --- Passport summary card ---
-              const _PassportCard(),
+                          const SizedBox(height: 16),
 
-              const SizedBox(height: 4),
+                          // --- Passport summary card ---
+                          const _PassportCard(),
 
-              // --- Action card grid (3×2) ---
-              Expanded(
-                child: GridView.count(
-                  crossAxisCount: 3,
-                  physics: const NeverScrollableScrollPhysics(),
-                  mainAxisSpacing: 14,
-                  crossAxisSpacing: 14,
-                  childAspectRatio: 0.95,
-                  children: [
-                    ActivityCard(
-                      emoji: '\u{1F30D}', // 🌍
-                      label: 'World\nExplorer',
-                      color: const Color(0xFF4CAF50),
-                      onTap: () => context.push('/world'),
+                          const SizedBox(height: 4),
+
+                          // --- Action card grid (3×2) ---
+                          Expanded(
+                            child: GridView.count(
+                              crossAxisCount: 3,
+                              physics: const NeverScrollableScrollPhysics(),
+                              mainAxisSpacing: isTablet ? 20 : 14,
+                              crossAxisSpacing: isTablet ? 20 : 14,
+                              childAspectRatio: isTablet ? 1.08 : 0.95,
+                              children: [
+                                ActivityCard(
+                                  emoji: '\u{1F30D}', // 🌍
+                                  label: 'World\nExplorer',
+                                  color: const Color(0xFF4CAF50),
+                                  onTap: () => context.push('/world'),
+                                ),
+                                ActivityCard(
+                                  emoji: '\u{1F4D6}', // 📖
+                                  label: 'Stories',
+                                  color: const Color(0xFFFF9800),
+                                  onTap: () => context.push('/stories'),
+                                ),
+                                ActivityCard(
+                                  emoji: '\u{1F58D}', // 🖍️
+                                  label: 'Coloring\nPages',
+                                  color: const Color(0xFF9C27B0),
+                                  onTap: () => context.push('/coloring'),
+                                ),
+                                ActivityCard(
+                                  emoji: '\u{1F3A8}', // 🎨
+                                  label: 'Start\nDrawing',
+                                  color: PWColors.coral,
+                                  onTap: () => context.push('/draw'),
+                                ),
+                                ActivityCard(
+                                  emoji: '\u{1F457}', // 👗
+                                  label: 'Fashion\nStudio',
+                                  color: const Color(0xFFE91E63),
+                                  onTap: () => context.push('/fashion'),
+                                ),
+                                ActivityCard(
+                                  emoji: '\u{1F373}', // 🍳
+                                  label: 'Cooking\nFun',
+                                  color: const Color(0xFFFF5722),
+                                  onTap: () {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text('Coming soon!'),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                        ],
+                      ),
                     ),
-                    ActivityCard(
-                      emoji: '\u{1F4D6}', // 📖
-                      label: 'Stories',
-                      color: const Color(0xFFFF9800),
-                      onTap: () => context.push('/stories'),
-                    ),
-                    ActivityCard(
-                      emoji: '\u{1F58D}', // 🖍️
-                      label: 'Coloring\nPages',
-                      color: const Color(0xFF9C27B0),
-                      onTap: () => context.push('/coloring'),
-                    ),
-                    ActivityCard(
-                      emoji: '\u{1F3A8}', // 🎨
-                      label: 'Start\nDrawing',
-                      color: PWColors.coral,
-                      onTap: () => context.push('/draw'),
-                    ),
-                    ActivityCard(
-                      emoji: '\u{1F457}', // 👗
-                      label: 'Fashion\nStudio',
-                      color: const Color(0xFFE91E63),
-                      onTap: () => context.push('/fashion'),
-                    ),
-                    ActivityCard(
-                      emoji: '\u{1F373}', // 🍳
-                      label: 'Cooking\nFun',
-                      color: const Color(0xFFFF5722),
-                      onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Coming soon!')),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 8),
-            ],
+                  ),
+                );
+              },
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
 }
 
-/// Multi-color "Planet Wonders" title — each word a different PWColor.
-class _ColorfulTitle extends StatelessWidget {
-  const _ColorfulTitle();
+class _HomeScenicBackground extends StatelessWidget {
+  const _HomeScenicBackground();
 
   @override
   Widget build(BuildContext context) {
-    final style = GoogleFonts.baloo2(
-      fontSize: 34,
-      fontWeight: FontWeight.w800,
-    );
+    final mediaQuery = MediaQuery.maybeOf(context);
+    final cacheWidth = mediaQuery == null
+        ? null
+        : (mediaQuery.size.width * mediaQuery.devicePixelRatio)
+              .round()
+              .clamp(1, 4096)
+              .toInt();
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Stack(
+      fit: StackFit.expand,
       children: [
-        Text('Planet', style: style.copyWith(color: PWColors.yellow)),
-        const SizedBox(width: 8),
-        Text('Wonders', style: style.copyWith(color: Colors.white)),
+        Image.asset(
+          'assets/backgrounds/home_beach_bg.png',
+          fit: BoxFit.cover,
+          alignment: Alignment.center,
+          cacheWidth: cacheWidth,
+          filterQuality: FilterQuality.medium,
+          errorBuilder: (context, error, stackTrace) {
+            return const GradientBackground(child: SizedBox.expand());
+          },
+        ),
+        // Keeps foreground text/buttons readable on both phones and iPads.
+        DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.black.withValues(alpha: 0.18),
+                Colors.transparent,
+                Colors.black.withValues(alpha: 0.10),
+              ],
+            ),
+          ),
+        ),
       ],
+    );
+  }
+}
+
+/// Home logo image with graceful fallback text.
+class _HomeLogo extends StatelessWidget {
+  const _HomeLogo({required this.isTablet});
+
+  final bool isTablet;
+
+  @override
+  Widget build(BuildContext context) {
+    final logoHeight = isTablet ? 182.0 : 206.0;
+    final dpr = MediaQuery.of(context).devicePixelRatio;
+    final cacheHeight = (logoHeight * dpr).round().clamp(1, 4096).toInt();
+
+    return SizedBox(
+      height: logoHeight,
+      child: Image.asset(
+        'assets/logos/planet_wonders_logo.png',
+        fit: BoxFit.contain,
+        cacheHeight: cacheHeight,
+        filterQuality: FilterQuality.medium,
+        errorBuilder: (context, error, stackTrace) {
+          final style = GoogleFonts.baloo2(
+            fontSize: isTablet ? 44 : 34,
+            fontWeight: FontWeight.w800,
+          );
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Planet', style: style.copyWith(color: PWColors.yellow)),
+              const SizedBox(width: 8),
+              Text('Wonders', style: style.copyWith(color: Colors.white)),
+            ],
+          );
+        },
+      ),
     );
   }
 }

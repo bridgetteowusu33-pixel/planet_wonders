@@ -1,0 +1,24 @@
+{
+  "id": "objects_basic",
+  "title": "Everyday Objects",
+  "emoji": "🧩",
+  "age_range": "4-8",
+  "icon": "draw",
+  "difficulty_levels": ["easy", "medium", "hard"],
+  "shape_files": [
+    "house.json",
+    "balloon.json",
+    "apple.json",
+    "soccer_ball.json",
+    "gift.json",
+    "star.json"
+  ],
+  "shapes": [
+    {"id": "house_01", "title": "Cozy House", "emoji": "🏠", "file": "house.json"},
+    {"id": "balloon_01", "title": "Balloon", "emoji": "🎈", "file": "balloon.json"},
+    {"id": "apple_01", "title": "Apple", "emoji": "🍎", "file": "apple.json"},
+    {"id": "soccer_ball_01", "title": "Soccer Ball", "emoji": "⚽", "file": "soccer_ball.json"},
+    {"id": "gift_01", "title": "Gift Box", "emoji": "🎁", "file": "gift.json"},
+    {"id": "star_01", "title": "Shining Star", "emoji": "🌟", "file": "star.json"}
+  ]
+}

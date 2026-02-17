@@ -1,0 +1,28 @@
+{
+  "packs": [
+    {
+      "id": "animals_basic",
+      "title": "Animal Friends",
+      "subtitle": "Trace playful animals",
+      "icon": "pets",
+      "color": "#FFD9A8",
+      "file": "assets/traces/animals_basic/pack.json"
+    },
+    {
+      "id": "vehicles_basic",
+      "title": "Zoom Vehicles",
+      "subtitle": "Trace transport adventures",
+      "icon": "toys",
+      "color": "#C9D8FF",
+      "file": "assets/traces/vehicles_basic/pack.json"
+    },
+    {
+      "id": "objects_basic",
+      "title": "Everyday Objects",
+      "subtitle": "Trace fun things around you",
+      "icon": "draw",
+      "color": "#BEEBC2",
+      "file": "assets/traces/objects_basic/pack.json"
+    }
+  ]
+}

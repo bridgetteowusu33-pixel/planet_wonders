@@ -1,0 +1,65 @@
+{
+  "achievements": [
+    {
+      "id": "ghana_chef_star",
+      "title": "Ghana Chef Star",
+      "description": "Complete the Ghana Jollof story recipe.",
+      "iconPath": "assets/badges/ghana_chef_star.png",
+      "score": 20,
+      "unlockCondition": {
+        "type": "recipe_story_completed",
+        "countryId": "ghana",
+        "recipeId": "ghana_jollof_story",
+        "minCount": 1
+      }
+    },
+    {
+      "id": "waakye_master",
+      "title": "Waakye Master",
+      "description": "Cook the Waakye story recipe in Ghana.",
+      "iconPath": "assets/badges/waakye_master.png",
+      "score": 20,
+      "unlockCondition": {
+        "type": "recipe_story_completed",
+        "countryId": "ghana",
+        "recipeId": "waakye",
+        "minCount": 1
+      }
+    },
+    {
+      "id": "ghana_food_hero",
+      "title": "Ghana Food Hero",
+      "description": "Complete 3 Ghana recipe stories.",
+      "iconPath": "assets/badges/ghana_food_hero.png",
+      "score": 35,
+      "unlockCondition": {
+        "type": "recipe_story_completed",
+        "countryId": "ghana",
+        "minCount": 3
+      }
+    },
+    {
+      "id": "little_chef",
+      "title": "Little Chef",
+      "description": "Complete 5 recipes from any country.",
+      "iconPath": "assets/badges/little_chef.png",
+      "score": 40,
+      "unlockCondition": {
+        "type": "any_recipe_completed",
+        "minCount": 5
+      }
+    },
+    {
+      "id": "world_chef",
+      "title": "World Chef",
+      "description": "Complete 10 recipes across at least 2 countries.",
+      "iconPath": "assets/badges/world_chef.png",
+      "score": 80,
+      "unlockCondition": {
+        "type": "any_recipe_completed",
+        "minCount": 10,
+        "minCountries": 2
+      }
+    }
+  ]
+}

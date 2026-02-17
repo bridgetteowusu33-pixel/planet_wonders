@@ -1,0 +1,78 @@
+{
+  "country": "ghana",
+  "recipes": [
+    {
+      "id": "waakye",
+      "country": "ghana",
+      "title": "Afia Cooks Waakye!",
+      "emoji": "🍛",
+      "difficulty": 2,
+      "imageAsset": "assets/coloring/ghana/food/ghana_food_05_waakye.png",
+      "thumbnailAsset": "assets/coloring/ghana/food/ghana_food_05_waakye.png",
+      "intro": "Afia and Uncle Kofi are making waakye for a busy market morning.",
+      "introFact": "Waakye is a popular Ghana meal made with rice and beans.",
+      "completionMessage": "Amazing! Your waakye bowl is ready to serve.",
+      "completionAsset": "assets/coloring/ghana/food/story/ghana_waakye_story_completion.png",
+      "completionFact": "Waakye is often enjoyed for breakfast and lunch.",
+      "badgeTitle": "Waakye Master",
+      "rewardCultureStars": 1,
+      "steps": [
+        {
+          "story": "Tap to rinse the rice and beans.",
+          "action": "tap_bowl",
+          "requiredCount": 3,
+          "asset": "assets/coloring/ghana/food/ghana_food_05_waakye.png",
+          "fact": "Clean grains make the meal taste fresh.",
+          "sfx": "tap"
+        },
+        {
+          "story": "Tap to chop onions and tomatoes.",
+          "action": "tap_chop",
+          "requiredCount": 4,
+          "asset": "assets/coloring/ghana/food/ghana_food_05_waakye.png",
+          "fact": "Colorful veggies add flavor and color.",
+          "sfx": "tap"
+        },
+        {
+          "story": "Drag the oil bottle into the pot.",
+          "action": "drag_oil_to_pot",
+          "requiredCount": 1,
+          "asset": "assets/coloring/ghana/food/ghana_food_05_waakye.png",
+          "fact": "A little oil helps ingredients cook smoothly.",
+          "sfx": "drop"
+        },
+        {
+          "story": "Drag the rice and beans into the pot.",
+          "action": "drag_rice_to_pot",
+          "requiredCount": 1,
+          "asset": "assets/coloring/ghana/food/ghana_food_05_waakye.png",
+          "fact": "Waakye mixes rice and beans together.",
+          "sfx": "drop"
+        },
+        {
+          "story": "Tap the spice shaker to season it.",
+          "action": "tap_spice_shaker",
+          "requiredCount": 3,
+          "asset": "assets/coloring/ghana/food/ghana_food_05_waakye.png",
+          "fact": "Families use different spices for their waakye.",
+          "sfx": "tap"
+        },
+        {
+          "story": "Stir in big circles.",
+          "action": "stir_circle",
+          "asset": "assets/coloring/ghana/food/ghana_food_05_waakye.png",
+          "fact": "Stirring helps everything blend evenly.",
+          "sfx": "stir"
+        },
+        {
+          "story": "Hold the lid gently while it cooks.",
+          "action": "hold_to_cook",
+          "holdDurationMs": 2200,
+          "asset": "assets/coloring/ghana/food/ghana_food_05_waakye.png",
+          "fact": "Hot steam means your waakye is almost done.",
+          "sfx": "hold"
+        }
+      ]
+    }
+  ]
+}

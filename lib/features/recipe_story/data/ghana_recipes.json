@@ -1,0 +1,249 @@
+{
+  "country": "ghana",
+  "recipes": [
+    {
+      "id": "ghana_jollof_story",
+      "title": "Afia Makes Jollof Rice!",
+      "emoji": "🍛",
+      "difficulty": 1,
+      "imageAsset": "assets/coloring/ghana/food/ghana_food_01_jollof.png",
+      "thumbnailAsset": "assets/coloring/ghana/food/ghana_food_01_jollof.png",
+      "intro": "Let's cook something yummy from Ghana with Afia and her family!",
+      "introFact": "Jollof is loved across West Africa!",
+      "completionMessage": "Ta-da! Your jollof rice is ready to share.",
+      "completionAsset": "assets/coloring/ghana/food/story/ghana_jollof_story_completion.png",
+      "completionFact": "Families cook jollof for celebrations and special days.",
+      "badgeTitle": "Ghana Chef Star",
+      "rewardCultureStars": 1,
+      "steps": [
+        {
+          "story": "First, we rinse the rice so it's nice and clean!",
+          "action": "tap_bowl",
+          "requiredCount": 3,
+          "asset": "assets/coloring/ghana/food/story/ghana_jollof_story_step_01_wash.png",
+          "fact": "Splash splash! Clean rice helps make fluffy jollof.",
+          "sfx": "tap"
+        },
+        {
+          "story": "Now let's chop tomatoes and onions!",
+          "action": "tap_chop",
+          "requiredCount": 5,
+          "asset": "assets/coloring/ghana/food/story/ghana_jollof_story_step_02_chop.png",
+          "fact": "Nice chopping! Tomatoes and onions build flavor.",
+          "sfx": "tap"
+        },
+        {
+          "story": "Pour a little oil into the pot.",
+          "action": "drag_oil_to_pot",
+          "requiredCount": 1,
+          "asset": "assets/coloring/ghana/food/story/ghana_jollof_story_step_03_oil.png",
+          "fact": "Glug glug! A little oil helps everything cook smoothly.",
+          "sfx": "drop"
+        },
+        {
+          "story": "Tomato time! This makes jollof yummy and red.",
+          "action": "drag_tomato_mix",
+          "requiredCount": 1,
+          "asset": "assets/coloring/ghana/food/story/ghana_jollof_story_step_04_tomato_mix.png",
+          "fact": "Tomatoes grow in many places in Ghana.",
+          "sfx": "drop"
+        },
+        {
+          "story": "Let's add pepper and spices. Just a little!",
+          "action": "tap_spice_shaker",
+          "requiredCount": 3,
+          "asset": "assets/coloring/ghana/food/story/ghana_jollof_story_step_05_spices.png",
+          "fact": "Sprinkle sprinkle! Spices make jollof extra tasty.",
+          "sfx": "tap"
+        },
+        {
+          "story": "Stir in a big circle so it doesn't stick!",
+          "action": "stir_circle",
+          "asset": "assets/coloring/ghana/food/story/ghana_jollof_story_step_06_stir.png",
+          "fact": "Big circles help blend all the flavors.",
+          "sfx": "stir"
+        },
+        {
+          "story": "Now pour in the rice!",
+          "action": "drag_rice_to_pot",
+          "requiredCount": 1,
+          "asset": "assets/coloring/ghana/food/story/ghana_jollof_story_step_07_add_rice.png",
+          "fact": "The pot is getting full and ready.",
+          "sfx": "drop"
+        },
+        {
+          "story": "Hold the lid gently... shhh... it's cooking!",
+          "action": "hold_to_cook",
+          "holdDurationMs": 2000,
+          "asset": "assets/coloring/ghana/food/story/ghana_jollof_story_step_08_cook.png",
+          "fact": "Soft steam means dinner is almost ready.",
+          "sfx": "hold"
+        }
+      ]
+    },
+    {
+      "id": "waakye",
+      "title": "Waakye",
+      "emoji": "🍛",
+      "difficulty": 2,
+      "imageAsset": "assets/coloring/ghana/food/ghana_food_05_waakye.png",
+      "thumbnailAsset": "assets/coloring/ghana/food/ghana_food_05_waakye.png",
+      "intro": "Afia and her uncle are preparing waakye for a busy market morning.",
+      "completionMessage": "Waakye is served and everyone is excited to eat!",
+      "completionAsset": "assets/coloring/ghana/food/story/ghana_waakye_story_completion.png",
+      "steps": [
+        {
+          "story": "Tap to wash rice and beans.",
+          "action": "tap",
+          "asset": "assets/coloring/ghana/food/ghana_food_05_waakye.png",
+          "fact": "Waakye mixes rice and beans in one meal.",
+          "sfx": "tap"
+        },
+        {
+          "story": "Drag spices into the pot.",
+          "action": "drag",
+          "asset": "assets/coloring/ghana/food/ghana_food_05_waakye.png",
+          "fact": "Spices make every family recipe unique.",
+          "sfx": "drop"
+        },
+        {
+          "story": "Stir everything together.",
+          "action": "stir",
+          "asset": "assets/coloring/ghana/food/ghana_food_05_waakye.png",
+          "fact": "Stirring helps mix the rice and beans evenly.",
+          "sfx": "stir"
+        },
+        {
+          "story": "Hold to finish cooking.",
+          "action": "hold",
+          "asset": "assets/coloring/ghana/food/ghana_food_05_waakye.png",
+          "fact": "Waakye is popular for breakfast and lunch.",
+          "sfx": "hold"
+        }
+      ]
+    },
+    {
+      "id": "banku_tilapia",
+      "title": "Banku & Tilapia",
+      "emoji": "🐟",
+      "difficulty": 2,
+      "imageAsset": "assets/coloring/ghana/food/ghana_food_09_tilapia.png",
+      "thumbnailAsset": "assets/coloring/ghana/food/ghana_food_09_tilapia.png",
+      "intro": "Afia is making banku and grilled tilapia with her dad by the beach.",
+      "completionMessage": "Banku and tilapia are plated perfectly!",
+      "completionAsset": "assets/coloring/ghana/food/story/ghana_banku_tilapia_story_completion.png",
+      "steps": [
+        {
+          "story": "Tap to mix the dough.",
+          "action": "tap",
+          "asset": "assets/coloring/ghana/food/ghana_food_03_banku.png",
+          "fact": "Banku is made from fermented corn and cassava dough.",
+          "sfx": "tap"
+        },
+        {
+          "story": "Drag fish onto the grill.",
+          "action": "drag",
+          "asset": "assets/coloring/ghana/food/ghana_food_09_tilapia.png",
+          "fact": "Tilapia is often served with pepper and onions.",
+          "sfx": "drop"
+        },
+        {
+          "story": "Stir the banku gently.",
+          "action": "stir",
+          "asset": "assets/coloring/ghana/food/ghana_food_03_banku.png",
+          "fact": "Gentle stirring keeps the texture smooth.",
+          "sfx": "stir"
+        },
+        {
+          "story": "Hold to finish grilling.",
+          "action": "hold",
+          "asset": "assets/coloring/ghana/food/ghana_food_09_tilapia.png",
+          "fact": "Grilled fish is a favorite in many coastal towns.",
+          "sfx": "hold"
+        }
+      ]
+    },
+    {
+      "id": "kelewele",
+      "title": "Kelewele",
+      "emoji": "🍌",
+      "difficulty": 1,
+      "imageAsset": "assets/coloring/ghana/food/ghana_food_07_kelewele.png",
+      "thumbnailAsset": "assets/coloring/ghana/food/ghana_food_07_kelewele.png",
+      "intro": "Afia is making spicy kelewele for an evening snack.",
+      "completionMessage": "Golden kelewele cubes are ready to share!",
+      "completionAsset": "assets/coloring/ghana/food/story/ghana_kelewele_story_completion.png",
+      "steps": [
+        {
+          "story": "Tap to season the plantain cubes.",
+          "action": "tap",
+          "asset": "assets/coloring/ghana/food/ghana_food_07_kelewele.png",
+          "fact": "Kelewele is made with ripe plantains.",
+          "sfx": "tap"
+        },
+        {
+          "story": "Drag cubes into the pan.",
+          "action": "drag",
+          "asset": "assets/coloring/ghana/food/ghana_food_07_kelewele.png",
+          "fact": "Ginger and pepper add bold flavor.",
+          "sfx": "drop"
+        },
+        {
+          "story": "Stir so they cook evenly.",
+          "action": "stir",
+          "asset": "assets/coloring/ghana/food/ghana_food_07_kelewele.png",
+          "fact": "Even stirring helps each cube turn golden.",
+          "sfx": "stir"
+        },
+        {
+          "story": "Hold to finish and caramelize.",
+          "action": "hold",
+          "asset": "assets/coloring/ghana/food/ghana_food_07_kelewele.png",
+          "fact": "Kelewele is a popular evening snack.",
+          "sfx": "hold"
+        }
+      ]
+    },
+    {
+      "id": "fried_rice",
+      "title": "Fried Rice",
+      "emoji": "🍚",
+      "difficulty": 2,
+      "imageAsset": "assets/coloring/ghana/food/ghana_food_01_jollof.png",
+      "thumbnailAsset": "assets/coloring/ghana/food/ghana_food_01_jollof.png",
+      "intro": "Afia helps stir colorful fried rice for lunch.",
+      "completionMessage": "Fried rice is done and smells amazing!",
+      "completionAsset": "assets/coloring/ghana/food/story/ghana_fried_rice_story_completion.png",
+      "steps": [
+        {
+          "story": "Tap to prepare the vegetables.",
+          "action": "tap",
+          "asset": "assets/coloring/ghana/food/ghana_food_01_jollof.png",
+          "fact": "Colorful vegetables add crunch and vitamins.",
+          "sfx": "tap"
+        },
+        {
+          "story": "Drag rice and veggies into the wok.",
+          "action": "drag",
+          "asset": "assets/coloring/ghana/food/ghana_food_01_jollof.png",
+          "fact": "Mixing ingredients helps flavor every bite.",
+          "sfx": "drop"
+        },
+        {
+          "story": "Stir quickly in circles.",
+          "action": "stir",
+          "asset": "assets/coloring/ghana/food/ghana_food_01_jollof.png",
+          "fact": "Quick stirring keeps rice from sticking.",
+          "sfx": "stir"
+        },
+        {
+          "story": "Hold to steam for a moment.",
+          "action": "hold",
+          "asset": "assets/coloring/ghana/food/ghana_food_01_jollof.png",
+          "fact": "A short steam makes the rice soft and warm.",
+          "sfx": "hold"
+        }
+      ]
+    }
+  ]
+}

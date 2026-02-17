@@ -90,7 +90,7 @@ class CountryHubScreen extends StatelessWidget {
                       emoji: '\u{1F373}', // 🍳
                       label: 'Food',
                       color: PWColors.coral,
-                      onTap: () => _comingSoon(context, 'Food'),
+                      onTap: () => context.push('/food/${country.id}'),
                     ),
                     ActivityCard(
                       emoji: '\u{1F9E9}', // 🧩
@@ -102,7 +102,7 @@ class CountryHubScreen extends StatelessWidget {
                       emoji: '\u{1F3AE}', // 🎮
                       label: 'Games',
                       color: PWColors.mint,
-                      onTap: () => _comingSoon(context, 'Games'),
+                      onTap: () => context.push('/games/${country.id}'),
                     ),
                   ],
                 ),

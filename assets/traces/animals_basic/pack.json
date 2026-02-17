@@ -1,0 +1,24 @@
+{
+  "id": "animals_basic",
+  "title": "Animal Friends",
+  "emoji": "🐾",
+  "age_range": "4-8",
+  "icon": "pets",
+  "difficulty_levels": ["easy", "medium", "hard"],
+  "shape_files": [
+    "cat.json",
+    "dog.json",
+    "bird.json",
+    "fish.json",
+    "turtle.json",
+    "butterfly.json"
+  ],
+  "shapes": [
+    {"id": "cat_01", "title": "Cute Cat", "emoji": "🐱", "file": "cat.json"},
+    {"id": "dog_01", "title": "Playful Dog", "emoji": "🐶", "file": "dog.json"},
+    {"id": "bird_01", "title": "Little Bird", "emoji": "🐦", "file": "bird.json"},
+    {"id": "fish_01", "title": "Happy Fish", "emoji": "🐠", "file": "fish.json"},
+    {"id": "turtle_01", "title": "Tiny Turtle", "emoji": "🐢", "file": "turtle.json"},
+    {"id": "butterfly_01", "title": "Butterfly", "emoji": "🦋", "file": "butterfly.json"}
+  ]
+}

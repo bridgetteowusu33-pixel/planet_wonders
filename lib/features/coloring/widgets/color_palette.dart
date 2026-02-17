@@ -4,9 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/pw_theme.dart';
 import '../providers/drawing_provider.dart';
 
-/// 8 primary color circles + a "More" toggle revealing 8 extra colors.
+/// 8 primary color circles + a "More" toggle revealing many extra colors.
 ///
-/// Tapping a color switches the active color AND sets tool back to brush.
+/// Tapping a color updates the active color.
+/// Fill mode remains selected until the user changes tools.
 class ColorPalette extends ConsumerStatefulWidget {
   const ColorPalette({super.key});
 
@@ -29,27 +30,55 @@ class _ColorPaletteState extends ConsumerState<ColorPalette> {
     Color(0xFFFF69B4), // Pink
   ];
 
-  /// Extra 8 colors revealed by "More".
+  /// Extra colors revealed by "More".
   static const _extraColors = [
+    Color(0xFF000000), // Black
     Color(0xFF2F3A4A), // Navy
+    Color(0xFF4B0082), // Indigo
+    Color(0xFF6A1B9A), // Violet
     Color(0xFF795548), // Brown
-    Color(0xFF7ED6B2), // Mint
-    Color(0xFFFF7A7A), // Coral
-    Color(0xFFFFFFFF), // White
+    Color(0xFF8D6E63), // Mocha
+    Color(0xFF5D4037), // Cocoa
+    Color(0xFF4E342E), // Espresso
+    Color(0xFF3E2723), // Dark chocolate
+    Color(0xFFA1887F), // Taupe
+    Color(0xFFBCAAA4), // Stone beige
+    Color(0xFFD7CCC8), // Sandstone
+    Color(0xFFEED9C4), // Nude light
+    Color(0xFFDDB89A), // Nude warm
+    Color(0xFFCF9F7A), // Nude tan
+    Color(0xFFBF8863), // Nude caramel
+    Color(0xFFA06A49), // Nude bronze
+    Color(0xFF8D5524), // Nude deep
+    Color(0xFF6A3E24), // Chestnut
+    Color(0xFF3D2B1F), // Rich umber
+    Color(0xFFFFF3E0), // Cream
     Color(0xFF607D8B), // Gray
+    Color(0xFF9E9E9E), // Light gray
+    Color(0xFFFFFFFF), // White
     Color(0xFFFF5722), // Deep orange
+    Color(0xFFFF7A7A), // Coral
+    Color(0xFFFFA726), // Amber
+    Color(0xFFFFEB3B), // Bright yellow
+    Color(0xFFC0CA33), // Lime
+    Color(0xFF8BC34A), // Light green
+    Color(0xFF7ED6B2), // Mint
     Color(0xFF00BCD4), // Teal
+    Color(0xFF26C6DA), // Aqua
+    Color(0xFF5C6BC0), // Periwinkle
+    Color(0xFF8E24AA), // Plum
+    Color(0xFFD81B60), // Magenta
+    Color(0xFFFF8A80), // Peach
+    Color(0xFFE57373), // Rose
   ];
 
   @override
   Widget build(BuildContext context) {
-    final currentColor =
-        ref.watch(drawingProvider.select((s) => s.currentColor));
+    final currentColor = ref.watch(
+      drawingProvider.select((s) => s.currentColor),
+    );
 
-    final visibleColors = [
-      ..._primaryColors,
-      if (_showMore) ..._extraColors,
-    ];
+    final visibleColors = [..._primaryColors, if (_showMore) ..._extraColors];
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -60,12 +89,10 @@ class _ColorPaletteState extends ConsumerState<ColorPalette> {
           alignment: WrapAlignment.center,
           children: [
             ...visibleColors.map((color) {
-              final isSelected =
-                  currentColor.toARGB32() == color.toARGB32();
+              final isSelected = currentColor.toARGB32() == color.toARGB32();
               final isWhite = color.toARGB32() == 0xFFFFFFFF;
               return GestureDetector(
-                onTap: () =>
-                    ref.read(drawingProvider.notifier).setColor(color),
+                onTap: () => ref.read(drawingProvider.notifier).setColor(color),
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 200),
                   width: 40,
@@ -77,8 +104,8 @@ class _ColorPaletteState extends ConsumerState<ColorPalette> {
                       color: isSelected
                           ? PWColors.navy
                           : isWhite
-                              ? PWColors.navy.withValues(alpha: 0.2)
-                              : Colors.transparent,
+                          ? PWColors.navy.withValues(alpha: 0.2)
+                          : Colors.transparent,
                       width: isSelected ? 3 : 1,
                     ),
                     boxShadow: isSelected
@@ -108,9 +135,7 @@ class _ColorPaletteState extends ConsumerState<ColorPalette> {
                   ),
                 ),
                 child: Icon(
-                  _showMore
-                      ? Icons.remove_rounded
-                      : Icons.add_rounded,
+                  _showMore ? Icons.remove_rounded : Icons.add_rounded,
                   color: PWColors.navy,
                   size: 20,
                 ),

@@ -40,6 +40,8 @@ dependencies:
   path_provider: ^2.1.5
   flutter_tts: ^4.2.5
   shared_preferences: ^2.5.0
+  path_drawing: ^1.0.1
+  audioplayers: ^6.1.0
 
 dev_dependencies:
   flutter_test:
@@ -65,7 +67,26 @@ flutter:
 
   assets:
     - assets/coloring/ghana/
-    - assets/coloring/usa/
+    - assets/coloring/ghana/masks/
+    - assets/coloring/ghana/food/
+    - assets/coloring/ghana/food/story/
+    - assets/recipe_story/
+    - assets/recipes/
+    - assets/achievements/
+    - assets/badges/
+    - assets/traces/
+    - assets/traces/animals_basic/
+    - assets/traces/vehicles_basic/
+    - assets/traces/objects_basic/
+    - assets/audio/
+    - assets/stickers/
+    - assets/backgrounds/
+    - assets/logos/
+    - assets/coloring/usa/nature/
+    - assets/coloring/usa/cities/
+    - assets/coloring/usa/daily life/
+    - assets/coloring/usa/food/
+    - assets/coloring/usa/masks/
     - assets/characters/Ava/
     - assets/clothes/USA/dresses/
     - assets/clothes/USA/tops/
@@ -78,6 +99,7 @@ flutter:
     - assets/clothes/Ghana/hats/
     - assets/clothes/Ghana/beads/
     - assets/clothes/Ghana/shoes/
+    - lib/features/recipe_story/data/ghana_recipes.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

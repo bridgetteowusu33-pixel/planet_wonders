@@ -1,0 +1,48 @@
+{
+  "id": "house_01",
+  "title": "Cozy House",
+  "emoji": "🏠",
+  "difficulty": ["easy", "medium", "hard"],
+  "segments": [
+    {
+      "id": "roof",
+      "path": "M220,520 L500,280 L780,520",
+      "start": [220, 520],
+      "end": [780, 520]
+    },
+    {
+      "id": "walls",
+      "path": "M280,520 L280,840 L720,840 L720,520",
+      "start": [280, 520],
+      "end": [720, 520]
+    },
+    {
+      "id": "door",
+      "path": "M460,840 L460,640 L560,640 L560,840",
+      "start": [460, 840],
+      "end": [560, 840]
+    },
+    {
+      "id": "window_left",
+      "path": "M340,590 L430,590 L430,680 L340,680 Z",
+      "start": [340, 590],
+      "end": [340, 590]
+    },
+    {
+      "id": "window_right",
+      "path": "M570,590 L660,590 L660,680 L570,680 Z",
+      "start": [570, 590],
+      "end": [570, 590]
+    },
+    {
+      "id": "chimney",
+      "path": "M610,360 L610,460 L670,460 L670,390",
+      "start": [610, 360],
+      "end": [670, 390]
+    }
+  ],
+  "audio": {
+    "intro": "house_intro.mp3",
+    "success": "great_job.mp3"
+  }
+}

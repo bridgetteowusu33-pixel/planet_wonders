@@ -20,8 +20,10 @@ class BrushSizeSelector extends ConsumerWidget {
     final currentSize =
         ref.watch(drawingProvider.select((s) => s.currentBrushSize));
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Wrap(
+      alignment: WrapAlignment.center,
+      spacing: 8,
+      runSpacing: 8,
       children: BrushSize.values.map((size) {
         final isActive = currentSize == size;
         final dotDiameter = _dotSizes[size]!;
@@ -32,7 +34,6 @@ class BrushSizeSelector extends ConsumerWidget {
           child: Container(
             width: 44,
             height: 44,
-            margin: const EdgeInsets.symmetric(horizontal: 4),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(

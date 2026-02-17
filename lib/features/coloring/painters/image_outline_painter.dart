@@ -35,6 +35,14 @@ OutlinePainter createImageOutlinePainter(ui.Image image) {
       height: destH,
     );
 
-    canvas.drawImageRect(image, src, dst, ui.Paint());
+    // Most imported outline PNGs are black lines on white background.
+    // Using multiply preserves the line art while preventing white pixels
+    // from painting over the kid's colors beneath.
+    final paint = ui.Paint()
+      ..blendMode = ui.BlendMode.multiply
+      ..filterQuality = ui.FilterQuality.medium;
+
+    // Draw once to preserve imported image appearance without darkening.
+    canvas.drawImageRect(image, src, dst, paint);
   };
 }

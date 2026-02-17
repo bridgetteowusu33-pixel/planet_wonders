@@ -55,25 +55,36 @@ class _GalleryScreenState extends State<GalleryScreen> {
               child: _loading
                   ? const Center(child: CircularProgressIndicator())
                   : _drawings.isEmpty
-                      ? _EmptyGallery()
-                      : GridView.builder(
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
+                  ? _EmptyGallery()
+                  : GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             crossAxisSpacing: 12,
                             mainAxisSpacing: 12,
                           ),
-                          itemCount: _drawings.length,
-                          itemBuilder: (context, index) {
+                      itemCount: _drawings.length,
+                      itemBuilder: (context, index) {
+                        return LayoutBuilder(
+                          builder: (context, constraints) {
+                            final dpr = MediaQuery.of(context).devicePixelRatio;
+                            final cacheWidth = (constraints.maxWidth * dpr)
+                                .round()
+                                .clamp(1, 4096)
+                                .toInt();
                             return ClipRRect(
                               borderRadius: BorderRadius.circular(16),
                               child: Image.file(
                                 _drawings[index],
                                 fit: BoxFit.cover,
+                                cacheWidth: cacheWidth,
+                                filterQuality: FilterQuality.low,
                               ),
                             );
                           },
-                        ),
+                        );
+                      },
+                    ),
             ),
           ],
         ),
@@ -103,8 +114,8 @@ class _EmptyGallery extends StatelessWidget {
           Text(
             'Start drawing to fill your gallery',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: PWColors.navy.withValues(alpha: 0.5),
-                ),
+              color: PWColors.navy.withValues(alpha: 0.5),
+            ),
           ),
         ],
       ),
