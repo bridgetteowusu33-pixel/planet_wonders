@@ -1,5 +1,5 @@
 name: planet_wonders
-description: "A new Flutter project."
+description: "Planet Wonders - Color the World! A kids educational app for ages 5-10."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -67,7 +67,6 @@ flutter:
 
   assets:
     - assets/coloring/ghana/
-    - assets/coloring/ghana/masks/
     - assets/coloring/ghana/food/
     - assets/coloring/ghana/food/story/
     - assets/recipe_story/
@@ -81,6 +80,7 @@ flutter:
     - assets/audio/
     - assets/stickers/
     - assets/backgrounds/
+    - assets/cooking/
     - assets/logos/
     - assets/coloring/usa/nature/
     - assets/coloring/usa/cities/
