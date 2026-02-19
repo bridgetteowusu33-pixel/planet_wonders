@@ -80,7 +80,14 @@ flutter:
     - assets/audio/
     - assets/stickers/
     - assets/backgrounds/
+    - assets/icons/
     - assets/cooking/
+    - assets/cooking/ingredients/
+    - assets/cooking/pots/
+    - assets/cooking/chefs/
+    - assets/cooking/effects/
+    - assets/cooking/sounds/
+    - assets/food/ghana/
     - assets/logos/
     - assets/coloring/usa/nature/
     - assets/coloring/usa/cities/

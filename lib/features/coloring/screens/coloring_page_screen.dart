@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/services/gallery_service.dart';
 import '../../../core/theme/pw_theme.dart';
+import '../../../coloring/palette_bar.dart';
 import '../../game_breaks/providers/game_break_settings_provider.dart';
 import '../../game_breaks/widgets/game_break_prompt.dart';
 import '../data/coloring_data.dart';
@@ -21,7 +22,6 @@ import '../painters/region_mask_resolver.dart';
 import '../providers/drawing_provider.dart';
 import '../widgets/brush_size_selector.dart';
 import '../widgets/brush_type_selector.dart';
-import '../widgets/color_palette.dart';
 import '../widgets/coloring_canvas.dart';
 import '../widgets/drawing_toolbar.dart';
 
@@ -29,9 +29,9 @@ import '../widgets/drawing_toolbar.dart';
 ///
 /// Layout (top → bottom):
 ///   1. Top bar — back, "Country · Page Title", audio toggle, settings
-///   2. Canvas — 70-75% of screen, white card with outline
-///   3. Toolbar — Brush, Fill, Eraser, Undo
-///   4. Color palette — 8 primary + "More" toggle
+///   2. Fixed single-row horizontal color bar
+///   3. Canvas — white card with outline
+///   4. Toolbar — Brush, Fill, Eraser, Undo
 ///   5. Bottom actions — "Did You Know?" (left) + "Done" (right)
 class ColoringPageScreen extends ConsumerStatefulWidget {
   const ColoringPageScreen({
@@ -235,8 +235,19 @@ class _ColoringPageScreenState extends ConsumerState<ColoringPageScreen>
     if (page.outlineAsset != null) {
       setState(() => _imageLoading = true);
       try {
+        final mediaQuery = MediaQuery.maybeOf(context);
+        final targetDecodeSize = mediaQuery == null
+            ? 1280
+            : (mediaQuery.size.shortestSide * mediaQuery.devicePixelRatio * 1.8)
+                  .round()
+                  .clamp(768, 1600)
+                  .toInt();
         final data = await rootBundle.load(page.outlineAsset!);
-        final codec = await ui.instantiateImageCodec(data.buffer.asUint8List());
+        final codec = await ui.instantiateImageCodec(
+          data.buffer.asUint8List(),
+          targetWidth: targetDecodeSize,
+          targetHeight: targetDecodeSize,
+        );
         final frame = await codec.getNextFrame();
         if (mounted) {
           _loadedImage = frame.image;
@@ -581,31 +592,38 @@ class _ColoringPageScreenState extends ConsumerState<ColoringPageScreen>
                   absorbing: _restoringProgress,
                   child: Column(
                     children: [
-                      // --- 2. Canvas (fills remaining space — ~70-75%) ---
+                      // --- 2. Fixed-height horizontal palette bar ---
+                      const PaletteBar(height: 58),
+
+                      const SizedBox(height: 10),
+
+                      // --- 3. Canvas (fills remaining space — ~70-75%) ---
                       Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(16),
-                            boxShadow: [
-                              BoxShadow(
-                                color: PWColors.navy.withValues(alpha: 0.12),
-                                blurRadius: 16,
-                                offset: const Offset(0, 6),
-                              ),
-                            ],
-                          ),
-                          child: ColoringCanvas(
-                            canvasKey: _canvasKey,
-                            paintOutline: painter,
-                            regionMask: _regionMask,
+                        child: RepaintBoundary(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: PWColors.navy.withValues(alpha: 0.12),
+                                  blurRadius: 16,
+                                  offset: const Offset(0, 6),
+                                ),
+                              ],
+                            ),
+                            child: ColoringCanvas(
+                              canvasKey: _canvasKey,
+                              paintOutline: painter,
+                              regionMask: _regionMask,
+                            ),
                           ),
                         ),
                       ),
 
                       const SizedBox(height: 10),
 
-                      // --- 3. Toolbar + size ---
+                      // --- 4. Toolbar + size ---
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: LayoutBuilder(
@@ -640,11 +658,6 @@ class _ColoringPageScreenState extends ConsumerState<ColoringPageScreen>
                           },
                         ),
                       ),
-
-                      const SizedBox(height: 10),
-
-                      // --- 4. Color palette ---
-                      const ColorPalette(),
 
                       const SizedBox(height: 10),
 

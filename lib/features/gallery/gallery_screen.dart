@@ -12,7 +12,8 @@ class GalleryScreen extends StatefulWidget {
   State<GalleryScreen> createState() => _GalleryScreenState();
 }
 
-class _GalleryScreenState extends State<GalleryScreen> {
+class _GalleryScreenState extends State<GalleryScreen>
+    with AutomaticKeepAliveClientMixin<GalleryScreen> {
   List<File> _drawings = [];
   bool _loading = true;
 
@@ -34,6 +35,15 @@ class _GalleryScreenState extends State<GalleryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+    final dpr = MediaQuery.of(context).devicePixelRatio;
+    const gridSpacing = 12.0;
+    const horizontalPadding = 32.0; // parent padding: 16 + 16
+    final cellWidth =
+        (MediaQuery.of(context).size.width - horizontalPadding - gridSpacing) /
+        2;
+    final cacheWidth = (cellWidth * dpr).round().clamp(1, 1024).toInt();
+
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -55,24 +65,20 @@ class _GalleryScreenState extends State<GalleryScreen> {
               child: _loading
                   ? const Center(child: CircularProgressIndicator())
                   : _drawings.isEmpty
-                  ? _EmptyGallery()
-                  : GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 12,
-                            mainAxisSpacing: 12,
-                          ),
-                      itemCount: _drawings.length,
-                      itemBuilder: (context, index) {
-                        return LayoutBuilder(
-                          builder: (context, constraints) {
-                            final dpr = MediaQuery.of(context).devicePixelRatio;
-                            final cacheWidth = (constraints.maxWidth * dpr)
-                                .round()
-                                .clamp(1, 4096)
-                                .toInt();
-                            return ClipRRect(
+                  ? const _EmptyGallery()
+                  : RepaintBoundary(
+                      child: GridView.builder(
+                        cacheExtent: 900,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 12,
+                              mainAxisSpacing: 12,
+                            ),
+                        itemCount: _drawings.length,
+                        itemBuilder: (context, index) {
+                          return RepaintBoundary(
+                            child: ClipRRect(
                               borderRadius: BorderRadius.circular(16),
                               child: Image.file(
                                 _drawings[index],
@@ -80,10 +86,10 @@ class _GalleryScreenState extends State<GalleryScreen> {
                                 cacheWidth: cacheWidth,
                                 filterQuality: FilterQuality.low,
                               ),
-                            );
-                          },
-                        );
-                      },
+                            ),
+                          );
+                        },
+                      ),
                     ),
             ),
           ],
@@ -91,9 +97,14 @@ class _GalleryScreenState extends State<GalleryScreen> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class _EmptyGallery extends StatelessWidget {
+  const _EmptyGallery();
+
   @override
   Widget build(BuildContext context) {
     return Center(

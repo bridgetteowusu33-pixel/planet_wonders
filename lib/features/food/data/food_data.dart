@@ -135,7 +135,7 @@ const _ghanaFoodPack = FoodPack(
       id: 'jollof',
       name: 'Jollof',
       emoji: '\u{1F35B}', // 🍛
-      previewAsset: 'assets/coloring/ghana/food/ghana_food_01_jollof.png',
+      previewAsset: 'assets/food/ghana/ghana_jollof_chef.png',
       coloringPageId: 'food_jollof',
       funFact: 'Jollof rice is one of Ghana\'s most loved dishes.',
       didYouKnow: [
@@ -144,22 +144,10 @@ const _ghanaFoodPack = FoodPack(
       ],
     ),
     FoodDish(
-      id: 'plantain',
-      name: 'Plantain',
-      emoji: '\u{1F34C}', // 🍌
-      previewAsset: 'assets/coloring/ghana/food/ghana_food_02_plantain.png',
-      coloringPageId: 'food_plantain',
-      funFact: 'Fried plantain is sweet, soft, and tasty.',
-      didYouKnow: [
-        'Plantain can be cooked in many ways: fried, roasted, or boiled.',
-        'Kelewele is a spicy fried plantain snack.',
-      ],
-    ),
-    FoodDish(
       id: 'banku',
       name: 'Banku',
       emoji: '\u{1F35C}', // 🍜
-      previewAsset: 'assets/coloring/ghana/food/ghana_food_03_banku.png',
+      previewAsset: 'assets/food/ghana/ghana_banku_chef.png',
       coloringPageId: 'food_banku',
       funFact: 'Banku is often eaten with fish and pepper sauce.',
       didYouKnow: [
@@ -171,7 +159,7 @@ const _ghanaFoodPack = FoodPack(
       id: 'fufu',
       name: 'Fufu',
       emoji: '\u{1F372}', // 🍲
-      previewAsset: 'assets/coloring/ghana/food/ghana_food_04_fufu.png',
+      previewAsset: 'assets/food/ghana/ghana_fufu_chef.png',
       coloringPageId: 'food_fufu',
       funFact: 'Fufu is a famous Ghanaian dish served with soup.',
       didYouKnow: [
@@ -183,7 +171,7 @@ const _ghanaFoodPack = FoodPack(
       id: 'waakye',
       name: 'Waakye',
       emoji: '\u{1F35B}', // 🍛
-      previewAsset: 'assets/coloring/ghana/food/ghana_food_05_waakye.png',
+      previewAsset: 'assets/food/ghana/ghana_waakye_chef.png',
       coloringPageId: 'food_waakye',
       funFact: 'Waakye mixes rice and beans in one delicious meal.',
       didYouKnow: [
@@ -195,7 +183,7 @@ const _ghanaFoodPack = FoodPack(
       id: 'koko',
       name: 'Koko',
       emoji: '\u{2615}', // ☕
-      previewAsset: 'assets/coloring/ghana/food/ghana_food_06_koko.png',
+      previewAsset: 'assets/food/ghana/ghana_koko_chef.png',
       coloringPageId: 'food_koko',
       funFact: 'Koko is a warm porridge enjoyed in the morning.',
       didYouKnow: [
@@ -207,7 +195,7 @@ const _ghanaFoodPack = FoodPack(
       id: 'kelewele',
       name: 'Kelewele',
       emoji: '\u{1F958}', // 🥘
-      previewAsset: 'assets/coloring/ghana/food/ghana_food_07_kelewele.png',
+      previewAsset: 'assets/food/ghana/ghana_kelewele_chef.png',
       coloringPageId: 'food_kelewele',
       funFact: 'Kelewele is spicy fried plantain with ginger and pepper.',
       didYouKnow: [
@@ -219,7 +207,7 @@ const _ghanaFoodPack = FoodPack(
       id: 'groundnut',
       name: 'Groundnut Soup',
       emoji: '\u{1F95C}', // 🥜
-      previewAsset: 'assets/coloring/ghana/food/ghana_food_08_groundnut.png',
+      previewAsset: 'assets/food/ghana/ghana_groundnut_soup_chef.png',
       coloringPageId: 'food_groundnut',
       funFact: 'Groundnut soup is creamy and rich.',
       didYouKnow: [
@@ -231,7 +219,7 @@ const _ghanaFoodPack = FoodPack(
       id: 'tilapia',
       name: 'Tilapia',
       emoji: '\u{1F41F}', // 🐟
-      previewAsset: 'assets/coloring/ghana/food/ghana_food_09_tilapia.png',
+      previewAsset: 'assets/food/ghana/ghana_tilapia_chef.png',
       coloringPageId: 'food_tilapia',
       funFact: 'Grilled tilapia is a favorite street and home meal.',
       didYouKnow: [
@@ -243,12 +231,24 @@ const _ghanaFoodPack = FoodPack(
       id: 'palmnut',
       name: 'Palm Nut Soup',
       emoji: '\u{1F372}', // 🍲
-      previewAsset: 'assets/coloring/ghana/food/ghana_food_10_palmnut.png',
+      previewAsset: 'assets/food/ghana/ghana_palmnut_soup_chef.png',
       coloringPageId: 'food_palmnut',
       funFact: 'Palm nut soup is a rich and flavorful traditional dish.',
       didYouKnow: [
         'Palm fruits give the soup its deep color and taste.',
         'Palm nut soup can be served with fufu.',
+      ],
+    ),
+    FoodDish(
+      id: 'fried_rice',
+      name: 'Fried Rice',
+      emoji: '\u{1F35A}', // 🍚
+      previewAsset: 'assets/food/ghana/ghana_fried_rice_chef.png',
+      coloringPageId: 'food_fried_rice',
+      funFact: 'Ghana fried rice is packed with vegetables and seasoning.',
+      didYouKnow: [
+        'Ghanaian fried rice often includes carrots, peas, and shredded chicken.',
+        'It is a popular party and celebration dish.',
       ],
     ),
   ],

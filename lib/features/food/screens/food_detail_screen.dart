@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -9,7 +11,7 @@ import '../../world_explorer/data/world_data.dart';
 import '../data/food_data.dart';
 
 /// Food detail page: big image + fun fact + color CTA.
-class FoodDetailScreen extends StatelessWidget {
+class FoodDetailScreen extends StatefulWidget {
   const FoodDetailScreen({
     super.key,
     required this.countryId,
@@ -20,7 +22,32 @@ class FoodDetailScreen extends StatelessWidget {
   final String dishId;
 
   @override
+  State<FoodDetailScreen> createState() => _FoodDetailScreenState();
+}
+
+class _FoodDetailScreenState extends State<FoodDetailScreen>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _anim;
+
+  @override
+  void initState() {
+    super.initState();
+    _anim = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 2400),
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _anim.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final countryId = widget.countryId;
+    final dishId = widget.dishId;
     final dish = findFoodDish(countryId, dishId);
     final country = findCountryById(countryId);
     final countryName = country?.name ?? countryId;
@@ -48,11 +75,12 @@ class FoodDetailScreen extends StatelessWidget {
         elevation: 0,
       ),
       body: SafeArea(
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
           child: Column(
             children: [
-              Expanded(
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxHeight: 300),
                 child: Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
@@ -68,13 +96,28 @@ class FoodDetailScreen extends StatelessWidget {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
-                    child: Image.asset(
-                      dish.previewAsset,
-                      fit: BoxFit.contain,
-                      errorBuilder: (context, error, stackTrace) => Center(
-                        child: Text(
-                          dish.emoji,
-                          style: const TextStyle(fontSize: 140),
+                    child: AnimatedBuilder(
+                      animation: _anim,
+                      builder: (context, child) {
+                        final t = _anim.value;
+                        final bob = math.sin(t * math.pi) * 6;
+                        final tilt = math.sin(t * math.pi) * 0.02;
+                        return Transform.translate(
+                          offset: Offset(0, bob),
+                          child: Transform.rotate(
+                            angle: tilt,
+                            child: child,
+                          ),
+                        );
+                      },
+                      child: Image.asset(
+                        dish.previewAsset,
+                        fit: BoxFit.contain,
+                        errorBuilder: (context, error, stackTrace) => Center(
+                          child: Text(
+                            dish.emoji,
+                            style: const TextStyle(fontSize: 140),
+                          ),
                         ),
                       ),
                     ),
@@ -212,14 +255,14 @@ class FoodDetailScreen extends StatelessWidget {
   }
 
   void _openColoring(BuildContext context, String coloringPageId) {
-    final page = findColoringPage(countryId, coloringPageId);
+    final page = findColoringPage(widget.countryId, coloringPageId);
     if (page == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Color page is not ready yet.')),
       );
       return;
     }
-    context.push('/color/$countryId/$coloringPageId');
+    context.push('/color/${widget.countryId}/$coloringPageId');
   }
 
   String? _recipeIdForDish({

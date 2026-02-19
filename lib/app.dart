@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 
 import 'core/theme/pw_theme.dart';
@@ -32,6 +33,7 @@ import 'features/gallery/gallery_screen.dart';
 import 'features/home/home_screen.dart';
 import 'features/parents/parents_screen.dart';
 import 'features/passport/passport_screen.dart';
+import 'features/recipe_story/presentation/recipe_album_screen.dart';
 import 'features/recipe_story/presentation/recipe_list_screen.dart';
 import 'features/recipe_story/presentation/recipe_story_screen.dart';
 import 'features/stories/screens/all_stories_screen.dart';
@@ -169,6 +171,10 @@ class PlanetWondersApp extends StatelessWidget {
             ),
           ),
         ],
+      ),
+      GoRoute(
+        path: '/recipe-album',
+        builder: (context, state) => const RecipeAlbumScreen(),
       ),
       GoRoute(
         path: '/recipe-story/:countryId',
@@ -317,7 +323,8 @@ class PlanetWondersApp extends StatelessWidget {
             routes: [
               GoRoute(
                 path: '/',
-                builder: (context, state) => const HomeScreen(),
+                pageBuilder: (context, state) =>
+                    const NoTransitionPage<void>(child: HomeScreen()),
               ),
             ],
           ),
@@ -325,7 +332,8 @@ class PlanetWondersApp extends StatelessWidget {
             routes: [
               GoRoute(
                 path: '/gallery',
-                builder: (context, state) => const GalleryScreen(),
+                pageBuilder: (context, state) =>
+                    const NoTransitionPage<void>(child: GalleryScreen()),
               ),
             ],
           ),
@@ -333,7 +341,8 @@ class PlanetWondersApp extends StatelessWidget {
             routes: [
               GoRoute(
                 path: '/passport',
-                builder: (context, state) => const PassportScreen(),
+                pageBuilder: (context, state) =>
+                    const NoTransitionPage<void>(child: PassportScreen()),
               ),
             ],
           ),
@@ -341,7 +350,8 @@ class PlanetWondersApp extends StatelessWidget {
             routes: [
               GoRoute(
                 path: '/parents',
-                builder: (context, state) => const ParentsScreen(),
+                pageBuilder: (context, state) =>
+                    const NoTransitionPage<void>(child: ParentsScreen()),
               ),
             ],
           ),
@@ -352,8 +362,25 @@ class PlanetWondersApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const showPerfOverlay = bool.fromEnvironment(
+      'PW_SHOW_PERF_OVERLAY',
+      defaultValue: false,
+    );
+    const showCheckerboardRasterCache = bool.fromEnvironment(
+      'PW_CHECKERBOARD_RASTER_CACHE',
+      defaultValue: false,
+    );
+    const showCheckerboardOffscreenLayers = bool.fromEnvironment(
+      'PW_CHECKERBOARD_OFFSCREEN',
+      defaultValue: false,
+    );
+
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
+      showPerformanceOverlay: kDebugMode && showPerfOverlay,
+      checkerboardRasterCacheImages: kDebugMode && showCheckerboardRasterCache,
+      checkerboardOffscreenLayers:
+          kDebugMode && showCheckerboardOffscreenLayers,
       theme: planetWondersTheme(),
       routerConfig: _router,
     );
@@ -368,41 +395,199 @@ class _Shell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: navigationShell,
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: navigationShell.currentIndex,
-        onDestinationSelected: (index) {
-          navigationShell.goBranch(
-            index,
-            initialLocation: index == navigationShell.currentIndex,
-          );
-        },
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.home_rounded),
-            selectedIcon: Icon(Icons.home_rounded, color: Color(0xFFFF7A7A)),
-            label: 'Home',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.photo_library_rounded),
-            selectedIcon: Icon(
-              Icons.photo_library_rounded,
-              color: Color(0xFF6EC6E9),
+      body: RepaintBoundary(child: navigationShell),
+      bottomNavigationBar: SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+          child: RepaintBoundary(
+            child: _StickerBottomNav(
+              selectedIndex: navigationShell.currentIndex,
+              onDestinationSelected: (index) {
+                navigationShell.goBranch(
+                  index,
+                  initialLocation: index == navigationShell.currentIndex,
+                );
+              },
             ),
-            label: 'Gallery',
           ),
-          NavigationDestination(
-            icon: Icon(Icons.book_rounded),
-            selectedIcon: Icon(Icons.book_rounded, color: Color(0xFFFFD84D)),
-            label: 'Passport',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.lock_rounded),
-            selectedIcon: Icon(Icons.lock_rounded, color: Color(0xFF7ED6B2)),
-            label: 'Parents',
-          ),
-        ],
+        ),
       ),
     );
   }
+}
+
+class _StickerBottomNav extends StatelessWidget {
+  const _StickerBottomNav({
+    required this.selectedIndex,
+    required this.onDestinationSelected,
+  });
+
+  final int selectedIndex;
+  final ValueChanged<int> onDestinationSelected;
+
+  static const _tabs = <_StickerTabData>[
+    _StickerTabData(
+      label: 'Home',
+      icon: Icons.home_rounded,
+      iconAsset: 'assets/icons/home.png',
+      fallbackEmoji: '\u{1F3E0}',
+      top: Color(0xFF2A66E5),
+      bottom: Color(0xFF1D46AA),
+    ),
+    _StickerTabData(
+      label: 'Gallery',
+      icon: Icons.photo_size_select_actual_rounded,
+      iconAsset: 'assets/icons/gallery.png',
+      fallbackEmoji: '\u{1F5BC}',
+      top: Color(0xFFFFD54F),
+      bottom: Color(0xFFEEA820),
+    ),
+    _StickerTabData(
+      label: 'Passport',
+      icon: Icons.public_rounded,
+      iconAsset: 'assets/icons/passport.png',
+      fallbackEmoji: '\u{1F30D}',
+      top: Color(0xFF5CCBFF),
+      bottom: Color(0xFF268FD8),
+    ),
+    _StickerTabData(
+      label: 'Parents',
+      icon: Icons.lock_rounded,
+      iconAsset: 'assets/icons/parents.png',
+      fallbackEmoji: '\u{1F512}',
+      top: Color(0xFF2A66E5),
+      bottom: Color(0xFF1D46AA),
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    final dpr = MediaQuery.of(context).devicePixelRatio;
+    final iconCacheSize = (72 * dpr).round().clamp(1, 1024).toInt();
+
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(34),
+        color: const Color(0xFF1542A8),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x33122D5D),
+            blurRadius: 14,
+            offset: Offset(0, 8),
+          ),
+        ],
+      ),
+      padding: const EdgeInsets.all(6),
+      child: Row(
+        children: List.generate(_tabs.length, (index) {
+          final tab = _tabs[index];
+          final isSelected = index == selectedIndex;
+          final top = isSelected
+              ? const Color(0xFFFFD54F)
+              : const Color(0xFF2C67DF);
+          final bottom = isSelected
+              ? const Color(0xFFEEA820)
+              : const Color(0xFF1D49A9);
+
+          return Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 3),
+              child: Material(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(24),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(24),
+                  onTap: () => onDestinationSelected(index),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 120),
+                    curve: Curves.easeOutCubic,
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 4,
+                      horizontal: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(24),
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [top, bottom],
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(
+                          width: 72,
+                          height: 72,
+                          child: tab.iconAsset != null
+                              ? Image.asset(
+                                  tab.iconAsset!,
+                                  fit: BoxFit.contain,
+                                  cacheWidth: iconCacheSize,
+                                  cacheHeight: iconCacheSize,
+                                  filterQuality: FilterQuality.low,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      Icon(
+                                        tab.icon,
+                                        color: Colors.white,
+                                        size: 52,
+                                      ),
+                                )
+                              : Icon(tab.icon, color: Colors.white, size: 52),
+                        ),
+                        const SizedBox(height: 2),
+                        SizedBox(
+                          width: double.infinity,
+                          child: Text(
+                            tab.label,
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w800,
+                              height: 1.05,
+                              shadows: [
+                                Shadow(
+                                  color: Colors.black.withValues(alpha: 0.35),
+                                  blurRadius: 1.5,
+                                  offset: const Offset(0, 1),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        }),
+      ),
+    );
+  }
+}
+
+class _StickerTabData {
+  const _StickerTabData({
+    required this.label,
+    required this.icon,
+    required this.top,
+    required this.bottom,
+    this.iconAsset,
+    this.fallbackEmoji,
+  });
+
+  final String label;
+  final IconData icon;
+  final Color top;
+  final Color bottom;
+  final String? iconAsset;
+  final String? fallbackEmoji;
 }

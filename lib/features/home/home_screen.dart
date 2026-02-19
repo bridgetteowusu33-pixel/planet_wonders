@@ -1,9 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme/pw_theme.dart';
-import '../../core/widgets/activity_card.dart';
 import '../../core/widgets/gradient_background.dart';
 import '../coloring/data/coloring_data.dart';
 import '../stories/data/story_data.dart';
@@ -24,18 +25,83 @@ class _HomeScreenState extends State<HomeScreen> {
     super.didChangeDependencies();
     if (_didPrecache) return;
     _didPrecache = true;
-    precacheImage(
-      const AssetImage('assets/backgrounds/home_beach_bg.png'),
-      context,
-    );
-    precacheImage(
-      const AssetImage('assets/logos/planet_wonders_logo.png'),
-      context,
-    );
+    for (final asset in _warmupAssets) {
+      unawaited(
+        precacheImage(AssetImage(asset), context).catchError((_) {
+          // Optional assets are allowed to be absent during local iteration.
+        }),
+      );
+    }
   }
+
+  static const List<String> _warmupAssets = <String>[
+    'assets/backgrounds/home_beach_bg.png',
+    'assets/logos/planet_wonders_logo.png',
+    'assets/icons/world.png',
+    'assets/icons/book.png',
+    'assets/icons/crayon.png',
+    'assets/icons/palette.png',
+    'assets/icons/dress.png',
+    'assets/icons/cooking.png',
+    'assets/icons/home.png',
+    'assets/icons/gallery.png',
+    'assets/icons/passport.png',
+    'assets/icons/parents.png',
+  ];
 
   @override
   Widget build(BuildContext context) {
+    final actions = <_HomeStickerConfig>[
+      _HomeStickerConfig(
+        title: 'World Explorer',
+        iconAsset: 'assets/icons/world.png',
+        fallbackEmoji: '🌍',
+        gradientTop: const Color(0xFFFFD64C),
+        gradientBottom: const Color(0xFFF3A91D),
+        onTap: () => context.push('/world'),
+      ),
+      _HomeStickerConfig(
+        title: 'Stories',
+        iconAsset: 'assets/icons/book.png',
+        fallbackEmoji: '📖',
+        gradientTop: const Color(0xFF2F9DFF),
+        gradientBottom: const Color(0xFF215AE5),
+        onTap: () => context.push('/stories'),
+      ),
+      _HomeStickerConfig(
+        title: 'Coloring Pages',
+        iconAsset: 'assets/icons/crayon.png',
+        fallbackEmoji: '🖍️',
+        gradientTop: const Color(0xFFFF6B5F),
+        gradientBottom: const Color(0xFFE23C2D),
+        onTap: () => context.push('/coloring'),
+      ),
+      _HomeStickerConfig(
+        title: 'Start Drawing',
+        iconAsset: 'assets/icons/palette.png',
+        fallbackEmoji: '🎨',
+        gradientTop: const Color(0xFFFF7656),
+        gradientBottom: const Color(0xFFDA3429),
+        onTap: () => context.push('/draw'),
+      ),
+      _HomeStickerConfig(
+        title: 'Fashion Studio',
+        iconAsset: 'assets/icons/dress.png',
+        fallbackEmoji: '👗',
+        gradientTop: const Color(0xFF5BE3CF),
+        gradientBottom: const Color(0xFF20AFA0),
+        onTap: () => context.push('/fashion'),
+      ),
+      _HomeStickerConfig(
+        title: 'Cooking Fun',
+        iconAsset: 'assets/icons/cooking.png',
+        fallbackEmoji: '🍳',
+        gradientTop: const Color(0xFFFFC23B),
+        gradientBottom: const Color(0xFFEA8B1D),
+        onTap: () => context.push('/cooking?source=home&view=hub'),
+      ),
+    ];
+
     return Scaffold(
       body: Stack(
         children: [
@@ -45,106 +111,94 @@ class _HomeScreenState extends State<HomeScreen> {
               builder: (context, constraints) {
                 final isTablet = constraints.maxWidth >= 900;
                 final contentMaxWidth = isTablet ? 980.0 : 760.0;
-                final horizontalPadding = isTablet ? 28.0 : 20.0;
+                final horizontalPadding = isTablet ? 24.0 : 16.0;
 
                 return Align(
                   alignment: Alignment.topCenter,
                   child: ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: contentMaxWidth),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: horizontalPadding,
-                      ),
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 12),
-
-                          // --- Title ---
-                          _HomeLogo(isTablet: isTablet),
-                          const SizedBox(height: 2),
-                          Text(
-                            'Color the World.',
-                            style: Theme.of(context).textTheme.titleMedium
-                                ?.copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: isTablet ? 22 : 18,
-                                ),
+                    child: CustomScrollView(
+                      cacheExtent: 900,
+                      slivers: [
+                        SliverPadding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: horizontalPadding,
                           ),
-                          const SizedBox(height: 4),
-                          Text(
-                            'What wonder will you explore today?',
-                            style: Theme.of(context).textTheme.bodyMedium
-                                ?.copyWith(
-                                  color: Colors.white.withValues(alpha: 0.9),
-                                  fontSize: isTablet ? 17 : null,
-                                ),
-                          ),
-
-                          const SizedBox(height: 16),
-
-                          // --- Passport summary card ---
-                          const _PassportCard(),
-
-                          const SizedBox(height: 4),
-
-                          // --- Action card grid (3×2) ---
-                          Expanded(
-                            child: GridView.count(
-                              crossAxisCount: 3,
-                              physics: const NeverScrollableScrollPhysics(),
-                              mainAxisSpacing: isTablet ? 20 : 14,
-                              crossAxisSpacing: isTablet ? 20 : 14,
-                              childAspectRatio: isTablet ? 1.08 : 0.95,
+                          sliver: SliverToBoxAdapter(
+                            child: Column(
                               children: [
-                                ActivityCard(
-                                  emoji: '\u{1F30D}', // 🌍
-                                  label: 'World\nExplorer',
-                                  color: const Color(0xFF4CAF50),
-                                  onTap: () => context.push('/world'),
-                                ),
-                                ActivityCard(
-                                  emoji: '\u{1F4D6}', // 📖
-                                  label: 'Stories',
-                                  color: const Color(0xFFFF9800),
-                                  onTap: () => context.push('/stories'),
-                                ),
-                                ActivityCard(
-                                  emoji: '\u{1F58D}', // 🖍️
-                                  label: 'Coloring\nPages',
-                                  color: const Color(0xFF9C27B0),
-                                  onTap: () => context.push('/coloring'),
-                                ),
-                                ActivityCard(
-                                  emoji: '\u{1F3A8}', // 🎨
-                                  label: 'Start\nDrawing',
-                                  color: PWColors.coral,
-                                  onTap: () => context.push('/draw'),
-                                ),
-                                ActivityCard(
-                                  emoji: '\u{1F457}', // 👗
-                                  label: 'Fashion\nStudio',
-                                  color: const Color(0xFFE91E63),
-                                  onTap: () => context.push('/fashion'),
-                                ),
-                                ActivityCard(
-                                  emoji: '\u{1F373}', // 🍳
-                                  label: 'Cooking\nFun',
-                                  color: const Color(0xFFFF5722),
-                                  onTap: () {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text('Coming soon!'),
+                                const SizedBox(height: 8),
+                                _HomeLogo(isTablet: isTablet),
+                                const SizedBox(height: 4),
+                                Text(
+                                  'What would you like to explore today?',
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.baloo2(
+                                    fontSize: isTablet ? 30 : 24,
+                                    fontWeight: FontWeight.w800,
+                                    color: const Color(0xFF1F3A83),
+                                    shadows: const [
+                                      Shadow(
+                                        color: Colors.white,
+                                        offset: Offset(0, 2),
+                                        blurRadius: 8,
                                       ),
-                                    );
-                                  },
+                                    ],
+                                  ),
                                 ),
+                                const SizedBox(height: 10),
                               ],
                             ),
                           ),
-                          const SizedBox(height: 8),
-                        ],
-                      ),
+                        ),
+                        SliverPadding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: horizontalPadding,
+                          ),
+                          sliver: SliverGrid(
+                            delegate: SliverChildBuilderDelegate(
+                              (context, index) => RepaintBoundary(
+                                child: _HomeStickerButton(
+                                  config: actions[index],
+                                  isTablet: isTablet,
+                                ),
+                              ),
+                              childCount: actions.length,
+                            ),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3,
+                                  mainAxisSpacing: isTablet ? 16 : 12,
+                                  crossAxisSpacing: isTablet ? 16 : 12,
+                                  childAspectRatio: isTablet ? 1.20 : 1.10,
+                                ),
+                          ),
+                        ),
+                        SliverPadding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: horizontalPadding,
+                          ),
+                          sliver: const SliverToBoxAdapter(
+                            child: SizedBox(height: 8),
+                          ),
+                        ),
+                        SliverPadding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: horizontalPadding,
+                          ),
+                          sliver: const SliverToBoxAdapter(
+                            child: RepaintBoundary(child: _PassportCard()),
+                          ),
+                        ),
+                        SliverPadding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: horizontalPadding,
+                          ),
+                          sliver: const SliverToBoxAdapter(
+                            child: SizedBox(height: 16),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 );
@@ -178,21 +232,20 @@ class _HomeScenicBackground extends StatelessWidget {
           fit: BoxFit.cover,
           alignment: Alignment.center,
           cacheWidth: cacheWidth,
-          filterQuality: FilterQuality.medium,
+          filterQuality: FilterQuality.low,
           errorBuilder: (context, error, stackTrace) {
             return const GradientBackground(child: SizedBox.expand());
           },
         ),
-        // Keeps foreground text/buttons readable on both phones and iPads.
         DecoratedBox(
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Colors.black.withValues(alpha: 0.18),
+                Colors.white.withValues(alpha: 0.14),
                 Colors.transparent,
-                Colors.black.withValues(alpha: 0.10),
+                Colors.black.withValues(alpha: 0.08),
               ],
             ),
           ),
@@ -202,7 +255,6 @@ class _HomeScenicBackground extends StatelessWidget {
   }
 }
 
-/// Home logo image with graceful fallback text.
 class _HomeLogo extends StatelessWidget {
   const _HomeLogo({required this.isTablet});
 
@@ -210,7 +262,7 @@ class _HomeLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final logoHeight = isTablet ? 182.0 : 206.0;
+    final logoHeight = isTablet ? 260.0 : 220.0;
     final dpr = MediaQuery.of(context).devicePixelRatio;
     final cacheHeight = (logoHeight * dpr).round().clamp(1, 4096).toInt();
 
@@ -220,7 +272,7 @@ class _HomeLogo extends StatelessWidget {
         'assets/logos/planet_wonders_logo.png',
         fit: BoxFit.contain,
         cacheHeight: cacheHeight,
-        filterQuality: FilterQuality.medium,
+        filterQuality: FilterQuality.low,
         errorBuilder: (context, error, stackTrace) {
           final style = GoogleFonts.baloo2(
             fontSize: isTablet ? 44 : 34,
@@ -240,9 +292,156 @@ class _HomeLogo extends StatelessWidget {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Passport summary card — parchment-style badge on the home screen
-// ---------------------------------------------------------------------------
+class _HomeStickerButton extends StatelessWidget {
+  const _HomeStickerButton({required this.config, required this.isTablet});
+
+  final _HomeStickerConfig config;
+  final bool isTablet;
+
+  @override
+  Widget build(BuildContext context) {
+    final dpr = MediaQuery.of(context).devicePixelRatio;
+    final iconCacheSize = ((isTablet ? 92 : 78) * dpr)
+        .round()
+        .clamp(1, 512)
+        .toInt();
+
+    final labelStyle = GoogleFonts.baloo2(
+      fontSize: isTablet ? 18 : 13,
+      fontWeight: FontWeight.w800,
+      color: Colors.white,
+      height: 1.1,
+      shadows: const [
+        Shadow(color: Color(0x99000000), offset: Offset(0, 2), blurRadius: 2),
+      ],
+    );
+
+    return Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(28),
+      child: InkWell(
+        onTap: config.onTap,
+        borderRadius: BorderRadius.circular(28),
+        splashColor: Colors.white.withValues(alpha: 0.20),
+        child: Ink(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(28),
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [config.gradientTop, config.gradientBottom],
+            ),
+            border: Border.all(
+              color: Colors.white.withValues(alpha: 0.94),
+              width: 3,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0xFF14366F).withValues(alpha: 0.30),
+                blurRadius: 12,
+                offset: const Offset(0, 6),
+              ),
+            ],
+          ),
+          child: Stack(
+            children: [
+              Positioned(
+                left: 8,
+                right: 8,
+                top: 8,
+                child: Container(
+                  height: isTablet ? 34 : 24,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(18),
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.white.withValues(alpha: 0.34),
+                        Colors.white.withValues(alpha: 0.02),
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                  ),
+                ),
+              ),
+              const Positioned(
+                left: 12,
+                top: 16,
+                child: Text(
+                  '✦',
+                  style: TextStyle(fontSize: 10, color: Colors.white70),
+                ),
+              ),
+              Positioned(
+                right: 14,
+                top: isTablet ? 28 : 22,
+                child: const Text(
+                  '✦',
+                  style: TextStyle(fontSize: 9, color: Colors.white70),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(4, 2, 4, 3),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Image.asset(
+                        config.iconAsset,
+                        fit: BoxFit.contain,
+                        cacheWidth: iconCacheSize,
+                        cacheHeight: iconCacheSize,
+                        filterQuality: FilterQuality.low,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Center(
+                            child: Text(
+                              config.fallbackEmoji,
+                              style: TextStyle(fontSize: isTablet ? 44 : 36),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      height: isTablet ? 44 : 34,
+                      child: Center(
+                        child: Text(
+                          config.title,
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: labelStyle.copyWith(height: 1.0),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _HomeStickerConfig {
+  const _HomeStickerConfig({
+    required this.title,
+    required this.iconAsset,
+    required this.fallbackEmoji,
+    required this.gradientTop,
+    required this.gradientBottom,
+    required this.onTap,
+  });
+
+  final String title;
+  final String iconAsset;
+  final String fallbackEmoji;
+  final Color gradientTop;
+  final Color gradientBottom;
+  final VoidCallback onTap;
+}
 
 class _PassportCard extends StatelessWidget {
   const _PassportCard();
@@ -275,7 +474,6 @@ class _PassportCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          // Header badge
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
             decoration: BoxDecoration(
@@ -292,11 +490,8 @@ class _PassportCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 14),
-
-          // Content row: stats on left, globe on right
           Row(
             children: [
-              // Stats
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -338,7 +533,7 @@ class _PassportCard extends StatelessWidget {
                         ),
                         const SizedBox(width: 6),
                         Text(
-                          'Badges Earned \u00B7 $badgesEarned',
+                          'Badges Earned · $badgesEarned',
                           style: GoogleFonts.nunito(
                             fontSize: 13,
                             fontWeight: FontWeight.w700,
@@ -350,8 +545,6 @@ class _PassportCard extends StatelessWidget {
                   ],
                 ),
               ),
-
-              // Globe illustration
               Container(
                 width: 72,
                 height: 72,
@@ -364,10 +557,7 @@ class _PassportCard extends StatelessWidget {
                   ),
                 ),
                 child: const Center(
-                  child: Text(
-                    '\u{1F30D}', // 🌍
-                    style: TextStyle(fontSize: 40),
-                  ),
+                  child: Text('🌍', style: TextStyle(fontSize: 40)),
                 ),
               ),
             ],

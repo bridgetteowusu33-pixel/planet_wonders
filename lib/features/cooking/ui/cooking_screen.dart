@@ -138,26 +138,56 @@ class _CookingScreenState extends State<CookingScreen> {
                                       onSpicePanEnd: _onSpicePanEnd,
                                     ),
                             ),
-                            const SizedBox(height: 8),
-                            AnimatedBuilder(
-                              animation: _controller.state,
-                              builder: (context, _) {
-                                return _StepTracker(
-                                  currentStep: _controller.state.currentStep,
-                                  style: baseTextStyle,
-                                );
-                              },
-                            ),
-                            const SizedBox(height: 10),
-                            _StickerActionButton(
-                              title: 'Exit Kitchen',
-                              onTap: _exit,
-                              colors: const <Color>[
-                                Color(0xFFFF9E7D),
-                                Color(0xFFFF7B89),
+                            const SizedBox(height: 6),
+                            Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: AnimatedBuilder(
+                                    animation: _controller.state,
+                                    builder: (context, _) {
+                                      return _StepTracker(
+                                        currentStep:
+                                            _controller.state.currentStep,
+                                        style: baseTextStyle,
+                                      );
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                GestureDetector(
+                                  onTap: _exit,
+                                  child: Container(
+                                    height: 42,
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      gradient: const LinearGradient(
+                                        colors: <Color>[
+                                          Color(0xFFFF9E7D),
+                                          Color(0xFFFF7B89),
+                                        ],
+                                      ),
+                                      borderRadius: BorderRadius.circular(20),
+                                      border: Border.all(
+                                        color: Colors.white,
+                                        width: 2,
+                                      ),
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: const Text(
+                                      'Exit',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w900,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
-                            const SizedBox(height: 120),
+                            const SizedBox(height: 80),
                           ],
                         ),
                       ),
@@ -274,43 +304,45 @@ class _TabletGameLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Expanded(
-          flex: 3,
-          child: _PotAndSpiceArea(
-            controller: controller,
-            recipe: recipe,
-            onSpicePanStart: onSpicePanStart,
-            onSpicePanUpdate: onSpicePanUpdate,
-            onSpicePanEnd: onSpicePanEnd,
-          ),
-        ),
-        const SizedBox(width: 14),
-        Expanded(
-          flex: 2,
-          child: Column(
-            children: <Widget>[
-              AnimatedBuilder(
-                animation: controller.state,
-                builder: (context, _) {
-                  return ServeWidget(
-                    step: controller.state.currentStep,
-                    progress: controller.state.currentStep == CookingStep.serve
-                        ? controller.state.progress
-                        : 0,
-                    servedCount: controller.state.servedCount,
-                    requiredServes: recipe.requiredServeScoops,
-                    onServe: controller.onServeDropped,
-                  );
-                },
+    return AnimatedBuilder(
+      animation: controller.state,
+      builder: (context, _) {
+        final isServeStep =
+            controller.state.currentStep == CookingStep.serve;
+        return Row(
+          children: <Widget>[
+            Expanded(
+              flex: 3,
+              child: _PotAndSpiceArea(
+                controller: controller,
+                recipe: recipe,
+                onSpicePanStart: onSpicePanStart,
+                onSpicePanUpdate: onSpicePanUpdate,
+                onSpicePanEnd: onSpicePanEnd,
               ),
-              const SizedBox(height: 10),
-              Expanded(child: _IngredientBoard(controller: controller)),
-            ],
-          ),
-        ),
-      ],
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              flex: 2,
+              child: Column(
+                children: <Widget>[
+                  if (isServeStep) ...<Widget>[
+                    ServeWidget(
+                      step: controller.state.currentStep,
+                      progress: controller.state.progress,
+                      servedCount: controller.state.servedCount,
+                      requiredServes: recipe.requiredServeScoops,
+                      onServe: controller.onServeDropped,
+                    ),
+                    const SizedBox(height: 10),
+                  ],
+                  Expanded(child: _IngredientBoard(controller: controller)),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
@@ -332,15 +364,16 @@ class _PhoneGameLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final compact = constraints.maxHeight < 560;
-        final gap = compact ? 6.0 : 10.0;
+    return AnimatedBuilder(
+      animation: controller.state,
+      builder: (context, _) {
+        final step = controller.state.currentStep;
+        final isServeStep = step == CookingStep.serve;
 
         return Column(
           children: <Widget>[
             Expanded(
-              flex: compact ? 5 : 4,
+              flex: 5,
               child: _PotAndSpiceArea(
                 controller: controller,
                 recipe: recipe,
@@ -349,30 +382,21 @@ class _PhoneGameLayout extends StatelessWidget {
                 onSpicePanEnd: onSpicePanEnd,
               ),
             ),
-            SizedBox(height: gap),
-            Expanded(
-              flex: compact ? 5 : 4,
-              child: Column(
-                children: <Widget>[
-                  AnimatedBuilder(
-                    animation: controller.state,
-                    builder: (context, _) {
-                      return ServeWidget(
-                        step: controller.state.currentStep,
-                        progress:
-                            controller.state.currentStep == CookingStep.serve
-                            ? controller.state.progress
-                            : 0,
-                        servedCount: controller.state.servedCount,
-                        requiredServes: recipe.requiredServeScoops,
-                        onServe: controller.onServeDropped,
-                      );
-                    },
-                  ),
-                  SizedBox(height: gap),
-                  Expanded(child: _IngredientBoard(controller: controller)),
-                ],
+            const SizedBox(height: 6),
+            // Only show ServeWidget when it's the serve step.
+            if (isServeStep) ...<Widget>[
+              ServeWidget(
+                step: step,
+                progress: controller.state.progress,
+                servedCount: controller.state.servedCount,
+                requiredServes: recipe.requiredServeScoops,
+                onServe: controller.onServeDropped,
               ),
+              const SizedBox(height: 6),
+            ],
+            Expanded(
+              flex: isServeStep ? 3 : 5,
+              child: _IngredientBoard(controller: controller),
             ),
           ],
         );
@@ -408,6 +432,7 @@ class _PotAndSpiceArea extends StatelessWidget {
     return AnimatedBuilder(
       animation: list,
       builder: (context, _) {
+        final isSpiceStep = controller.state.currentStep == CookingStep.spice;
         return Column(
           children: <Widget>[
             Expanded(
@@ -424,16 +449,17 @@ class _PotAndSpiceArea extends StatelessWidget {
                 onStirEnd: controller.onStirEnd,
               ),
             ),
-            const SizedBox(height: 10),
-            _SpicePad(
-              isVisible: controller.state.currentStep == CookingStep.spice,
-              progress: controller.state.currentStep == CookingStep.spice
-                  ? controller.state.progress
-                  : 0,
-              onPanStart: onSpicePanStart,
-              onPanUpdate: onSpicePanUpdate,
-              onPanEnd: onSpicePanEnd,
-            ),
+            // Only take space when the spice step is active.
+            if (isSpiceStep) ...<Widget>[
+              const SizedBox(height: 6),
+              _SpicePad(
+                isVisible: true,
+                progress: controller.state.progress,
+                onPanStart: onSpicePanStart,
+                onPanUpdate: onSpicePanUpdate,
+                onPanEnd: onSpicePanEnd,
+              ),
+            ],
           ],
         );
       },
@@ -451,9 +477,11 @@ class _IngredientBoard extends StatelessWidget {
     return AnimatedBuilder(
       animation: controller.state,
       builder: (context, _) {
-        final canAdd =
-            controller.state.currentStep == CookingStep.addIngredients;
+        final step = controller.state.currentStep;
+        final canAdd = step == CookingStep.addIngredients;
         final ingredients = controller.recipe.ingredients;
+        final addedCount = controller.state.addedIngredientIds.length;
+        final totalCount = ingredients.length;
 
         return RepaintBoundary(
           child: Container(
@@ -462,45 +490,104 @@ class _IngredientBoard extends StatelessWidget {
               gradient: const LinearGradient(
                 colors: <Color>[Color(0xFFFFF3C4), Color(0xFFFFE8A3)],
               ),
-              borderRadius: BorderRadius.circular(30),
-              border: Border.all(color: Colors.white, width: 2),
-              boxShadow: const <BoxShadow>[
-                BoxShadow(
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(
+                color: canAdd
+                    ? const Color(0xFFFFD166)
+                    : Colors.white,
+                width: canAdd ? 2.5 : 2,
+              ),
+              boxShadow: <BoxShadow>[
+                const BoxShadow(
                   color: Color(0x1F000000),
                   blurRadius: 12,
                   offset: Offset(0, 8),
                 ),
+                if (canAdd)
+                  const BoxShadow(
+                    color: Color(0x33FFD166),
+                    blurRadius: 16,
+                    spreadRadius: 1,
+                  ),
               ],
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                const Text(
-                  'Ingredients',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w900,
-                    color: Color(0xFF2D3142),
-                  ),
+                Row(
+                  children: <Widget>[
+                    Text(
+                      canAdd ? 'Tap to add!' : 'Ingredients',
+                      style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w900,
+                        color: Color(0xFF2D3142),
+                      ),
+                    ),
+                    const Spacer(),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 3,
+                      ),
+                      decoration: BoxDecoration(
+                        color: addedCount >= totalCount
+                            ? const Color(0xFF74C69D)
+                            : const Color(0xFFFFB703),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        '$addedCount/$totalCount',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 6),
                 Expanded(
                   child: SingleChildScrollView(
                     child: Wrap(
-                      spacing: 10,
-                      runSpacing: 10,
+                      spacing: 8,
+                      runSpacing: 8,
                       children: ingredients
                           .map((ingredient) {
                             final isAdded = controller.state.addedIngredientIds
                                 .contains(ingredient.id);
                             return IgnorePointer(
                               ignoring: !canAdd || isAdded,
-                              child: Opacity(
-                                opacity: (!canAdd || isAdded) ? 0.48 : 1,
-                                child: IngredientWidget(
-                                  ingredient: ingredient,
-                                  onTapToss: () => controller
-                                      .onIngredientDropped(ingredient),
+                              child: AnimatedOpacity(
+                                duration: const Duration(milliseconds: 200),
+                                opacity: isAdded ? 0.4 : (canAdd ? 1 : 0.6),
+                                child: Stack(
+                                  children: <Widget>[
+                                    IngredientWidget(
+                                      ingredient: ingredient,
+                                      onTapToss: () => controller
+                                          .onIngredientDropped(ingredient),
+                                    ),
+                                    if (isAdded)
+                                      Positioned(
+                                        top: 2,
+                                        right: 2,
+                                        child: Container(
+                                          width: 24,
+                                          height: 24,
+                                          decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Color(0xFF74C69D),
+                                          ),
+                                          child: const Icon(
+                                            Icons.check_rounded,
+                                            size: 16,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                  ],
                                 ),
                               ),
                             );
@@ -537,62 +624,105 @@ class _SpicePad extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedOpacity(
       opacity: isVisible ? 1 : 0,
-      duration: const Duration(milliseconds: 180),
-      child: IgnorePointer(
-        ignoring: !isVisible,
-        child: RepaintBoundary(
-          child: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onPanStart: onPanStart,
-            onPanUpdate: onPanUpdate,
-            onPanEnd: onPanEnd,
-            child: Container(
-              height: 92,
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: <Color>[Color(0xFFD6F0FF), Color(0xFFC0EAFF)],
+      duration: const Duration(milliseconds: 200),
+      child: AnimatedSlide(
+        offset: isVisible ? Offset.zero : const Offset(0, 0.3),
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeOut,
+        child: IgnorePointer(
+          ignoring: !isVisible,
+          child: RepaintBoundary(
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onPanStart: onPanStart,
+              onPanUpdate: onPanUpdate,
+              onPanEnd: onPanEnd,
+              child: Container(
+                height: 80,
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: <Color>[
+                      Color.lerp(
+                        const Color(0xFFD6F0FF),
+                        const Color(0xFFFFD166),
+                        progress.clamp(0, 1) * 0.3,
+                      )!,
+                      Color.lerp(
+                        const Color(0xFFC0EAFF),
+                        const Color(0xFFFFB347),
+                        progress.clamp(0, 1) * 0.3,
+                      )!,
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(24),
+                  border: Border.all(color: Colors.white, width: 2),
+                  boxShadow: <BoxShadow>[
+                    const BoxShadow(
+                      color: Color(0x22000000),
+                      blurRadius: 12,
+                      offset: Offset(0, 6),
+                    ),
+                    if (progress > 0.5)
+                      BoxShadow(
+                        color: const Color(0x44FFD166).withValues(
+                          alpha: (progress - 0.5) * 0.8,
+                        ),
+                        blurRadius: 16,
+                        spreadRadius: 1,
+                      ),
+                  ],
                 ),
-                borderRadius: BorderRadius.circular(24),
-                border: Border.all(color: Colors.white, width: 2),
-                boxShadow: const <BoxShadow>[
-                  BoxShadow(
-                    color: Color(0x22000000),
-                    blurRadius: 12,
-                    offset: Offset(0, 6),
-                  ),
-                ],
-              ),
-              child: Row(
-                children: <Widget>[
-                  const Icon(
-                    Icons.travel_explore_rounded,
-                    color: Color(0xFF1D3557),
-                  ),
-                  const SizedBox(width: 8),
-                  const Expanded(
-                    child: Text(
-                      'Shake here to add spice',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w800,
-                        color: Color(0xFF1D3557),
+                child: Row(
+                  children: <Widget>[
+                    const Text(
+                      '\u{1F9C2}', // 🧂
+                      style: TextStyle(fontSize: 26),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          const Text(
+                            'Shake to add spice!',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w800,
+                              color: Color(0xFF1D3557),
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(99),
+                            child: LinearProgressIndicator(
+                              value: progress.clamp(0, 1),
+                              minHeight: 8,
+                              backgroundColor: Colors.white.withValues(alpha: 0.5),
+                              valueColor: const AlwaysStoppedAnimation<Color>(
+                                Color(0xFFFF8C42),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 64,
-                    child: Text(
-                      '${(progress * 100).round()}%',
-                      textAlign: TextAlign.end,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w900,
-                        color: Color(0xFF1D3557),
+                    const SizedBox(width: 8),
+                    SizedBox(
+                      width: 48,
+                      child: Text(
+                        '${(progress * 100).round()}%',
+                        textAlign: TextAlign.end,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w900,
+                          color: Color(0xFF1D3557),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -698,6 +828,14 @@ class _StepTracker extends StatelessWidget {
   final CookingStep currentStep;
   final TextTheme style;
 
+  static const _stepIcons = <CookingStep, IconData>{
+    CookingStep.addIngredients: Icons.egg_alt_rounded,
+    CookingStep.stir: Icons.refresh_rounded,
+    CookingStep.spice: Icons.local_fire_department_rounded,
+    CookingStep.serve: Icons.restaurant_rounded,
+    CookingStep.complete: Icons.star_rounded,
+  };
+
   @override
   Widget build(BuildContext context) {
     const steps = <CookingStep>[
@@ -709,46 +847,90 @@ class _StepTracker extends StatelessWidget {
     ];
 
     return RepaintBoundary(
-      child: Wrap(
-        alignment: WrapAlignment.center,
-        spacing: 8,
-        runSpacing: 8,
-        children: steps
-            .map((step) {
-              final isActive = step == currentStep;
-              final isDone = step.index < currentStep.index;
-              final fill = isDone
-                  ? const Color(0xFF74C69D)
-                  : (isActive
-                        ? const Color(0xFFFFD166)
-                        : const Color(0xFFFFFFFF));
-              final textColor = (isDone || isActive)
-                  ? Colors.white
-                  : const Color(0xFF6B7280);
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.5),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            for (int i = 0; i < steps.length; i++) ...<Widget>[
+              if (i > 0)
+                Container(
+                  width: 16,
+                  height: 2,
+                  color: steps[i].index <= currentStep.index
+                      ? const Color(0xFF74C69D)
+                      : const Color(0xFFD1D5DB),
+                ),
+              _StepDot(
+                step: steps[i],
+                icon: _stepIcons[steps[i]]!,
+                isActive: steps[i] == currentStep,
+                isDone: steps[i].index < currentStep.index,
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}
 
-              return AnimatedContainer(
-                duration: const Duration(milliseconds: 180),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 14,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  color: fill,
-                  borderRadius: BorderRadius.circular(999),
-                  border: Border.all(color: Colors.white, width: 2),
-                ),
-                child: Text(
-                  step.title,
-                  style:
-                      style.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w900,
-                        color: textColor,
-                      ) ??
-                      TextStyle(fontWeight: FontWeight.w900, color: textColor),
-                ),
-              );
-            })
-            .toList(growable: false),
+class _StepDot extends StatelessWidget {
+  const _StepDot({
+    required this.step,
+    required this.icon,
+    required this.isActive,
+    required this.isDone,
+  });
+
+  final CookingStep step;
+  final IconData icon;
+  final bool isActive;
+  final bool isDone;
+
+  @override
+  Widget build(BuildContext context) {
+    final fill = isDone
+        ? const Color(0xFF74C69D)
+        : (isActive ? const Color(0xFFFFD166) : Colors.white);
+    final iconColor = (isDone || isActive)
+        ? Colors.white
+        : const Color(0xFF9CA3AF);
+
+    return Tooltip(
+      message: step.title,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeOut,
+        width: isActive ? 42 : 34,
+        height: isActive ? 42 : 34,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: fill,
+          border: Border.all(
+            color: isActive ? const Color(0xFFFFB703) : Colors.white,
+            width: isActive ? 3 : 2,
+          ),
+          boxShadow: isActive
+              ? const <BoxShadow>[
+                  BoxShadow(
+                    color: Color(0x44FFD166),
+                    blurRadius: 10,
+                    spreadRadius: 1,
+                  ),
+                ]
+              : null,
+        ),
+        child: Icon(
+          isDone ? Icons.check_rounded : icon,
+          size: isActive ? 22 : 17,
+          color: iconColor,
+        ),
       ),
     );
   }
@@ -768,29 +950,56 @@ class _CompletionOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
-      decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.18)),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: <Color>[
+            Colors.black.withValues(alpha: 0.3),
+            Colors.black.withValues(alpha: 0.15),
+          ],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+      ),
       child: Center(
         child: TweenAnimationBuilder<double>(
-          tween: Tween<double>(begin: 0.8, end: 1),
-          duration: const Duration(milliseconds: 260),
+          tween: Tween<double>(begin: 0.7, end: 1),
+          duration: const Duration(milliseconds: 360),
           curve: Curves.easeOutBack,
           builder: (context, value, child) {
-            return Transform.scale(scale: value, child: child);
+            return Opacity(
+              opacity: value.clamp(0, 1),
+              child: Transform.scale(scale: value, child: child),
+            );
           },
           child: RepaintBoundary(
             child: Container(
               constraints: const BoxConstraints(maxWidth: 420),
               margin: const EdgeInsets.all(20),
-              padding: const EdgeInsets.all(18),
+              padding: const EdgeInsets.fromLTRB(20, 22, 20, 18),
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
-                  colors: <Color>[Color(0xFFFFF8D6), Color(0xFFFFE9A8)],
+                  colors: <Color>[
+                    Color(0xFFFFFBE6),
+                    Color(0xFFFFF3C4),
+                    Color(0xFFFFE9A8),
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
                 ),
-                borderRadius: BorderRadius.circular(30),
-                border: Border.all(color: Colors.white, width: 2),
+                borderRadius: BorderRadius.circular(32),
+                border: Border.all(
+                  color: const Color(0xFFFFD166),
+                  width: 3,
+                ),
                 boxShadow: const <BoxShadow>[
                   BoxShadow(
-                    color: Color(0x33000000),
+                    color: Color(0x44FFB703),
+                    blurRadius: 30,
+                    spreadRadius: 2,
+                    offset: Offset(0, 8),
+                  ),
+                  BoxShadow(
+                    color: Color(0x22000000),
                     blurRadius: 20,
                     offset: Offset(0, 14),
                   ),
@@ -803,96 +1012,162 @@ class _CompletionOverlay extends StatelessWidget {
                   return Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
+                      // Celebration emoji row
+                      TweenAnimationBuilder<double>(
+                        tween: Tween<double>(begin: 0, end: 1),
+                        duration: const Duration(milliseconds: 600),
+                        curve: Curves.elasticOut,
+                        builder: (context, t, child) {
+                          return Transform.scale(scale: 0.5 + t * 0.5, child: child);
+                        },
+                        child: const Text(
+                          '\u{1F389}',
+                          style: TextStyle(fontSize: 48),
+                        ),
+                      ),
+                      const SizedBox(height: 6),
                       const Text(
                         'Dish Complete!',
                         style: TextStyle(
-                          fontSize: 28,
+                          fontSize: 30,
                           fontWeight: FontWeight.w900,
                           color: Color(0xFF1D3557),
                         ),
                       ),
-                      const SizedBox(height: 10),
-                      Container(
-                        height: 90,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.75),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        alignment: Alignment.center,
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              Icons.dinner_dining,
-                              size: 34,
-                              color: Color(0xFF355070),
-                            ),
-                            SizedBox(width: 8),
-                            Text(
-                              'Fresh & Ready!',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w900,
-                                color: Color(0xFF355070),
-                              ),
-                            ),
-                          ],
+                      const SizedBox(height: 4),
+                      Text(
+                        recipe.name,
+                        style: const TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF355070),
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 12),
+                      // Animated stars
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: List<Widget>.generate(3, (i) {
+                          final earned = i < stars;
+                          return TweenAnimationBuilder<double>(
+                            tween: Tween<double>(begin: 0, end: earned ? 1 : 0.3),
+                            duration: Duration(milliseconds: 400 + i * 200),
+                            curve: Curves.elasticOut,
+                            builder: (context, value, child) {
+                              return Transform.scale(
+                                scale: 0.5 + value * 0.5,
+                                child: Opacity(
+                                  opacity: value.clamp(0, 1),
+                                  child: child,
+                                ),
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 4),
+                              child: Icon(
+                                earned ? Icons.star_rounded : Icons.star_outline_rounded,
+                                size: 48,
+                                color: earned
+                                    ? const Color(0xFFFFB703)
+                                    : const Color(0xFFD1D5DB),
+                              ),
+                            ),
+                          );
+                        }),
+                      ),
+                      const SizedBox(height: 10),
+                      // Badge
                       TweenAnimationBuilder<double>(
-                        tween: Tween<double>(begin: 0.85, end: 1),
-                        duration: const Duration(milliseconds: 420),
+                        tween: Tween<double>(begin: 0.7, end: 1),
+                        duration: const Duration(milliseconds: 500),
                         curve: Curves.elasticOut,
                         builder: (context, value, child) {
                           return Transform.scale(scale: value, child: child);
                         },
-                        child: SizedBox(
-                          height: 88,
-                          child: Image.asset(
-                            recipe.badge.iconAsset,
-                            fit: BoxFit.contain,
-                            errorBuilder: (context, error, stackTrace) =>
-                                const Icon(
-                                  Icons.emoji_events,
-                                  size: 68,
-                                  color: Color(0xFFFFB703),
+                        child: Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.7),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              color: const Color(0xFFFFD166),
+                              width: 2,
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              SizedBox(
+                                height: 56,
+                                width: 56,
+                                child: Image.asset(
+                                  recipe.badge.iconAsset,
+                                  fit: BoxFit.contain,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      const Icon(
+                                        Icons.emoji_events,
+                                        size: 44,
+                                        color: Color(0xFFFFB703),
+                                      ),
                                 ),
+                              ),
+                              const SizedBox(width: 10),
+                              Flexible(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    const Text(
+                                      'Badge Unlocked!',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w900,
+                                        color: Color(0xFFFF8C42),
+                                      ),
+                                    ),
+                                    Text(
+                                      recipe.badge.title,
+                                      style: const TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.w800,
+                                        color: Color(0xFF264653),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                      const SizedBox(height: 6),
-                      Text(
-                        'Badge Unlocked: ${recipe.badge.title}',
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w800,
-                          color: Color(0xFF264653),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text('⭐' * stars, style: const TextStyle(fontSize: 34)),
                       const SizedBox(height: 12),
                       if (score != null)
-                        Wrap(
-                          alignment: WrapAlignment.center,
-                          spacing: 8,
-                          runSpacing: 8,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             _MetricChip(
                               label: 'Accuracy',
                               value: score.accuracy,
+                              icon: Icons.check_circle_rounded,
+                              color: const Color(0xFF74C69D),
                             ),
-                            _MetricChip(label: 'Speed', value: score.speed),
+                            const SizedBox(width: 8),
                             _MetricChip(
-                              label: 'Smoothness',
+                              label: 'Speed',
+                              value: score.speed,
+                              icon: Icons.bolt_rounded,
+                              color: const Color(0xFFFFB703),
+                            ),
+                            const SizedBox(width: 8),
+                            _MetricChip(
+                              label: 'Smooth',
                               value: score.smoothness,
+                              icon: Icons.waves_rounded,
+                              color: const Color(0xFF8ECAE6),
                             ),
                           ],
                         ),
-                      const SizedBox(height: 14),
+                      const SizedBox(height: 16),
                       _StickerActionButton(
                         title: 'Awesome! Exit',
                         onTap: onExit,
@@ -914,26 +1189,47 @@ class _CompletionOverlay extends StatelessWidget {
 }
 
 class _MetricChip extends StatelessWidget {
-  const _MetricChip({required this.label, required this.value});
+  const _MetricChip({
+    required this.label,
+    required this.value,
+    this.icon,
+    this.color,
+  });
 
   final String label;
   final int value;
+  final IconData? icon;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
+    final accent = color ?? const Color(0xFF1D3557);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-      ),
-      child: Text(
-        '$label $value%',
-        style: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w800,
-          color: Color(0xFF1D3557),
+        border: Border.all(
+          color: accent.withValues(alpha: 0.25),
+          width: 1.5,
         ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          if (icon != null) ...<Widget>[
+            Icon(icon, size: 16, color: accent),
+            const SizedBox(width: 4),
+          ],
+          Text(
+            '$label $value%',
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w800,
+              color: accent,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -989,44 +1285,157 @@ class _StorybookKitchenPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final cloudPaint = Paint()..color = const Color(0x24FFFFFF);
-    const clouds = <Offset>[
-      Offset(0.15, 0.07),
-      Offset(0.75, 0.1),
-      Offset(0.32, 0.26),
-      Offset(0.84, 0.34),
-      Offset(0.2, 0.53),
-      Offset(0.62, 0.62),
-    ];
+    // --- Tiled wall (subtle grid) ---
+    final tilePaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 0.5
+      ..color = const Color(0x0FFFFFFF);
+    const tileSize = 48.0;
+    final wallBottom = size.height * 0.72;
+    for (double y = 0; y < wallBottom; y += tileSize) {
+      canvas.drawLine(Offset(0, y), Offset(size.width, y), tilePaint);
+    }
+    for (double x = 0; x < size.width; x += tileSize) {
+      canvas.drawLine(Offset(x, 0), Offset(x, wallBottom), tilePaint);
+    }
 
+    // --- Window (arched, top-center) ---
+    final windowCenter = Offset(size.width * 0.5, size.height * 0.08);
+    final windowRect = Rect.fromCenter(
+      center: windowCenter,
+      width: size.width * 0.28,
+      height: size.height * 0.18,
+    );
+    final windowPaint = Paint()
+      ..shader = const LinearGradient(
+        colors: <Color>[Color(0x40FFFFFF), Color(0x18D6F0FF)],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ).createShader(windowRect);
+    final windowPath = Path()
+      ..addRRect(RRect.fromRectAndCorners(
+        windowRect,
+        topLeft: const Radius.circular(60),
+        topRight: const Radius.circular(60),
+        bottomLeft: const Radius.circular(8),
+        bottomRight: const Radius.circular(8),
+      ));
+    canvas.drawPath(windowPath, windowPaint);
+    final windowFrame = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2
+      ..color = const Color(0x33FFFFFF);
+    canvas.drawPath(windowPath, windowFrame);
+    canvas.drawLine(
+      Offset(windowRect.center.dx, windowRect.top + 10),
+      Offset(windowRect.center.dx, windowRect.bottom),
+      windowFrame,
+    );
+    canvas.drawLine(
+      Offset(windowRect.left, windowRect.center.dy),
+      Offset(windowRect.right, windowRect.center.dy),
+      windowFrame,
+    );
+
+    // --- Shelf (left side with jars) ---
+    final shelfY = size.height * 0.35;
+    final shelfPaint = Paint()
+      ..shader = const LinearGradient(
+        colors: <Color>[Color(0x44C4A882), Color(0x339C7E5A)],
+      ).createShader(Rect.fromLTWH(0, shelfY, size.width * 0.32, 8));
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(size.width * 0.04, shelfY, size.width * 0.28, 6),
+        const Radius.circular(3),
+      ),
+      shelfPaint,
+    );
+    final jarPaint = Paint()..color = const Color(0x30FFFFFF);
+    final jarX = size.width * 0.08;
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(jarX, shelfY - 26, 18, 26),
+        const Radius.circular(4),
+      ),
+      jarPaint,
+    );
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(jarX + 24, shelfY - 20, 14, 20),
+        const Radius.circular(3),
+      ),
+      jarPaint,
+    );
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(jarX + 44, shelfY - 30, 16, 30),
+        const Radius.circular(4),
+      ),
+      jarPaint,
+    );
+
+    // --- Shelf (right side) ---
+    final shelfY2 = size.height * 0.28;
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(size.width * 0.68, shelfY2, size.width * 0.28, 6),
+        const Radius.circular(3),
+      ),
+      shelfPaint,
+    );
+    final jar2X = size.width * 0.72;
+    canvas.drawCircle(Offset(jar2X + 8, shelfY2 - 12), 10, jarPaint);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(jar2X + 26, shelfY2 - 22, 16, 22),
+        const Radius.circular(4),
+      ),
+      jarPaint,
+    );
+
+    // --- Soft clouds ---
+    final cloudPaint = Paint()..color = const Color(0x18FFFFFF);
+    const clouds = <Offset>[
+      Offset(0.15, 0.52),
+      Offset(0.78, 0.48),
+      Offset(0.45, 0.58),
+    ];
     for (final cloud in clouds) {
       final center = Offset(size.width * cloud.dx, size.height * cloud.dy);
       canvas.drawRRect(
         RRect.fromRectAndRadius(
-          Rect.fromCenter(center: center, width: 140, height: 42),
-          const Radius.circular(30),
+          Rect.fromCenter(center: center, width: 120, height: 34),
+          const Radius.circular(20),
         ),
         cloudPaint,
       );
-      canvas.drawCircle(center.translate(-35, -8), 21, cloudPaint);
-      canvas.drawCircle(center.translate(20, -14), 26, cloudPaint);
+      canvas.drawCircle(center.translate(-28, -6), 17, cloudPaint);
+      canvas.drawCircle(center.translate(16, -10), 20, cloudPaint);
     }
 
+    // --- Wooden counter (richer gradient + edge highlight) ---
     final counterTop = Rect.fromLTWH(
       0,
-      size.height * 0.79,
+      size.height * 0.72,
       size.width,
-      size.height * 0.22,
+      size.height * 0.29,
     );
+    final edgePaint = Paint()
+      ..shader = const LinearGradient(
+        colors: <Color>[Color(0xFFE8D4B0), Color(0xFFD4B896)],
+      ).createShader(Rect.fromLTWH(0, counterTop.top, size.width, 6));
+    canvas.drawRect(Rect.fromLTWH(0, counterTop.top, size.width, 6), edgePaint);
     final counterPaint = Paint()
       ..shader = const LinearGradient(
-        colors: <Color>[Color(0xFFFFEED2), Color(0xFFFFDDB6)],
+        colors: <Color>[Color(0xFFFFEED2), Color(0xFFE8D0A8), Color(0xFFD4B896)],
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
       ).createShader(counterTop);
-    canvas.drawRect(counterTop, counterPaint);
-
-    final stripePaint = Paint()..color = const Color(0x15A66E38);
+    canvas.drawRect(
+      Rect.fromLTWH(0, counterTop.top + 6, size.width, counterTop.height - 6),
+      counterPaint,
+    );
+    final stripePaint = Paint()..color = const Color(0x12A66E38);
     const stripeGap = 34.0;
     for (
       double x = -size.height;
@@ -1034,13 +1443,23 @@ class _StorybookKitchenPainter extends CustomPainter {
       x += stripeGap
     ) {
       final path = Path()
-        ..moveTo(x, counterTop.top)
-        ..lineTo(x + 30, counterTop.top)
+        ..moveTo(x, counterTop.top + 6)
+        ..lineTo(x + 30, counterTop.top + 6)
         ..lineTo(x + 64, counterTop.bottom)
         ..lineTo(x + 34, counterTop.bottom)
         ..close();
       canvas.drawPath(path, stripePaint);
     }
+    final shadowPaint = Paint()
+      ..shader = const LinearGradient(
+        colors: <Color>[Color(0x18000000), Color(0x00000000)],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ).createShader(Rect.fromLTWH(0, counterTop.top + 6, size.width, 20));
+    canvas.drawRect(
+      Rect.fromLTWH(0, counterTop.top + 6, size.width, 20),
+      shadowPaint,
+    );
   }
 
   @override

@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../coloring/palette_bar.dart';
 import '../../core/services/gallery_service.dart';
 import '../../core/theme/pw_theme.dart';
 import 'widgets/brush_size_selector.dart';
-import 'widgets/color_palette.dart';
 import 'widgets/drawing_canvas.dart';
 import 'widgets/drawing_toolbar.dart';
 
@@ -31,13 +31,13 @@ class _DrawingScreenState extends ConsumerState<DrawingScreen> {
     setState(() => _saving = true);
 
     try {
-      final boundary = _canvasKey.currentContext?.findRenderObject()
-          as RenderRepaintBoundary?;
+      final boundary =
+          _canvasKey.currentContext?.findRenderObject()
+              as RenderRepaintBoundary?;
       if (boundary == null) return;
 
       final image = await boundary.toImage(pixelRatio: 2.0);
-      final byteData =
-          await image.toByteData(format: ui.ImageByteFormat.png);
+      final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       if (byteData == null) return;
 
       await GalleryService.saveDrawing(byteData.buffer.asUint8List());
@@ -56,9 +56,9 @@ class _DrawingScreenState extends ConsumerState<DrawingScreen> {
       }
     } catch (_) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Could not save drawing')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Could not save drawing')));
       }
     } finally {
       if (mounted) setState(() => _saving = false);
@@ -96,21 +96,28 @@ class _DrawingScreenState extends ConsumerState<DrawingScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             children: [
+              // --- fixed horizontal palette row ---
+              const PaletteBar(height: 56),
+
+              const SizedBox(height: 10),
+
               // --- canvas ---
               Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: [
-                      BoxShadow(
-                        color: PWColors.navy.withValues(alpha: 0.12),
-                        blurRadius: 16,
-                        offset: const Offset(0, 6),
-                      ),
-                    ],
+                child: RepaintBoundary(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: PWColors.navy.withValues(alpha: 0.12),
+                          blurRadius: 16,
+                          offset: const Offset(0, 6),
+                        ),
+                      ],
+                    ),
+                    child: DrawingCanvas(canvasKey: _canvasKey),
                   ),
-                  child: DrawingCanvas(canvasKey: _canvasKey),
                 ),
               ),
 
@@ -125,11 +132,6 @@ class _DrawingScreenState extends ConsumerState<DrawingScreen> {
                   const BrushSizeSelector(),
                 ],
               ),
-
-              const SizedBox(height: 12),
-
-              // --- colors ---
-              const ColorPalette(),
 
               const SizedBox(height: 16),
             ],

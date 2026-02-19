@@ -38,7 +38,7 @@ class CountryHubScreen extends StatelessWidget {
         elevation: 0,
       ),
       body: SafeArea(
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             children: [
@@ -61,52 +61,53 @@ class CountryHubScreen extends StatelessWidget {
               const SizedBox(height: 16),
 
               // --- Activity grid ---
-              Expanded(
-                child: GridView.count(
-                  crossAxisCount: 3,
-                  mainAxisSpacing: 12,
-                  crossAxisSpacing: 12,
-                  childAspectRatio: 0.9,
-                  children: [
-                    ActivityCard(
-                      emoji: '\u{1F3A8}', // 🎨
-                      label: 'Color',
-                      color: const Color(0xFFFF9800),
-                      onTap: () => context.push('/color/${country.id}'),
-                    ),
-                    ActivityCard(
-                      emoji: '\u{1F4D6}', // 📖
-                      label: 'Story',
-                      color: const Color(0xFF9C27B0),
-                      onTap: () => context.push('/story/${country.id}'),
-                    ),
-                    ActivityCard(
-                      emoji: '\u{1F457}', // 👗
-                      label: 'Fashion',
-                      color: const Color(0xFF4CAF50),
-                      onTap: () => context.push('/fashion/${country.id}'),
-                    ),
-                    ActivityCard(
-                      emoji: '\u{1F373}', // 🍳
-                      label: 'Food',
-                      color: PWColors.coral,
-                      onTap: () => context.push('/food/${country.id}'),
-                    ),
-                    ActivityCard(
-                      emoji: '\u{1F9E9}', // 🧩
-                      label: 'Puzzle',
-                      color: PWColors.blue,
-                      onTap: () => _comingSoon(context, 'Puzzle'),
-                    ),
-                    ActivityCard(
-                      emoji: '\u{1F3AE}', // 🎮
-                      label: 'Games',
-                      color: PWColors.mint,
-                      onTap: () => context.push('/games/${country.id}'),
-                    ),
-                  ],
-                ),
+              GridView.count(
+                crossAxisCount: 3,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                mainAxisSpacing: 12,
+                crossAxisSpacing: 12,
+                childAspectRatio: 0.9,
+                children: [
+                  ActivityCard(
+                    emoji: '\u{1F3A8}', // 🎨
+                    label: 'Color',
+                    color: const Color(0xFFFF9800),
+                    onTap: () => context.push('/color/${country.id}'),
+                  ),
+                  ActivityCard(
+                    emoji: '\u{1F4D6}', // 📖
+                    label: 'Story',
+                    color: const Color(0xFF9C27B0),
+                    onTap: () => context.push('/story/${country.id}'),
+                  ),
+                  ActivityCard(
+                    emoji: '\u{1F457}', // 👗
+                    label: 'Fashion',
+                    color: const Color(0xFF4CAF50),
+                    onTap: () => context.push('/fashion/${country.id}'),
+                  ),
+                  ActivityCard(
+                    emoji: '\u{1F373}', // 🍳
+                    label: 'Food',
+                    color: PWColors.coral,
+                    onTap: () => context.push('/food/${country.id}'),
+                  ),
+                  ActivityCard(
+                    emoji: '\u{1F9E9}', // 🧩
+                    label: 'Puzzle',
+                    color: PWColors.blue,
+                    onTap: () => _comingSoon(context, 'Puzzle'),
+                  ),
+                  ActivityCard(
+                    emoji: '\u{1F3AE}', // 🎮
+                    label: 'Games',
+                    color: PWColors.mint,
+                    onTap: () => context.push('/games/${country.id}'),
+                  ),
+                ],
               ),
+              const SizedBox(height: 16),
             ],
           ),
         ),

@@ -57,11 +57,7 @@ class _ColoringCanvasState extends ConsumerState<ColoringCanvas> {
   Widget build(BuildContext context) {
     final interactionState = ref.watch(
       drawingProvider.select(
-        (s) => (
-          s.currentTool == DrawingTool.fill,
-          s.precisionMode,
-          s.currentColor,
-        ),
+        (s) => (s.currentTool == DrawingTool.fill, s.precisionMode),
       ),
     );
     final paintState = ref.watch(
@@ -71,7 +67,6 @@ class _ColoringCanvasState extends ConsumerState<ColoringCanvas> {
     );
     final isFillTool = interactionState.$1;
     final precisionMode = interactionState.$2;
-    final currentColor = interactionState.$3;
     final actions = paintState.$1;
     final derived = _deriveActionData(actions);
     final strokes = derived.strokes;
@@ -107,10 +102,7 @@ class _ColoringCanvasState extends ConsumerState<ColoringCanvas> {
                     targetScale: targetScale,
                   );
                 }
-                _handleFillTap(
-                  _zoomController.toCanvas(d.localPosition),
-                  selectedColor: currentColor,
-                );
+                _handleFillTap(_zoomController.toCanvas(d.localPosition));
               }
             : null,
         onScaleStart: (d) {
@@ -208,10 +200,7 @@ class _ColoringCanvasState extends ConsumerState<ColoringCanvas> {
   /// Handles fill tap using region mask lookup.
   ///
   /// Instant and deterministic: look up the tapped region ID and fill it.
-  Future<void> _handleFillTap(
-    Offset canvasPosition, {
-    required Color selectedColor,
-  }) async {
+  Future<void> _handleFillTap(Offset canvasPosition) async {
     final mask = widget.regionMask;
     if (mask == null) return;
 
@@ -229,6 +218,9 @@ class _ColoringCanvasState extends ConsumerState<ColoringCanvas> {
     final regionId = mask.regionAt(maskPoint.$1, maskPoint.$2);
     if (regionId == 0) return;
 
+    final selectedColor = ref.read(
+      drawingProvider.select((s) => s.currentColor),
+    );
     ref.read(drawingProvider.notifier).fillRegion(regionId, selectedColor);
   }
 

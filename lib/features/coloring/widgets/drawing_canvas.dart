@@ -17,22 +17,43 @@ class DrawingCanvas extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final drawingState = ref.watch(drawingProvider);
+    final canvasState = ref.watch(
+      drawingProvider.select((s) => (s.actions, s.activeStroke, s.currentTool)),
+    );
+    final actions = canvasState.$1;
+    final activeStroke = canvasState.$2;
+    final currentTool = canvasState.$3;
+    final strokes = <Stroke>[
+      for (final action in actions)
+        if (action is StrokeAction) action.stroke,
+    ];
+    final revision = Object.hash(
+      identityHashCode(actions),
+      activeStroke?.points.length ?? 0,
+    );
 
     return GestureDetector(
-      onPanStart: (d) =>
-          ref.read(drawingProvider.notifier).startStroke(d.localPosition),
-      onPanUpdate: (d) =>
-          ref.read(drawingProvider.notifier).updateStroke(d.localPosition),
-      onPanEnd: (_) => ref.read(drawingProvider.notifier).endStroke(),
+      onPanStart: currentTool == DrawingTool.fill
+          ? null
+          : (d) =>
+                ref.read(drawingProvider.notifier).startStroke(d.localPosition),
+      onPanUpdate: currentTool == DrawingTool.fill
+          ? null
+          : (d) => ref
+                .read(drawingProvider.notifier)
+                .updateStroke(d.localPosition),
+      onPanEnd: currentTool == DrawingTool.fill
+          ? null
+          : (_) => ref.read(drawingProvider.notifier).endStroke(),
       child: RepaintBoundary(
         key: canvasKey,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(16),
           child: CustomPaint(
             painter: _DrawingPainter(
-              strokes: drawingState.strokes,
-              activeStroke: drawingState.activeStroke,
+              strokes: strokes,
+              activeStroke: activeStroke,
+              revision: revision,
             ),
             child: const SizedBox.expand(),
           ),
@@ -45,10 +66,15 @@ class DrawingCanvas extends ConsumerWidget {
 // ---------------------------------------------------------------------------
 
 class _DrawingPainter extends CustomPainter {
-  _DrawingPainter({required this.strokes, this.activeStroke});
+  _DrawingPainter({
+    required this.strokes,
+    required this.revision,
+    this.activeStroke,
+  });
 
   final List<Stroke> strokes;
   final Stroke? activeStroke;
+  final int revision;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -64,7 +90,6 @@ class _DrawingPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _DrawingPainter old) {
-    return old.activeStroke != activeStroke ||
-        old.strokes.length != strokes.length;
+    return old.revision != revision;
   }
 }

@@ -46,6 +46,13 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.menu_book_rounded, size: 22),
+            tooltip: 'My Recipe Book',
+            onPressed: () => context.push('/recipe-album'),
+          ),
+        ],
       ),
       body: SafeArea(
         child: Padding(
@@ -54,7 +61,8 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
             children: [
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   gradient: LinearGradient(
@@ -67,12 +75,20 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
                     end: Alignment.bottomRight,
                   ),
                 ),
-                child: Text(
-                  'Choose a recipe story and cook step by step with simple actions.',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w700,
+                child: Row(
+                  children: [
+                    const Text('\u{1F468}\u{200D}\u{1F373}',
+                        style: TextStyle(fontSize: 32)),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        'Choose a recipe story and cook step by step!',
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              fontWeight: FontWeight.w700,
+                            ),
                       ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 12),
@@ -118,12 +134,13 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
                         crossAxisCount: 2,
                         crossAxisSpacing: 12,
                         mainAxisSpacing: 12,
-                        childAspectRatio: 0.8,
+                        childAspectRatio: 0.75,
                       ),
                       itemBuilder: (context, index) {
                         final recipe = recipes[index];
                         return _RecipeCard(
                           recipe: recipe,
+                          index: index,
                           onTap: () => context.push(
                             '/recipe-story/${widget.countryId}/${recipe.id}?source=${widget.source}',
                           ),
@@ -149,87 +166,231 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
   }
 }
 
-class _RecipeCard extends StatelessWidget {
+class _RecipeCard extends StatefulWidget {
   const _RecipeCard({
     required this.recipe,
+    required this.index,
     required this.onTap,
   });
 
   final RecipeStory recipe;
+  final int index;
   final VoidCallback onTap;
 
   @override
+  State<_RecipeCard> createState() => _RecipeCardState();
+}
+
+class _RecipeCardState extends State<_RecipeCard>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _fadeIn;
+  late final Animation<Offset> _slideUp;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+    final delay = widget.index * 0.15;
+    final begin = delay.clamp(0.0, 0.6);
+    final curve = CurvedAnimation(
+      parent: _controller,
+      curve: Interval(begin, 1.0, curve: Curves.easeOutCubic),
+    );
+    _fadeIn = Tween<double>(begin: 0, end: 1).animate(curve);
+    _slideUp = Tween<Offset>(
+      begin: const Offset(0, 0.18),
+      end: Offset.zero,
+    ).animate(curve);
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: PWColors.navy.withValues(alpha: 0.12),
-              blurRadius: 14,
-              offset: const Offset(0, 5),
+    final diffColor = _difficultyColor(widget.recipe.safeDifficulty);
+
+    return FadeTransition(
+      opacity: _fadeIn,
+      child: SlideTransition(
+        position: _slideUp,
+        child: GestureDetector(
+          onTap: widget.onTap,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: PWColors.navy.withValues(alpha: 0.14),
+                  blurRadius: 16,
+                  offset: const Offset(0, 6),
+                ),
+              ],
+              border: Border.all(
+                color: diffColor.withValues(alpha: 0.3),
+                width: 2,
+              ),
             ),
-          ],
-          border: Border.all(
-            color: PWColors.navy.withValues(alpha: 0.08),
-          ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              child: ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    final dpr = MediaQuery.of(context).devicePixelRatio;
-                    final cacheWidth = math
-                        .max(256, math.min(1024, (constraints.maxWidth * dpr).round()));
-                    return Image.asset(
-                      recipe.thumbnailAsset ?? recipe.imageAsset,
-                      fit: BoxFit.cover,
-                      cacheWidth: cacheWidth,
-                      filterQuality: FilterQuality.low,
-                      errorBuilder: (context, error, stackTrace) => Center(
-                        child: Text(
-                          recipe.emoji,
-                          style: const TextStyle(fontSize: 56),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(18)),
+                        child: LayoutBuilder(
+                          builder: (context, constraints) {
+                            final dpr = MediaQuery.of(context).devicePixelRatio;
+                            final cacheWidth = math.max(
+                                256,
+                                math.min(1024,
+                                    (constraints.maxWidth * dpr).round()));
+                            return Image.asset(
+                              widget.recipe.thumbnailAsset ??
+                                  widget.recipe.imageAsset,
+                              width: double.infinity,
+                              height: double.infinity,
+                              fit: BoxFit.cover,
+                              cacheWidth: cacheWidth,
+                              filterQuality: FilterQuality.low,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Container(
+                                color: diffColor.withValues(alpha: 0.1),
+                                child: Center(
+                                  child: Text(
+                                    widget.recipe.emoji,
+                                    style: const TextStyle(fontSize: 56),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       ),
-                    );
-                  },
+                      // Difficulty badge
+                      Positioned(
+                        top: 8,
+                        right: 8,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 5),
+                          decoration: BoxDecoration(
+                            color: diffColor,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: diffColor.withValues(alpha: 0.4),
+                                blurRadius: 6,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ...List.generate(
+                                widget.recipe.safeDifficulty,
+                                (_) => const Text('\u{2B50}',
+                                    style: TextStyle(fontSize: 10)),
+                              ),
+                              const SizedBox(width: 3),
+                              Text(
+                                widget.recipe.difficultyLabel,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      // Gradient overlay at bottom of image
+                      Positioned(
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        child: Container(
+                          height: 30,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Colors.white.withValues(alpha: 0),
+                                Colors.white.withValues(alpha: 0.8),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(10, 8, 10, 10),
-              child: Column(
-                children: [
-                  Text(
-                    recipe.title,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w800,
-                        ),
+                // Accent strip
+                Container(
+                  height: 4,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        diffColor.withValues(alpha: 0.6),
+                        diffColor,
+                        diffColor.withValues(alpha: 0.6),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    '${'★' * recipe.safeDifficulty} ${recipe.difficultyLabel}',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: PWColors.navy.withValues(alpha: 0.76),
-                          fontWeight: FontWeight.w700,
-                        ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 8, 10, 10),
+                  child: Column(
+                    children: [
+                      Text(
+                        '${widget.recipe.emoji} ${widget.recipe.title}',
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style:
+                            Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w800,
+                                ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        '${widget.recipe.steps.length} steps',
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: PWColors.navy.withValues(alpha: 0.6),
+                              fontWeight: FontWeight.w600,
+                            ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
+  }
+
+  Color _difficultyColor(int difficulty) {
+    return switch (difficulty) {
+      1 => PWColors.mint,
+      2 => PWColors.yellow,
+      _ => PWColors.coral,
+    };
   }
 }

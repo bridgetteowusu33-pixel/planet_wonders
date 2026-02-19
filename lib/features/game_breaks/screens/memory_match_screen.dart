@@ -105,25 +105,44 @@ class _MemoryMatchScreenState extends ConsumerState<MemoryMatchScreen> {
               Expanded(
                 child: state.cards.isEmpty
                     ? const Center(child: CircularProgressIndicator())
-                    : GridView.count(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 14,
-                        crossAxisSpacing: 14,
-                        childAspectRatio: 0.85,
-                        physics: const NeverScrollableScrollPhysics(),
-                        children: [
-                          for (final card in state.cards)
-                            FlipCard(
-                              card: card,
-                              isRevealed:
-                                  state.revealedIds.contains(card.id),
-                              isMatched:
-                                  state.matchedPairIds.contains(card.pairId),
-                              onTap: () => ref
-                                  .read(memoryMatchProvider.notifier)
-                                  .flipCard(card.id),
-                            ),
-                        ],
+                    : LayoutBuilder(
+                        builder: (context, constraints) {
+                          // Use 4 columns on wide screens, 2 on phones.
+                          final cols =
+                              constraints.maxWidth >= 500 ? 4 : 2;
+                          final rows =
+                              (state.cards.length / cols).ceil();
+                          const spacing = 14.0;
+                          final availW =
+                              constraints.maxWidth - (cols - 1) * spacing;
+                          final availH =
+                              constraints.maxHeight - (rows - 1) * spacing;
+                          final cellW = availW / cols;
+                          final cellH = availH / rows;
+                          final aspect =
+                              (cellH > 0) ? (cellW / cellH) : 0.85;
+
+                          return GridView.count(
+                            crossAxisCount: cols,
+                            mainAxisSpacing: spacing,
+                            crossAxisSpacing: spacing,
+                            childAspectRatio: aspect,
+                            physics: const NeverScrollableScrollPhysics(),
+                            children: [
+                              for (final card in state.cards)
+                                FlipCard(
+                                  card: card,
+                                  isRevealed:
+                                      state.revealedIds.contains(card.id),
+                                  isMatched: state.matchedPairIds
+                                      .contains(card.pairId),
+                                  onTap: () => ref
+                                      .read(memoryMatchProvider.notifier)
+                                      .flipCard(card.id),
+                                ),
+                            ],
+                          );
+                        },
                       ),
               ),
 

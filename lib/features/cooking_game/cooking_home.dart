@@ -35,7 +35,7 @@ class CookingHubScreen extends StatelessWidget {
         elevation: 0,
       ),
       body: SafeArea(
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             children: [
@@ -82,31 +82,24 @@ class CookingHubScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 14),
-              Expanded(
-                child: GridView.count(
-                  crossAxisCount: 1,
-                  childAspectRatio: 1.45,
-                  mainAxisSpacing: 12,
-                  children: [
-                    _ModeCard(
-                      color: const Color(0xFFFF9800),
-                      emoji: '\u{1F373}', // 🍳
-                      title: 'Free Cooking',
-                      subtitle: 'Sandbox-style mini-game play',
-                      actionLabel: 'Play Free Cook',
-                      onTap: () => _openFreeCooking(context),
-                    ),
-                    _ModeCard(
-                      color: const Color(0xFF8E24AA),
-                      emoji: '\u{1F4D6}', // 📖
-                      title: 'Recipe Stories',
-                      subtitle: 'Guided cultural food story mode',
-                      actionLabel: 'Open Recipe Story',
-                      onTap: () => _openRecipeStory(context),
-                    ),
-                  ],
-                ),
+              _ModeCard(
+                color: const Color(0xFFFF9800),
+                emoji: '\u{1F373}', // 🍳
+                title: 'Free Cooking',
+                subtitle: 'Sandbox-style mini-game play',
+                actionLabel: 'Play Free Cook',
+                onTap: () => _openFreeCooking(context),
               ),
+              const SizedBox(height: 12),
+              _ModeCard(
+                color: const Color(0xFF8E24AA),
+                emoji: '\u{1F4D6}', // 📖
+                title: 'Recipe Stories',
+                subtitle: 'Guided cultural food story mode',
+                actionLabel: 'Open Recipe Story',
+                onTap: () => _openRecipeStory(context),
+              ),
+              const SizedBox(height: 16),
             ],
           ),
         ),
