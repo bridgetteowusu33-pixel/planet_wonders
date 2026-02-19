@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import '../../../../core/motion/motion_settings_provider.dart';
 import '../../engine/recipe_engine.dart';
 
 /// Animated scene background that changes color based on the
@@ -23,14 +24,17 @@ class SceneBackground extends StatefulWidget {
 class _SceneBackgroundState extends State<SceneBackground>
     with SingleTickerProviderStateMixin {
   late final AnimationController _particleController;
+  late final bool _reduceMotion;
 
   @override
   void initState() {
     super.initState();
+    _reduceMotion = MotionUtil.isReducedFromContext(context);
     _particleController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 6000),
-    )..repeat();
+    );
+    if (!_reduceMotion) _particleController.repeat();
   }
 
   @override
@@ -43,7 +47,9 @@ class _SceneBackgroundState extends State<SceneBackground>
   Widget build(BuildContext context) {
     return RepaintBoundary(
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 500),
+        duration: _reduceMotion
+            ? const Duration(milliseconds: 120)
+            : const Duration(milliseconds: 500),
         curve: Curves.easeInOut,
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -60,15 +66,16 @@ class _SceneBackgroundState extends State<SceneBackground>
           borderRadius: BorderRadius.circular(20),
           child: Stack(
             children: [
-              // Floating particles for ambience
-              ...List.generate(
-                6,
-                (i) => _FloatingParticle(
-                  controller: _particleController,
-                  index: i,
-                  accentColor: Color(widget.sceneColors.accent),
+              // Floating particles for ambience (skip when reduced)
+              if (!_reduceMotion)
+                ...List.generate(
+                  6,
+                  (i) => _FloatingParticle(
+                    controller: _particleController,
+                    index: i,
+                    accentColor: Color(widget.sceneColors.accent),
+                  ),
                 ),
-              ),
               if (widget.child != null) widget.child!,
             ],
           ),

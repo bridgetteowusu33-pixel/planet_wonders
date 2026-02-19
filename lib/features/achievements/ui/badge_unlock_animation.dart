@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/motion/motion_settings_provider.dart';
 import '../../../core/theme/pw_theme.dart';
 import '../models/achievement.dart';
 import '../providers/achievement_provider.dart';
@@ -62,21 +63,32 @@ class _BadgeUnlockAnimationListenerState
   }
 }
 
-class BadgeUnlockAnimation extends StatefulWidget {
+class BadgeUnlockAnimation extends ConsumerStatefulWidget {
   const BadgeUnlockAnimation({super.key, required this.achievement});
 
   final Achievement achievement;
 
   @override
-  State<BadgeUnlockAnimation> createState() => _BadgeUnlockAnimationState();
+  ConsumerState<BadgeUnlockAnimation> createState() =>
+      _BadgeUnlockAnimationState();
 }
 
-class _BadgeUnlockAnimationState extends State<BadgeUnlockAnimation>
+class _BadgeUnlockAnimationState extends ConsumerState<BadgeUnlockAnimation>
     with SingleTickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 2200),
-  )..forward();
+  late final bool _reduceMotion;
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _reduceMotion = ref.read(motionSettingsProvider).reduceMotionEffective;
+    _controller = AnimationController(
+      vsync: this,
+      duration: _reduceMotion
+          ? const Duration(milliseconds: 150)
+          : const Duration(milliseconds: 2200),
+    )..forward();
+  }
 
   @override
   void dispose() {
@@ -86,6 +98,19 @@ class _BadgeUnlockAnimationState extends State<BadgeUnlockAnimation>
 
   @override
   Widget build(BuildContext context) {
+    // Reduced: simple fade-in, no confetti.
+    if (_reduceMotion) {
+      return AnimatedBuilder(
+        animation: _controller,
+        builder: (context, _) {
+          return Opacity(
+            opacity: _controller.value.clamp(0.0, 1.0),
+            child: Center(child: _badgeCard()),
+          );
+        },
+      );
+    }
+
     final fade = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
 
     final pop =
@@ -125,64 +150,7 @@ class _BadgeUnlockAnimationState extends State<BadgeUnlockAnimation>
                   opacity: fade,
                   child: ScaleTransition(
                     scale: pop,
-                    child: Container(
-                      width: 300,
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: PWColors.yellow.withValues(alpha: 0.5),
-                            blurRadius: 24,
-                            spreadRadius: 2,
-                          ),
-                        ],
-                        border: Border.all(
-                          color: PWColors.yellow.withValues(alpha: 0.8),
-                          width: 2.4,
-                        ),
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(16),
-                            child: Image.asset(
-                              widget.achievement.iconPath,
-                              width: 86,
-                              height: 86,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) =>
-                                  const Icon(
-                                    Icons.emoji_events_rounded,
-                                    color: PWColors.yellow,
-                                    size: 58,
-                                  ),
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          const Text(
-                            'Badge Unlocked!',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w800,
-                              color: PWColors.navy,
-                            ),
-                          ),
-                          const SizedBox(height: 6),
-                          Text(
-                            widget.achievement.title,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: PWColors.navy,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    child: _badgeCard(),
                   ),
                 ),
               ),
@@ -190,6 +158,67 @@ class _BadgeUnlockAnimationState extends State<BadgeUnlockAnimation>
           ),
         );
       },
+    );
+  }
+
+  Widget _badgeCard() {
+    return Container(
+      width: 300,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: PWColors.yellow.withValues(alpha: 0.5),
+            blurRadius: 24,
+            spreadRadius: 2,
+          ),
+        ],
+        border: Border.all(
+          color: PWColors.yellow.withValues(alpha: 0.8),
+          width: 2.4,
+        ),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: Image.asset(
+              widget.achievement.iconPath,
+              width: 86,
+              height: 86,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) =>
+                  const Icon(
+                    Icons.emoji_events_rounded,
+                    color: PWColors.yellow,
+                    size: 58,
+                  ),
+            ),
+          ),
+          const SizedBox(height: 10),
+          const Text(
+            'Badge Unlocked!',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w800,
+              color: PWColors.navy,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            widget.achievement.title,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              color: PWColors.navy,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -7,6 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../coloring/palette_bar.dart';
 import '../../core/services/gallery_service.dart';
 import '../../core/theme/pw_theme.dart';
+import '../learning_report/models/learning_stats.dart';
+import '../learning_report/providers/learning_stats_provider.dart';
 import 'widgets/brush_size_selector.dart';
 import 'widgets/drawing_canvas.dart';
 import 'widgets/drawing_toolbar.dart';
@@ -41,6 +43,17 @@ class _DrawingScreenState extends ConsumerState<DrawingScreen> {
       if (byteData == null) return;
 
       await GalleryService.saveDrawing(byteData.buffer.asUint8List());
+
+      ref.read(learningStatsProvider.notifier).logActivity(
+        ActivityLogEntry(
+          id: '${DateTime.now().millisecondsSinceEpoch}',
+          type: ActivityType.drawing,
+          label: 'Saved a drawing',
+          countryId: '',
+          timestamp: DateTime.now(),
+          emoji: '\u{1F3A8}',
+        ),
+      );
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

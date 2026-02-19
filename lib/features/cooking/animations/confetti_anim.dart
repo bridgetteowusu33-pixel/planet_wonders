@@ -2,6 +2,8 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import '../../../core/motion/motion_settings_provider.dart';
+
 class ConfettiAnim extends StatefulWidget {
   const ConfettiAnim({super.key, required this.playTick});
 
@@ -28,6 +30,8 @@ class _ConfettiAnimState extends State<ConfettiAnim>
   void didUpdateWidget(covariant ConfettiAnim oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.playTick != oldWidget.playTick) {
+      // Skip confetti animation when reduce motion is active.
+      if (MotionUtil.isReducedFromContext(context)) return;
       _controller
         ..reset()
         ..forward();

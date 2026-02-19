@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../achievements/providers/achievement_provider.dart';
+import '../learning_report/models/learning_stats.dart';
+import '../learning_report/providers/learning_stats_provider.dart';
 import '../cooking/data/ghana_recipes.dart';
 import '../cooking/models/badge.dart';
 import '../cooking/models/ingredient.dart' as upgraded;
@@ -45,6 +47,17 @@ class CookingGameScreen extends ConsumerWidget {
               countryId: countryId,
               recipeId: recipe.id,
             );
+
+        ref.read(learningStatsProvider.notifier).logActivity(
+          ActivityLogEntry(
+            id: '${DateTime.now().millisecondsSinceEpoch}',
+            type: ActivityType.cooking,
+            label: 'Cooked ${recipe.name}',
+            countryId: countryId,
+            timestamp: DateTime.now(),
+            emoji: '\u{1F373}',
+          ),
+        );
 
         if (!context.mounted) return;
         final perfectChef = score.perfectChef;

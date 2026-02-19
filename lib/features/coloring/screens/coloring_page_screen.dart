@@ -11,6 +11,8 @@ import '../../../core/services/gallery_service.dart';
 import '../../../core/theme/pw_theme.dart';
 import '../../../coloring/palette_bar.dart';
 import '../../game_breaks/providers/game_break_settings_provider.dart';
+import '../../learning_report/models/learning_stats.dart';
+import '../../learning_report/providers/learning_stats_provider.dart';
 import '../../game_breaks/widgets/game_break_prompt.dart';
 import '../data/coloring_data.dart';
 import '../controllers/coloring_save_controller.dart';
@@ -310,6 +312,18 @@ class _ColoringPageScreenState extends ConsumerState<ColoringPageScreen>
       if (byteData == null) return;
 
       await GalleryService.saveDrawing(byteData.buffer.asUint8List());
+
+      final logPage = findColoringPage(widget.countryId, widget.pageId);
+      ref.read(learningStatsProvider.notifier).logActivity(
+        ActivityLogEntry(
+          id: '${DateTime.now().millisecondsSinceEpoch}',
+          type: ActivityType.coloring,
+          label: 'Colored ${logPage?.title ?? widget.pageId}',
+          countryId: widget.countryId,
+          timestamp: DateTime.now(),
+          emoji: '\u{1F58D}\u{FE0F}',
+        ),
+      );
 
       if (mounted) await _showCelebration();
     } catch (_) {

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 
+import 'core/motion/motion_settings_provider.dart';
 import 'core/theme/pw_theme.dart';
+import 'core/theme/theme_provider.dart';
 import 'features/achievements/ui/achievement_tracker.dart';
 import 'features/creative_studio/canvas_screen.dart';
 import 'features/creative_studio/creative_studio_home.dart';
@@ -42,6 +46,10 @@ import 'features/stories/screens/story_screen.dart';
 import 'features/world_explorer/screens/continent_screen.dart';
 import 'features/world_explorer/screens/country_hub_screen.dart';
 import 'features/game_breaks/screens/memory_match_screen.dart';
+import 'features/learning_report/screens/learning_report_screen.dart';
+import 'features/screen_time/lock/lock_overlay.dart';
+import 'features/screen_time/providers/usage_tracker_provider.dart';
+import 'features/screen_time/screens/screen_time_screen.dart';
 import 'features/world_explorer/screens/world_explorer_screen.dart';
 
 CreativeEntryMode _creativeModeFromQuery(String? raw) {
@@ -68,10 +76,49 @@ TraceDifficulty _traceDifficultyFromQuery(String? raw) {
   }
 }
 
-class PlanetWondersApp extends StatelessWidget {
-  PlanetWondersApp({super.key});
+class PlanetWondersApp extends ConsumerStatefulWidget {
+  const PlanetWondersApp({super.key});
 
-  final GoRouter _router = GoRouter(
+  @override
+  ConsumerState<PlanetWondersApp> createState() => _PlanetWondersAppState();
+}
+
+class _PlanetWondersAppState extends ConsumerState<PlanetWondersApp>
+    with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      // Refresh bedtime window on resume (covers timezone changes too).
+      ref.read(bedtimeProvider.notifier).onAppResumed();
+      ref.read(usageTrackerProvider.notifier).onAppResumed();
+    } else if (state == AppLifecycleState.paused) {
+      ref.read(usageTrackerProvider.notifier).onAppPaused();
+    }
+  }
+
+  @override
+  void didChangeAccessibilityFeatures() {
+    // Pick up system reduce-motion changes.
+    final view = WidgetsBinding.instance.platformDispatcher.views.first;
+    final mq = MediaQueryData.fromView(view);
+    ref
+        .read(motionSettingsProvider.notifier)
+        .updateSystemReduceMotion(mq.disableAnimations);
+  }
+
+  late final GoRouter _router = GoRouter(
     routes: [
       // Full-screen routes (no bottom nav)
       GoRoute(
@@ -228,6 +275,10 @@ class PlanetWondersApp extends StatelessWidget {
             MemoryMatchScreen(countryId: state.pathParameters['countryId']!),
       ),
       GoRoute(
+        path: '/reports',
+        builder: (context, state) => const LearningReportScreen(),
+      ),
+      GoRoute(
         path: '/cooking',
         builder: (context, state) {
           final source = state.uri.queryParameters['source'] ?? 'home';
@@ -286,6 +337,10 @@ class PlanetWondersApp extends StatelessWidget {
       GoRoute(
         path: '/achievements',
         builder: (context, state) => const AchievementTrackerScreen(),
+      ),
+      GoRoute(
+        path: '/screen-time',
+        builder: (context, state) => const ScreenTimeScreen(),
       ),
       GoRoute(
         path: '/games/:countryId',
@@ -362,6 +417,9 @@ class PlanetWondersApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final effectiveMode = ref.watch(effectiveThemeModeProvider);
+    final motionSettings = ref.watch(motionSettingsProvider);
+
     const showPerfOverlay = bool.fromEnvironment(
       'PW_SHOW_PERF_OVERLAY',
       defaultValue: false,
@@ -381,8 +439,29 @@ class PlanetWondersApp extends StatelessWidget {
       checkerboardRasterCacheImages: kDebugMode && showCheckerboardRasterCache,
       checkerboardOffscreenLayers:
           kDebugMode && showCheckerboardOffscreenLayers,
-      theme: planetWondersTheme(),
+      theme: planetWondersLightTheme(
+        reduceMotion: motionSettings.reduceMotionEffective,
+      ),
+      darkTheme: planetWondersDarkTheme(
+        reduceMotion: motionSettings.reduceMotionEffective,
+      ),
+      themeMode: effectiveMode,
       routerConfig: _router,
+      builder: (context, child) {
+        final tracker = ref.watch(usageTrackerProvider);
+        final showLock = tracker.isLocked || tracker.isBedtimeLocked;
+        if (!showLock) return child!;
+        return Stack(
+          children: [
+            child!,
+            LockOverlay(
+              reason: tracker.isBedtimeLocked
+                  ? LockReason.bedtime
+                  : LockReason.dailyLimit,
+            ),
+          ],
+        );
+      },
     );
   }
 }
@@ -395,6 +474,8 @@ class _Shell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
+      backgroundColor: Colors.transparent,
       body: RepaintBoundary(child: navigationShell),
       bottomNavigationBar: SafeArea(
         top: false,
@@ -493,19 +574,18 @@ class _StickerBottomNav extends StatelessWidget {
           return Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 3),
-              child: Material(
-                color: Colors.transparent,
-                borderRadius: BorderRadius.circular(24),
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(24),
-                  onTap: () => onDestinationSelected(index),
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 120),
-                    curve: Curves.easeOutCubic,
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 4,
-                      horizontal: 4,
-                    ),
+              child: GestureDetector(
+                onTap: () => onDestinationSelected(index),
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 120),
+                  curve: Curves.easeOutCubic,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(24),
+                    // Dark edge underneath for 3D depth
+                    color: Color.lerp(bottom, Colors.black, 0.35),
+                  ),
+                  padding: const EdgeInsets.only(bottom: 3),
+                  child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(24),
                       gradient: LinearGradient(
@@ -514,51 +594,80 @@ class _StickerBottomNav extends StatelessWidget {
                         colors: [top, bottom],
                       ),
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
+                    child: Stack(
                       children: [
-                        SizedBox(
-                          width: 72,
-                          height: 72,
-                          child: tab.iconAsset != null
-                              ? Image.asset(
-                                  tab.iconAsset!,
-                                  fit: BoxFit.contain,
-                                  cacheWidth: iconCacheSize,
-                                  cacheHeight: iconCacheSize,
-                                  filterQuality: FilterQuality.low,
-                                  errorBuilder: (context, error, stackTrace) =>
-                                      Icon(
+                        // Top shine highlight
+                        Positioned(
+                          left: 5,
+                          right: 5,
+                          top: 5,
+                          child: Container(
+                            height: 16,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.white.withValues(alpha: 0.40),
+                                  Colors.white.withValues(alpha: 0.0),
+                                ],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                              ),
+                            ),
+                          ),
+                        ),
+                        // Content
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 4,
+                            horizontal: 4,
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SizedBox(
+                                width: 72,
+                                height: 72,
+                                child: tab.iconAsset != null
+                                    ? Image.asset(
+                                        tab.iconAsset!,
+                                        fit: BoxFit.contain,
+                                        cacheWidth: iconCacheSize,
+                                        cacheHeight: iconCacheSize,
+                                        filterQuality: FilterQuality.low,
+                                        errorBuilder:
+                                            (context, error, stackTrace) =>
+                                                Icon(
+                                                  tab.icon,
+                                                  color: Colors.white,
+                                                  size: 52,
+                                                ),
+                                      )
+                                    : Icon(
                                         tab.icon,
                                         color: Colors.white,
                                         size: 52,
                                       ),
-                                )
-                              : Icon(tab.icon, color: Colors.white, size: 52),
-                        ),
-                        const SizedBox(height: 2),
-                        SizedBox(
-                          width: double.infinity,
-                          child: Text(
-                            tab.label,
-                            textAlign: TextAlign.center,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 11,
-                              fontWeight: FontWeight.w800,
-                              height: 1.05,
-                              shadows: [
-                                Shadow(
-                                  color: Colors.black.withValues(alpha: 0.35),
-                                  blurRadius: 1.5,
-                                  offset: const Offset(0, 1),
+                              ),
+                              const SizedBox(height: 2),
+                              SizedBox(
+                                width: double.infinity,
+                                child: Text(
+                                  tab.label,
+                                  textAlign: TextAlign.center,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: GoogleFonts.fredoka(
+                                    color: Colors.white,
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w700,
+                                    height: 1.05,
+                                  ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ],

@@ -6,6 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/pw_theme.dart';
 import '../../achievements/providers/achievement_provider.dart';
+import '../../learning_report/models/learning_stats.dart';
+import '../../learning_report/providers/learning_stats_provider.dart';
 import '../../achievements/ui/badge_unlock_animation.dart';
 import '../data/recipe_story_repository.dart';
 import '../domain/character_expression.dart';
@@ -268,6 +270,16 @@ class _RecipeStoryBodyState extends ConsumerState<_RecipeStoryBody> {
               countryId: widget.countryId,
               recipeId: widget.recipe.id,
             );
+        ref.read(learningStatsProvider.notifier).logActivity(
+          ActivityLogEntry(
+            id: '${DateTime.now().millisecondsSinceEpoch}',
+            type: ActivityType.story,
+            label: 'Completed ${widget.recipe.title}',
+            countryId: widget.countryId,
+            timestamp: DateTime.now(),
+            emoji: '\u{1F4D6}',
+          ),
+        );
       });
     }
   }

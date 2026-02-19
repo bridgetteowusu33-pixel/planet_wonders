@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: () => context.push('/coloring'),
       ),
       _HomeStickerConfig(
-        title: 'Start Drawing',
+        title: 'Creative Studio',
         iconAsset: 'assets/icons/palette.png',
         fallbackEmoji: '🎨',
         gradientTop: const Color(0xFFFF7656),
@@ -133,17 +133,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Text(
                                   'What would you like to explore today?',
                                   textAlign: TextAlign.center,
-                                  style: GoogleFonts.baloo2(
+                                  style: GoogleFonts.fredoka(
                                     fontSize: isTablet ? 30 : 24,
                                     fontWeight: FontWeight.w800,
                                     color: const Color(0xFF1F3A83),
-                                    shadows: const [
-                                      Shadow(
-                                        color: Colors.white,
-                                        offset: Offset(0, 2),
-                                        blurRadius: 8,
-                                      ),
-                                    ],
                                   ),
                                 ),
                                 const SizedBox(height: 10),
@@ -274,7 +267,7 @@ class _HomeLogo extends StatelessWidget {
         cacheHeight: cacheHeight,
         filterQuality: FilterQuality.low,
         errorBuilder: (context, error, stackTrace) {
-          final style = GoogleFonts.baloo2(
+          final style = GoogleFonts.fredoka(
             fontSize: isTablet ? 44 : 34,
             fontWeight: FontWeight.w800,
           );
@@ -306,57 +299,48 @@ class _HomeStickerButton extends StatelessWidget {
         .clamp(1, 512)
         .toInt();
 
-    final labelStyle = GoogleFonts.baloo2(
+    final labelStyle = GoogleFonts.fredoka(
       fontSize: isTablet ? 18 : 13,
       fontWeight: FontWeight.w800,
       color: Colors.white,
       height: 1.1,
-      shadows: const [
-        Shadow(color: Color(0x99000000), offset: Offset(0, 2), blurRadius: 2),
-      ],
     );
 
-    return Material(
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(28),
-      child: InkWell(
-        onTap: config.onTap,
-        borderRadius: BorderRadius.circular(28),
-        splashColor: Colors.white.withValues(alpha: 0.20),
-        child: Ink(
+    const radius = BorderRadius.all(Radius.circular(28));
+
+    return GestureDetector(
+      onTap: config.onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: radius,
+          // Dark edge underneath for 3D depth
+          color: Color.lerp(config.gradientBottom, Colors.black, 0.35),
+        ),
+        padding: const EdgeInsets.only(bottom: 4),
+        child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(28),
+            borderRadius: radius,
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [config.gradientTop, config.gradientBottom],
             ),
-            border: Border.all(
-              color: Colors.white.withValues(alpha: 0.94),
-              width: 3,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0xFF14366F).withValues(alpha: 0.30),
-                blurRadius: 12,
-                offset: const Offset(0, 6),
-              ),
-            ],
           ),
           child: Stack(
             children: [
+              // Top shine highlight
               Positioned(
-                left: 8,
-                right: 8,
-                top: 8,
+                left: 6,
+                right: 6,
+                top: 6,
                 child: Container(
-                  height: isTablet ? 34 : 24,
+                  height: isTablet ? 30 : 22,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(18),
+                    borderRadius: BorderRadius.circular(16),
                     gradient: LinearGradient(
                       colors: [
-                        Colors.white.withValues(alpha: 0.34),
-                        Colors.white.withValues(alpha: 0.02),
+                        Colors.white.withValues(alpha: 0.45),
+                        Colors.white.withValues(alpha: 0.0),
                       ],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
@@ -364,24 +348,9 @@ class _HomeStickerButton extends StatelessWidget {
                   ),
                 ),
               ),
-              const Positioned(
-                left: 12,
-                top: 16,
-                child: Text(
-                  '✦',
-                  style: TextStyle(fontSize: 10, color: Colors.white70),
-                ),
-              ),
-              Positioned(
-                right: 14,
-                top: isTablet ? 28 : 22,
-                child: const Text(
-                  '✦',
-                  style: TextStyle(fontSize: 9, color: Colors.white70),
-                ),
-              ),
+              // Content
               Padding(
-                padding: const EdgeInsets.fromLTRB(4, 2, 4, 3),
+                padding: const EdgeInsets.fromLTRB(2, 0, 2, 2),
                 child: Column(
                   children: [
                     Expanded(
@@ -403,7 +372,7 @@ class _HomeStickerButton extends StatelessWidget {
                     ),
                     SizedBox(
                       width: double.infinity,
-                      height: isTablet ? 44 : 34,
+                      height: isTablet ? 36 : 26,
                       child: Center(
                         child: Text(
                           config.title,
@@ -454,115 +423,144 @@ class _PassportCard extends StatelessWidget {
         .length;
     final badgesEarned = storyRegistry.length + coloringRegistry.length;
 
+    const radius = BorderRadius.all(Radius.circular(20));
+
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 12),
-      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFFFFF8E1),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: const Color(0xFFD4A84B).withValues(alpha: 0.5),
-          width: 2,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: PWColors.navy.withValues(alpha: 0.12),
-            blurRadius: 16,
-            offset: const Offset(0, 6),
-          ),
-        ],
+        borderRadius: radius,
+        // Dark edge underneath for 3D depth
+        color: const Color(0xFFCBA042).withValues(alpha: 0.45),
       ),
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
-            decoration: BoxDecoration(
-              color: const Color(0xFF3A7BD5),
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: Text(
-              'Planet Wonders Passport',
-              style: GoogleFonts.baloo2(
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-                color: Colors.white,
+      padding: const EdgeInsets.only(bottom: 4),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: const Color(0xFFFFF8E1).withValues(alpha: 0.45),
+          borderRadius: radius,
+        ),
+        child: Stack(
+          children: [
+            // Top shine highlight
+            Positioned(
+              left: 0,
+              right: 0,
+              top: 0,
+              child: Container(
+                height: 28,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(20),
+                  ),
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.white.withValues(alpha: 0.55),
+                      Colors.white.withValues(alpha: 0.0),
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 14),
-          Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+            // Content
+            Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF3A7BD5),
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: Text(
+                    'Planet Wonders Passport',
+                    style: GoogleFonts.fredoka(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 14),
+                Row(
                   children: [
-                    Text(
-                      'Explorer: Ava',
-                      style: GoogleFonts.nunito(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w800,
-                        color: PWColors.navy,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Explorer: Ava',
+                            style: GoogleFonts.nunito(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w800,
+                              color: PWThemeColors.of(context).textPrimary,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.check_circle,
+                                size: 18,
+                                color: Color(0xFF4CAF50),
+                              ),
+                              const SizedBox(width: 6),
+                              Text(
+                                'Countries Explored: $countriesExplored',
+                                style: GoogleFonts.nunito(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w700,
+                                  color: PWThemeColors.of(context).textPrimary,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 6),
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.circle,
+                                size: 18,
+                                color: Color(0xFFFF9800),
+                              ),
+                              const SizedBox(width: 6),
+                              Text(
+                                'Badges Earned · $badgesEarned',
+                                style: GoogleFonts.nunito(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w700,
+                                  color: PWThemeColors.of(context).textPrimary,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.check_circle,
-                          size: 18,
-                          color: Color(0xFF4CAF50),
+                    Container(
+                      width: 72,
+                      height: 72,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: const Color(0xFF4CAF50).withValues(alpha: 0.15),
+                        border: Border.all(
+                          color: const Color(0xFF4CAF50).withValues(alpha: 0.3),
+                          width: 2,
                         ),
-                        const SizedBox(width: 6),
-                        Text(
-                          'Countries Explored: $countriesExplored',
-                          style: GoogleFonts.nunito(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w700,
-                            color: PWColors.navy,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 6),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.circle,
-                          size: 18,
-                          color: Color(0xFFFF9800),
-                        ),
-                        const SizedBox(width: 6),
-                        Text(
-                          'Badges Earned · $badgesEarned',
-                          style: GoogleFonts.nunito(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w700,
-                            color: PWColors.navy,
-                          ),
-                        ),
-                      ],
+                      ),
+                      child: const Center(
+                        child: Text('🌍', style: TextStyle(fontSize: 40)),
+                      ),
                     ),
                   ],
                 ),
-              ),
-              Container(
-                width: 72,
-                height: 72,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: const Color(0xFF4CAF50).withValues(alpha: 0.15),
-                  border: Border.all(
-                    color: const Color(0xFF4CAF50).withValues(alpha: 0.3),
-                    width: 2,
-                  ),
-                ),
-                child: const Center(
-                  child: Text('🌍', style: TextStyle(fontSize: 40)),
-                ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
