@@ -83,8 +83,18 @@ class _ColoringPageScreenState extends ConsumerState<ColoringPageScreen>
       drawingProvider,
       _onDrawingStateChanged,
     );
-    _loadOutlineIfNeeded();
     _scheduleRestoreProgressForCurrentPage();
+  }
+
+  bool _outlineLoadStarted = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_outlineLoadStarted) {
+      _outlineLoadStarted = true;
+      _loadOutlineIfNeeded();
+    }
   }
 
   @override
@@ -263,7 +273,8 @@ class _ColoringPageScreenState extends ConsumerState<ColoringPageScreen>
             painter: _resolvedPainter!,
           );
         }
-      } catch (_) {
+      } catch (e, st) {
+        debugPrint('Coloring outline load failed: $e\n$st');
         if (mounted) {
           setState(() {
             _imageError = 'Could not load outline image';
@@ -384,7 +395,7 @@ class _ColoringPageScreenState extends ConsumerState<ColoringPageScreen>
                         final cId = widget.countryId;
                         Navigator.of(context).pop(); // pop coloring screen
                         WidgetsBinding.instance.addPostFrameCallback((_) {
-                          context.push('/game-break/memory/$cId');
+                          context.push('/games/$cId/memory');
                         });
                       },
                       onDismiss: () {

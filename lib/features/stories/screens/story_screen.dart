@@ -109,7 +109,7 @@ class _StoryScreenState extends State<StoryScreen> {
     final isLastPage = _currentPage == story.pageCount - 1;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F6F0),
+      backgroundColor: Colors.transparent,
       body: SafeArea(
         child: Column(
           children: [

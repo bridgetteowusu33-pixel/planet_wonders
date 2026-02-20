@@ -254,10 +254,78 @@ const _ghanaFoodPack = FoodPack(
   ],
 );
 
+const _nigeriaFoodPack = FoodPack(
+  countryId: 'nigeria',
+  bannerEmoji: '\u{1F374}', // 🍴
+  dishes: [
+    FoodDish(
+      id: 'jollof',
+      name: 'Jollof Rice',
+      emoji: '\u{1F35B}', // 🍛
+      previewAsset: 'assets/food/nigeria/nigeria_jollof_chef.png',
+      coloringPageId: 'jollof',
+      funFact: 'Nigerian jollof rice is famous for its smoky flavour.',
+      didYouKnow: [
+        'Party jollof cooked over firewood is the most popular.',
+        'There is a fun rivalry between Nigerian and Ghanaian jollof!',
+      ],
+    ),
+    FoodDish(
+      id: 'suya',
+      name: 'Suya',
+      emoji: '\u{1F356}', // 🍖
+      previewAsset: 'assets/food/nigeria/nigeria_suya_chef.png',
+      coloringPageId: 'suya',
+      funFact: 'Suya is spicy grilled meat sold on the streets.',
+      didYouKnow: [
+        'Suya sellers come out in the evening with their grills.',
+        'The special spice mix is called yaji and uses groundnuts.',
+      ],
+    ),
+    FoodDish(
+      id: 'pounded_yam',
+      name: 'Pounded Yam',
+      emoji: '\u{1F372}', // 🍲
+      previewAsset: 'assets/food/nigeria/nigeria_pounded_yam_chef.png',
+      coloringPageId: 'cooking',
+      funFact: 'Pounded yam is soft and stretchy, served with soup.',
+      didYouKnow: [
+        'Yam is so important in Nigeria there is a New Yam Festival!',
+        'Pounded yam is made by pounding boiled yam until smooth.',
+      ],
+    ),
+    FoodDish(
+      id: 'egusi',
+      name: 'Egusi Soup',
+      emoji: '\u{1F958}', // 🥘
+      previewAsset: 'assets/food/nigeria/nigeria_egusi_chef.png',
+      coloringPageId: 'cooking',
+      funFact: 'Egusi soup is made from ground melon seeds.',
+      didYouKnow: [
+        'Egusi soup is one of the most popular soups in Nigeria.',
+        'It is often eaten with pounded yam or fufu.',
+      ],
+    ),
+    FoodDish(
+      id: 'chin_chin',
+      name: 'Chin Chin',
+      emoji: '\u{1F36A}', // 🍪
+      previewAsset: 'assets/food/nigeria/nigeria_chin_chin_chef.png',
+      coloringPageId: 'cooking',
+      funFact: 'Chin chin is a crunchy fried snack loved by kids.',
+      didYouKnow: [
+        'Chin chin is especially popular during celebrations.',
+        'It comes in many shapes and can be sweet or spicy.',
+      ],
+    ),
+  ],
+);
+
 /// Country → Food pack registry.
 final Map<String, FoodPack> foodRegistry = {
   'ghana': _ghanaFoodPack,
   'usa': _usaFoodPack,
+  'nigeria': _nigeriaFoodPack,
 };
 
 FoodPack? findFoodPack(String countryId) => foodRegistry[countryId];

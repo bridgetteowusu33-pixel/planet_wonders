@@ -1,12 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme/pw_theme.dart';
-import '../../core/widgets/gradient_background.dart';
 import '../coloring/data/coloring_data.dart';
+import '../quiz/providers/quiz_providers.dart';
 import '../stories/data/story_data.dart';
 import '../world_explorer/data/world_data.dart';
 
@@ -103,147 +104,106 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
 
     return Scaffold(
-      body: Stack(
-        children: [
-          const _HomeScenicBackground(),
-          SafeArea(
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                final isTablet = constraints.maxWidth >= 900;
-                final contentMaxWidth = isTablet ? 980.0 : 760.0;
-                final horizontalPadding = isTablet ? 24.0 : 16.0;
+      backgroundColor: Colors.transparent,
+      body: SafeArea(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final isTablet = constraints.maxWidth >= 900;
+            final contentMaxWidth = isTablet ? 980.0 : 760.0;
+            final horizontalPadding = isTablet ? 24.0 : 16.0;
 
-                return Align(
-                  alignment: Alignment.topCenter,
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: contentMaxWidth),
-                    child: CustomScrollView(
-                      cacheExtent: 900,
-                      slivers: [
-                        SliverPadding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: horizontalPadding,
-                          ),
-                          sliver: SliverToBoxAdapter(
-                            child: Column(
-                              children: [
-                                const SizedBox(height: 8),
-                                _HomeLogo(isTablet: isTablet),
-                                const SizedBox(height: 4),
-                                Text(
-                                  'What would you like to explore today?',
-                                  textAlign: TextAlign.center,
-                                  style: GoogleFonts.fredoka(
-                                    fontSize: isTablet ? 30 : 24,
-                                    fontWeight: FontWeight.w800,
-                                    color: const Color(0xFF1F3A83),
-                                  ),
-                                ),
-                                const SizedBox(height: 10),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SliverPadding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: horizontalPadding,
-                          ),
-                          sliver: SliverGrid(
-                            delegate: SliverChildBuilderDelegate(
-                              (context, index) => RepaintBoundary(
-                                child: _HomeStickerButton(
-                                  config: actions[index],
-                                  isTablet: isTablet,
-                                ),
+            return Align(
+              alignment: Alignment.topCenter,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: contentMaxWidth),
+                child: CustomScrollView(
+                  cacheExtent: 900,
+                  slivers: [
+                    SliverPadding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: horizontalPadding,
+                      ),
+                      sliver: SliverToBoxAdapter(
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 8),
+                            _HomeLogo(isTablet: isTablet),
+                            const SizedBox(height: 4),
+                            Text(
+                              'What would you like to explore today?',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.fredoka(
+                                fontSize: isTablet ? 30 : 24,
+                                fontWeight: FontWeight.w800,
+                                color: const Color(0xFF1F3A83),
                               ),
-                              childCount: actions.length,
                             ),
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 3,
-                                  mainAxisSpacing: isTablet ? 16 : 12,
-                                  crossAxisSpacing: isTablet ? 16 : 12,
-                                  childAspectRatio: isTablet ? 1.20 : 1.10,
-                                ),
-                          ),
+                            const SizedBox(height: 10),
+                          ],
                         ),
-                        SliverPadding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: horizontalPadding,
-                          ),
-                          sliver: const SliverToBoxAdapter(
-                            child: SizedBox(height: 8),
-                          ),
-                        ),
-                        SliverPadding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: horizontalPadding,
-                          ),
-                          sliver: const SliverToBoxAdapter(
-                            child: RepaintBoundary(child: _PassportCard()),
-                          ),
-                        ),
-                        SliverPadding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: horizontalPadding,
-                          ),
-                          sliver: const SliverToBoxAdapter(
-                            child: SizedBox(height: 16),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _HomeScenicBackground extends StatelessWidget {
-  const _HomeScenicBackground();
-
-  @override
-  Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.maybeOf(context);
-    final cacheWidth = mediaQuery == null
-        ? null
-        : (mediaQuery.size.width * mediaQuery.devicePixelRatio)
-              .round()
-              .clamp(1, 4096)
-              .toInt();
-
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        Image.asset(
-          'assets/backgrounds/home_beach_bg.png',
-          fit: BoxFit.cover,
-          alignment: Alignment.center,
-          cacheWidth: cacheWidth,
-          filterQuality: FilterQuality.low,
-          errorBuilder: (context, error, stackTrace) {
-            return const GradientBackground(child: SizedBox.expand());
+                    SliverPadding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: horizontalPadding,
+                      ),
+                      sliver: SliverGrid(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) => RepaintBoundary(
+                            child: _HomeStickerButton(
+                              config: actions[index],
+                              isTablet: isTablet,
+                            ),
+                          ),
+                          childCount: actions.length,
+                        ),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          mainAxisSpacing: isTablet ? 16 : 12,
+                          crossAxisSpacing: isTablet ? 16 : 12,
+                          childAspectRatio: isTablet ? 1.20 : 1.10,
+                        ),
+                      ),
+                    ),
+                    SliverPadding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: horizontalPadding,
+                      ),
+                      sliver: const SliverToBoxAdapter(
+                        child: SizedBox(height: 8),
+                      ),
+                    ),
+                    SliverPadding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: horizontalPadding,
+                      ),
+                      sliver: const SliverToBoxAdapter(
+                        child: RepaintBoundary(child: _TodaysGuessCard()),
+                      ),
+                    ),
+                    SliverPadding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: horizontalPadding,
+                      ),
+                      sliver: const SliverToBoxAdapter(
+                        child: RepaintBoundary(child: _PassportCard()),
+                      ),
+                    ),
+                    SliverPadding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: horizontalPadding,
+                      ),
+                      sliver: const SliverToBoxAdapter(
+                        child: SizedBox(height: 16),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
           },
         ),
-        DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Colors.white.withValues(alpha: 0.14),
-                Colors.transparent,
-                Colors.black.withValues(alpha: 0.08),
-              ],
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
@@ -410,6 +370,101 @@ class _HomeStickerConfig {
   final Color gradientTop;
   final Color gradientBottom;
   final VoidCallback onTap;
+}
+
+class _TodaysGuessCard extends ConsumerWidget {
+  const _TodaysGuessCard();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final quizzesAsync = ref.watch(quizItemsProvider);
+
+    // Don't show anything while loading or on error.
+    final quizzes = quizzesAsync.value;
+    if (quizzes == null || quizzes.isEmpty) return const SizedBox.shrink();
+
+    // Refresh daily rotation (deferred to avoid modifying state during build).
+    Future(() {
+      ref.read(quizDailyProvider.notifier).refreshDaily(quizzes);
+    });
+
+    const radius = BorderRadius.all(Radius.circular(20));
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 4),
+      decoration: BoxDecoration(
+        borderRadius: radius,
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            PWColors.coral.withValues(alpha: 0.12),
+            PWColors.yellow.withValues(alpha: 0.10),
+          ],
+        ),
+        border: Border.all(color: PWColors.coral.withValues(alpha: 0.2)),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: radius,
+        child: InkWell(
+          borderRadius: radius,
+          onTap: () => context.push('/quiz?daily=true'),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+            child: Row(
+              children: [
+                const Text('\u{2B50}', style: TextStyle(fontSize: 30)),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Guess & Learn',
+                        style: GoogleFonts.fredoka(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w700,
+                          color: PWColors.navy,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        "Today's Challenge",
+                        style: GoogleFonts.nunito(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: PWColors.navy.withValues(alpha: 0.55),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    color: PWColors.coral,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    'Start',
+                    style: GoogleFonts.fredoka(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class _PassportCard extends StatelessWidget {

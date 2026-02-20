@@ -49,7 +49,7 @@ class _StoryCompleteScreenState extends ConsumerState<StoryCompleteScreen> {
       gameName: 'Memory Match',
       gameEmoji: '\u{1F0CF}', // 🃏
       onPlay: () {
-        context.push('/game-break/memory/${widget.countryId}');
+        context.push('/games/${widget.countryId}/memory');
       },
       onDismiss: () {
         // Stay on celebration screen — kid can still use passport / go home.
@@ -66,7 +66,7 @@ class _StoryCompleteScreenState extends ConsumerState<StoryCompleteScreen> {
     final stickers = _stickersFor(widget.countryId);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F6F0),
+      backgroundColor: Colors.transparent,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -216,6 +216,11 @@ List<(String, String)> _stickersFor(String countryId) {
       ('\u{1F680}', 'Rocket'), // 🚀
       ('\u{1F4DA}', 'Books'), // 📚
       ('\u{1F3D4}\u{FE0F}', 'Nature'), // 🏔️
+    ],
+    'nigeria' => [
+      ('\u{1F3AD}', 'Mask'), // 🎭
+      ('\u{1F941}', 'Drum'), // 🥁
+      ('\u{1F9F5}', 'Ankara'), // 🧵
     ],
     _ => [
       ('\u{2B50}', 'Star'), // ⭐

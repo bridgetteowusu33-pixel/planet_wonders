@@ -108,6 +108,18 @@ flutter:
     - assets/clothes/Ghana/beads/
     - assets/clothes/Ghana/shoes/
     - lib/features/recipe_story/data/ghana_recipes.json
+    - lib/features/recipe_story/data/nigeria_recipes.json
+    - assets/puzzles/
+    - assets/puzzles/ghana/full/
+    - assets/puzzles/ghana/thumbs/
+    - assets/puzzles/nigeria/full/
+    - assets/puzzles/nigeria/thumb/
+    - assets/sliding_puzzles/ghana/
+    - assets/sliding_puzzles/nigeria/
+    - assets/coloring/nigeria/
+    - assets/food/nigeria/
+    - assets/quiz/
+    - assets/audio/quiz/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

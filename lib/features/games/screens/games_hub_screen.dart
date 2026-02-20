@@ -5,6 +5,7 @@ import '../../../core/theme/pw_theme.dart';
 import '../../cooking_game/cooking_entry.dart';
 import '../../cooking_game/data/recipes_ghana.dart';
 import '../../world_explorer/data/world_data.dart';
+import '../widgets/game_card.dart';
 
 /// Country-level games hub.
 ///
@@ -68,14 +69,14 @@ class GamesHubScreen extends StatelessWidget {
                   mainAxisSpacing: 12,
                   childAspectRatio: 0.94,
                   children: [
-                    _GameCard(
+                    GameCard(
                       emoji: '\u{1F9E0}', // 🧠
                       title: 'Memory Match',
                       subtitle: 'Find matching cards',
                       color: PWColors.blue,
-                      onTap: () => context.push('/game-break/memory/$countryId'),
+                      onTap: () => context.push('/games/$countryId/memory'),
                     ),
-                    _GameCard(
+                    GameCard(
                       emoji: '\u{1F373}', // 🍳
                       title: 'Cooking',
                       subtitle: recipes.isEmpty
@@ -99,6 +100,29 @@ class GamesHubScreen extends StatelessWidget {
                         );
                       },
                     ),
+                    GameCard(
+                      emoji: '\u{1F9E9}', // 🧩
+                      title: 'Sliding Puzzle',
+                      subtitle: 'Slide tiles to solve',
+                      color: PWColors.coral,
+                      onTap: () =>
+                          context.push('/games/$countryId/puzzle'),
+                    ),
+                    GameCard(
+                      emoji: '\u{1F9E9}', // 🧩
+                      title: 'Jigsaw Puzzles',
+                      subtitle: 'Build pictures, earn stars!',
+                      color: PWColors.yellow,
+                      onTap: () => context.push('/games/puzzles'),
+                    ),
+                    GameCard(
+                      emoji: '\u{2753}', // ❓
+                      title: 'Guess & Learn',
+                      subtitle: 'Tap to reveal answers!',
+                      color: PWColors.yellow,
+                      onTap: () => context
+                          .push('/quiz?countryId=$countryId'),
+                    ),
                   ],
                 ),
               ),
@@ -110,72 +134,3 @@ class GamesHubScreen extends StatelessWidget {
   }
 }
 
-class _GameCard extends StatelessWidget {
-  const _GameCard({
-    required this.emoji,
-    required this.title,
-    required this.subtitle,
-    required this.color,
-    required this.onTap,
-  });
-
-  final String emoji;
-  final String title;
-  final String subtitle;
-  final Color color;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: PWColors.navy.withValues(alpha: 0.12),
-              blurRadius: 14,
-              offset: const Offset(0, 5),
-            ),
-          ],
-          border: Border.all(color: color.withValues(alpha: 0.5), width: 2),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 62,
-              height: 62,
-              decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.18),
-                shape: BoxShape.circle,
-              ),
-              alignment: Alignment.center,
-              child: Text(emoji, style: const TextStyle(fontSize: 30)),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              title,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w800,
-                  ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 4),
-            Text(
-              subtitle,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontSize: 12,
-                    color: PWColors.navy.withValues(alpha: 0.7),
-                  ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}

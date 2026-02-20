@@ -8,6 +8,7 @@ import '../../core/theme/pw_theme.dart';
 import '../../core/theme/theme_provider.dart';
 import '../game_breaks/providers/game_break_settings_provider.dart';
 import '../screen_time/providers/screen_time_settings_provider.dart';
+import '../screen_time/widgets/pin_dialog.dart';
 
 class ParentsScreen extends ConsumerWidget {
   const ParentsScreen({super.key});
@@ -217,11 +218,38 @@ class ParentsScreen extends ConsumerWidget {
                     color: PWThemeColors.of(context).textMuted,
                   ),
                 ),
-                trailing: Icon(
-                  Icons.chevron_right_rounded,
-                  color: PWThemeColors.of(context).textMuted,
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (stSettings.hasPin)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 4),
+                        child: Icon(
+                          Icons.lock_rounded,
+                          size: 16,
+                          color: PWThemeColors.of(context).textMuted.withValues(alpha: 0.5),
+                        ),
+                      ),
+                    Icon(
+                      Icons.chevron_right_rounded,
+                      color: PWThemeColors.of(context).textMuted,
+                    ),
+                  ],
                 ),
-                onTap: () => context.push('/screen-time'),
+                onTap: () async {
+                  if (stSettings.hasPin) {
+                    final verified = await showPinDialog(
+                      context: context,
+                      mode: PinMode.verify,
+                      onVerify: (pin) => ref
+                          .read(screenTimeSettingsProvider.notifier)
+                          .verifyPin(pin),
+                      onSet: (_) {},
+                    );
+                    if (!verified || !context.mounted) return;
+                  }
+                  context.push('/screen-time');
+                },
               ),
             ],
           ),

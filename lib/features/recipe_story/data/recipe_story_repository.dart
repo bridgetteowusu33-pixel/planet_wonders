@@ -15,6 +15,9 @@ class RecipeStoryRepository {
       'assets/recipe_story/ghana_recipes.json',
       'lib/features/recipe_story/data/ghana_recipes.json',
     ],
+    'nigeria': [
+      'lib/features/recipe_story/data/nigeria_recipes.json',
+    ],
   };
 
   static const Map<String, List<String>> _recipePatchAssetsByCountry = {

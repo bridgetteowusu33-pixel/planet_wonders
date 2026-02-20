@@ -78,7 +78,7 @@ class _ColorOutfitScreenState extends ConsumerState<ColorOutfitScreen> {
     final snapshot = widget.snapshot;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F6F0),
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         title: const Text('Color Your Outfit'),
         centerTitle: true,

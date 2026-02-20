@@ -157,10 +157,10 @@ const _ghanaFashion = FashionData(
   ],
 );
 
-// Nigeria — Dress Adaeze
+// Nigeria — Dress Adetutu
 const _nigeriaFashion = FashionData(
   countryId: 'nigeria',
-  characterName: 'Adaeze',
+  characterName: 'Adetutu',
   characterEmoji: '\u{1F467}\u{1F3FE}', // 👧🏾
   categories: [
     OutfitCategory(

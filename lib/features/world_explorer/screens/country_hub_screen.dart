@@ -94,12 +94,6 @@ class CountryHubScreen extends StatelessWidget {
                     onTap: () => context.push('/food/${country.id}'),
                   ),
                   ActivityCard(
-                    emoji: '\u{1F9E9}', // 🧩
-                    label: 'Puzzle',
-                    color: PWColors.blue,
-                    onTap: () => _comingSoon(context, 'Puzzle'),
-                  ),
-                  ActivityCard(
                     emoji: '\u{1F3AE}', // 🎮
                     label: 'Games',
                     color: PWColors.mint,
@@ -115,11 +109,6 @@ class CountryHubScreen extends StatelessWidget {
     );
   }
 
-  void _comingSoon(BuildContext context, String feature) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('$feature coming soon!')),
-    );
-  }
 }
 
 /// Illustrated banner placeholder for the country hub.

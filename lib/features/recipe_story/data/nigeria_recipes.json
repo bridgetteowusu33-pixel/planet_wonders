@@ -1,0 +1,278 @@
+{
+  "country": "nigeria",
+  "recipes": [
+    {
+      "id": "nigeria_jollof_story",
+      "title": "Adetutu Makes Jollof Rice!",
+      "emoji": "\uD83C\uDF5B",
+      "difficulty": 1,
+      "imageAsset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+      "thumbnailAsset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+      "intro": "Let's cook the most famous dish in Nigeria with Adetutu and her family!",
+      "introFact": "Nigerian jollof rice is famous for its smoky 'party jollof' flavour!",
+      "completionMessage": "Ta-da! Your smoky party jollof is ready to share!",
+      "completionAsset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+      "completionFact": "Party jollof cooked over firewood is the most popular style in Nigeria.",
+      "badgeTitle": "Nigeria Chef Star",
+      "rewardCultureStars": 1,
+      "steps": [
+        {
+          "story": "First, let's rinse the rice until the water is clear!",
+          "action": "tap_bowl",
+          "requiredCount": 3,
+          "asset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+          "fact": "Splash splash! Rinsing rice makes it fluffy and light.",
+          "sfx": "tap"
+        },
+        {
+          "story": "Now chop the tomatoes, onions, and scotch bonnet peppers!",
+          "action": "tap_chop",
+          "requiredCount": 5,
+          "asset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+          "fact": "Scotch bonnet peppers give Nigerian jollof its special kick!",
+          "sfx": "tap"
+        },
+        {
+          "story": "Pour some oil into the big party pot.",
+          "action": "drag_oil_to_pot",
+          "requiredCount": 1,
+          "asset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+          "fact": "Glug glug! Oil is the base for a great tomato stew.",
+          "sfx": "drop"
+        },
+        {
+          "story": "Add the blended tomato mix — this gives jollof its red colour!",
+          "action": "drag_tomato_mix",
+          "requiredCount": 1,
+          "asset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+          "fact": "Nigerians blend tomatoes, peppers, and onions together for a smooth base.",
+          "sfx": "drop"
+        },
+        {
+          "story": "Sprinkle in thyme, curry, and seasoning cubes!",
+          "action": "tap_spice_shaker",
+          "requiredCount": 3,
+          "asset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+          "fact": "Every Nigerian family has their own secret spice combination!",
+          "sfx": "tap"
+        },
+        {
+          "story": "Stir the tomato stew in big circles until it thickens!",
+          "action": "stir_circle",
+          "asset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+          "fact": "Frying the tomatoes until the oil floats on top is the key to great jollof.",
+          "sfx": "stir"
+        },
+        {
+          "story": "Now pour in the washed rice!",
+          "action": "drag_rice_to_pot",
+          "requiredCount": 1,
+          "asset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+          "fact": "Long-grain rice works best for Nigerian jollof.",
+          "sfx": "drop"
+        },
+        {
+          "story": "Cover the pot tightly and let it cook over the fire... shhh!",
+          "action": "hold_to_cook",
+          "holdDurationMs": 2000,
+          "asset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+          "fact": "The smoky bottom crust is called 'party rice bottom' — many people love it the most!",
+          "sfx": "hold"
+        }
+      ]
+    },
+    {
+      "id": "nigeria_suya_story",
+      "title": "Adetutu Makes Suya!",
+      "emoji": "\uD83C\uDF56",
+      "difficulty": 1,
+      "imageAsset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+      "thumbnailAsset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+      "intro": "The sun is setting and it's suya time! Let's grill with Adetutu.",
+      "introFact": "Suya sellers come out in the evening with their smoky grills!",
+      "completionMessage": "Sizzling suya is ready! Wrap it up in newspaper!",
+      "completionAsset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+      "completionFact": "Suya is traditionally wrapped in old newspaper and served with sliced onions.",
+      "badgeTitle": "Suya Grill Master",
+      "rewardCultureStars": 1,
+      "steps": [
+        {
+          "story": "Tap to slice the meat into thin strips!",
+          "action": "tap_chop",
+          "requiredCount": 4,
+          "asset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+          "fact": "Suya meat is sliced thin so it cooks quickly on the grill.",
+          "sfx": "tap"
+        },
+        {
+          "story": "Drag the yaji spice mix onto the meat!",
+          "action": "drag",
+          "requiredCount": 1,
+          "asset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+          "fact": "Yaji is made from groundnuts, ginger, and chilli — it's what makes suya special!",
+          "sfx": "drop"
+        },
+        {
+          "story": "Thread the meat onto wooden skewers.",
+          "action": "tap",
+          "requiredCount": 3,
+          "asset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+          "fact": "Suya sticks are grilled over hot charcoal for a smoky flavour.",
+          "sfx": "tap"
+        },
+        {
+          "story": "Hold to grill the suya over the fire!",
+          "action": "hold_to_cook",
+          "holdDurationMs": 2000,
+          "asset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+          "fact": "The best suya is crispy on the outside and juicy inside!",
+          "sfx": "hold"
+        }
+      ]
+    },
+    {
+      "id": "nigeria_egusi_story",
+      "title": "Egusi Soup",
+      "emoji": "\uD83E\uDD58",
+      "difficulty": 2,
+      "imageAsset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+      "thumbnailAsset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+      "intro": "Adetutu and her grandmother are making rich egusi soup together.",
+      "introFact": "Egusi soup is made from ground melon seeds — so creamy!",
+      "completionMessage": "Egusi soup is thick and delicious! Time to eat!",
+      "completionAsset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+      "completionFact": "Egusi soup is one of the most popular soups in Nigeria.",
+      "badgeTitle": "Soup Star",
+      "rewardCultureStars": 1,
+      "steps": [
+        {
+          "story": "Tap to grind the melon seeds into a smooth paste!",
+          "action": "tap",
+          "requiredCount": 4,
+          "asset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+          "fact": "Melon seeds are dried and ground to make egusi paste.",
+          "sfx": "tap"
+        },
+        {
+          "story": "Drag the palm oil and peppers into the pot.",
+          "action": "drag",
+          "requiredCount": 1,
+          "asset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+          "fact": "Palm oil gives the soup its beautiful orange colour.",
+          "sfx": "drop"
+        },
+        {
+          "story": "Stir the egusi paste into the pot in big circles!",
+          "action": "stir",
+          "asset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+          "fact": "Stirring helps the egusi form soft, fluffy lumps in the soup.",
+          "sfx": "stir"
+        },
+        {
+          "story": "Hold to let the soup simmer with spinach and fish.",
+          "action": "hold",
+          "holdDurationMs": 2000,
+          "asset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+          "fact": "Green leafy vegetables are added at the end to keep them fresh and bright.",
+          "sfx": "hold"
+        }
+      ]
+    },
+    {
+      "id": "nigeria_pounded_yam_story",
+      "title": "Pounded Yam",
+      "emoji": "\uD83C\uDF72",
+      "difficulty": 2,
+      "imageAsset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+      "thumbnailAsset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+      "intro": "Adetutu is helping her dad pound yam for dinner — it takes strong arms!",
+      "introFact": "Yam is so important in Nigeria there is a New Yam Festival!",
+      "completionMessage": "Smooth, stretchy pounded yam is ready for soup!",
+      "completionAsset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+      "completionFact": "Pounded yam is eaten by pulling off small pieces and dipping them in soup.",
+      "badgeTitle": "Yam Champion",
+      "rewardCultureStars": 1,
+      "steps": [
+        {
+          "story": "Tap to peel and chop the yam into chunks!",
+          "action": "tap_chop",
+          "requiredCount": 4,
+          "asset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+          "fact": "Nigerian yams can grow as big as a child's arm!",
+          "sfx": "tap"
+        },
+        {
+          "story": "Drag the yam pieces into the boiling water.",
+          "action": "drag",
+          "requiredCount": 1,
+          "asset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+          "fact": "Boiling makes the yam soft enough to pound.",
+          "sfx": "drop"
+        },
+        {
+          "story": "Now pound the yam! Tap hard and fast!",
+          "action": "tap",
+          "requiredCount": 6,
+          "asset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+          "fact": "Traditionally, a big wooden mortar and pestle are used for pounding.",
+          "sfx": "tap"
+        },
+        {
+          "story": "Stir and fold until it's smooth and stretchy!",
+          "action": "stir",
+          "asset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+          "fact": "The best pounded yam is smooth with no lumps at all!",
+          "sfx": "stir"
+        }
+      ]
+    },
+    {
+      "id": "nigeria_chin_chin_story",
+      "title": "Chin Chin",
+      "emoji": "\uD83C\uDF6A",
+      "difficulty": 1,
+      "imageAsset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+      "thumbnailAsset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+      "intro": "It's celebration time! Adetutu is making crunchy chin chin with her mum.",
+      "introFact": "Chin chin is a crunchy fried snack loved by kids all over Nigeria!",
+      "completionMessage": "Crunchy golden chin chin is ready! Crunch crunch!",
+      "completionAsset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+      "completionFact": "Chin chin is especially popular during Christmas and celebrations in Nigeria.",
+      "badgeTitle": "Snack Star",
+      "rewardCultureStars": 1,
+      "steps": [
+        {
+          "story": "Tap to mix flour, sugar, and butter into a dough!",
+          "action": "tap",
+          "requiredCount": 4,
+          "asset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+          "fact": "Some families add nutmeg or vanilla for extra flavour.",
+          "sfx": "tap"
+        },
+        {
+          "story": "Stir the dough until it's smooth and firm!",
+          "action": "stir",
+          "asset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+          "fact": "The dough should be firm enough to roll and cut into shapes.",
+          "sfx": "stir"
+        },
+        {
+          "story": "Tap to cut the dough into tiny squares and strips!",
+          "action": "tap_chop",
+          "requiredCount": 5,
+          "asset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+          "fact": "Chin chin comes in many shapes — squares, strips, and even twists!",
+          "sfx": "tap"
+        },
+        {
+          "story": "Hold to fry the chin chin until golden and crunchy!",
+          "action": "hold_to_cook",
+          "holdDurationMs": 2000,
+          "asset": "assets/coloring/nigeria/nigeria_07_cooking.png",
+          "fact": "Chin chin should be golden brown — not too light, not too dark!",
+          "sfx": "hold"
+        }
+      ]
+    }
+  ]
+}

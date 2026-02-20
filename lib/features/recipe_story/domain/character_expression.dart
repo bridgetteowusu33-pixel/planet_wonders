@@ -94,6 +94,7 @@ String characterForCountry(String countryId) {
   return switch (countryId) {
     'ghana' => '\u{1F469}\u{1F3FE}', // 👩🏾 (Afia)
     'usa' => '\u{1F469}', // 👩 (Ava)
+    'nigeria' => '\u{1F467}\u{1F3FE}', // 👧🏾 (Adetutu)
     _ => '\u{1F9D1}\u{200D}\u{1F373}', // 🧑‍🍳
   };
 }
@@ -103,6 +104,7 @@ String characterNameForCountry(String countryId) {
   return switch (countryId) {
     'ghana' => 'Afia',
     'usa' => 'Ava',
+    'nigeria' => 'Adetutu',
     _ => 'Chef',
   };
 }

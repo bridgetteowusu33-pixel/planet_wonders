@@ -22,7 +22,7 @@ class ScreenTimeScreen extends ConsumerWidget {
     final tc = PWThemeColors.of(context);
 
     return Scaffold(
-      backgroundColor: tc.background,
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         title: Text(
           'Screen Time',

@@ -1,0 +1,84 @@
+{
+  "quizzes": [
+    {
+      "id": "cape_coast",
+      "countryId": "ghana",
+      "question": "Which big white castle is over 370 years old?",
+      "answer": "Cape Coast Castle",
+      "funFact": "Did you know? This castle is so important that the whole world helps protect it!",
+      "image": "assets/sliding_puzzles/ghana/ghana_01_capecoast_castle.jpg"
+    },
+    {
+      "id": "flagstaff",
+      "countryId": "ghana",
+      "question": "Where does Ghana's president work and make big decisions?",
+      "answer": "Flagstaff House",
+      "funFact": "Fun fact! This building is also called Jubilee House and it looks super fancy!",
+      "image": "assets/sliding_puzzles/ghana/ghana_01_flagstaffhouse.jpg"
+    },
+    {
+      "id": "independence",
+      "countryId": "ghana",
+      "question": "Where did Ghana celebrate becoming a free country in 1957?",
+      "answer": "Independence Square",
+      "funFact": "Wow! Ghana was the first country in sub-Saharan Africa to become independent!",
+      "image": "assets/sliding_puzzles/ghana/ghana_01_independence_square.jpg"
+    },
+    {
+      "id": "kakum",
+      "countryId": "ghana",
+      "question": "Which park has a bridge almost as tall as a 10-story building?",
+      "answer": "Kakum National Park",
+      "funFact": "Amazing! You can walk high in the treetops on a rope bridge called a canopy walkway!",
+      "image": "assets/sliding_puzzles/ghana/ghana_01_kakum.jpg"
+    },
+    {
+      "id": "nkrumah",
+      "countryId": "ghana",
+      "question": "Who was Ghana's very first president?",
+      "answer": "Dr. Kwame Nkrumah",
+      "funFact": "Did you know? Dr. Nkrumah helped many other African countries gain freedom too!",
+      "image": "assets/sliding_puzzles/ghana/ghana_01_kwame_nkrumah.jpg"
+    },
+    {
+      "id": "aso_rock",
+      "countryId": "nigeria",
+      "question": "Where does the president of Nigeria live and work?",
+      "answer": "Aso Rock Villa",
+      "funFact": "The villa sits at the base of a huge rock formation called Aso Rock in Abuja!",
+      "image": "assets/sliding_puzzles/nigeria/nigeria_monument_01_aso_rock.jpg"
+    },
+    {
+      "id": "national_theatre",
+      "countryId": "nigeria",
+      "question": "Which famous Lagos building is shaped like a military hat?",
+      "answer": "National Theatre",
+      "funFact": "The National Theatre hosts plays, music, and dance — it was built in 1976!",
+      "image": "assets/sliding_puzzles/nigeria/nigeria_monument_03_national_theatre.png"
+    },
+    {
+      "id": "tinubu_square",
+      "countryId": "nigeria",
+      "question": "Which square in Lagos is named after a powerful woman trader?",
+      "answer": "Tinubu Square",
+      "funFact": "Madam Tinubu was a famous trader and leader who helped shape Nigerian history!",
+      "image": "assets/sliding_puzzles/nigeria/nigeria_monument_04_tinubu_square.jpg"
+    },
+    {
+      "id": "freedom_park",
+      "countryId": "nigeria",
+      "question": "Which Lagos park used to be a prison but is now a place for art and music?",
+      "answer": "Freedom Park",
+      "funFact": "Freedom Park was turned from a colonial prison into a beautiful open space in 2010!",
+      "image": "assets/sliding_puzzles/nigeria/nigeria_monument_05_freedom_park.jpg"
+    },
+    {
+      "id": "olumo_rock",
+      "countryId": "nigeria",
+      "question": "Which ancient rock in Abeokuta was used as a fortress during wars?",
+      "answer": "Olumo Rock",
+      "funFact": "People once sheltered inside Olumo Rock's caves — you can still climb it today!",
+      "image": "assets/sliding_puzzles/nigeria/nigeria_monument_05_olumo_rock.jpg"
+    }
+  ]
+}

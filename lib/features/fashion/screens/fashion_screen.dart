@@ -121,7 +121,7 @@ class _FashionScreenState extends State<FashionScreen> {
     final activeCategory = categories[_activeCategoryIndex];
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F6F0),
+      backgroundColor: Colors.transparent,
       body: SafeArea(
         child: Column(
           children: [

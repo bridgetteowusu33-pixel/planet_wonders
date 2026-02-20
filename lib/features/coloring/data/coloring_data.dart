@@ -6,6 +6,7 @@ import '../models/coloring_page.dart';
 final Map<String, List<ColoringPage>> coloringRegistry = {
   'ghana': _ghanaPages,
   'usa': _usaPages,
+  'nigeria': _nigeriaPages,
 };
 
 final _ghanaPages = [
@@ -490,6 +491,108 @@ final _usaPages = [
     outlineAsset: 'assets/coloring/usa/food/usa_food_10_milkshake.png',
     fact: 'Milkshakes are creamy drinks often topped with whipped cream.',
     factCategory: 'Fun Fact',
+  ),
+];
+
+final _nigeriaPages = [
+  ColoringPage(
+    id: 'city',
+    title: 'Lagos City',
+    countryId: 'nigeria',
+    emoji: '\u{1F3D9}', // 🏙
+    outlineAsset: 'assets/coloring/nigeria/nigeria_01_city.png',
+    fact: 'Lagos is the largest city in Africa with over 20 million people!',
+    factCategory: 'Geography',
+  ),
+  ColoringPage(
+    id: 'home',
+    title: 'Home',
+    countryId: 'nigeria',
+    emoji: '\u{1F3E0}', // 🏠
+    outlineAsset: 'assets/coloring/nigeria/nigeria_02_home.png',
+    fact: 'Nigerian homes are full of warmth, with families gathering to share meals and stories.',
+    factCategory: 'Daily Life',
+  ),
+  ColoringPage(
+    id: 'school',
+    title: 'School Day',
+    countryId: 'nigeria',
+    emoji: '\u{1F3EB}', // 🏫
+    outlineAsset: 'assets/coloring/nigeria/nigeria_03_school.png',
+    fact: 'Nigerian students often wear colourful uniforms and learn in English.',
+    factCategory: 'Education',
+  ),
+  ColoringPage(
+    id: 'market',
+    title: 'Market Day',
+    countryId: 'nigeria',
+    emoji: '\u{1F6D2}', // 🛒
+    outlineAsset: 'assets/coloring/nigeria/nigeria_04_market.png',
+    fact: 'Balogun Market in Lagos is one of the busiest markets in West Africa.',
+    factCategory: 'Daily Life',
+  ),
+  ColoringPage(
+    id: 'clothes',
+    title: 'Ankara Clothes',
+    countryId: 'nigeria',
+    emoji: '\u{1F9F5}', // 🧵
+    outlineAsset: 'assets/coloring/nigeria/nigeria_05_clothes.png',
+    fact: 'Ankara fabric has bold, colourful patterns and is worn at celebrations.',
+    factCategory: 'Culture',
+  ),
+  ColoringPage(
+    id: 'music',
+    title: 'Music & Drums',
+    countryId: 'nigeria',
+    emoji: '\u{1F3B5}', // 🎵
+    outlineAsset: 'assets/coloring/nigeria/nigeria_06_music.png',
+    fact: 'Afrobeats started in Nigeria and is now loved all around the world!',
+    factCategory: 'Culture',
+  ),
+  ColoringPage(
+    id: 'cooking',
+    title: 'Family Cooking',
+    countryId: 'nigeria',
+    emoji: '\u{1F373}', // 🍳
+    outlineAsset: 'assets/coloring/nigeria/nigeria_07_cooking.png',
+    fact: 'Nigerian families love cooking together, especially for celebrations.',
+    factCategory: 'Food',
+  ),
+  ColoringPage(
+    id: 'football',
+    title: 'Football',
+    countryId: 'nigeria',
+    emoji: '\u{26BD}', // ⚽
+    outlineAsset: 'assets/coloring/nigeria/nigeria_08_football.png',
+    fact: 'The Super Eagles are Nigeria\'s national football team, loved by millions!',
+    factCategory: 'Sports',
+  ),
+  ColoringPage(
+    id: 'olumo',
+    title: 'Olumo Rock',
+    countryId: 'nigeria',
+    emoji: '\u{26F0}\u{FE0F}', // ⛰️
+    outlineAsset: 'assets/coloring/nigeria/nigeria_10_olumo.png',
+    fact: 'Olumo Rock in Abeokuta is a historic fortress where people once sheltered during wars.',
+    factCategory: 'History',
+  ),
+  ColoringPage(
+    id: 'beach',
+    title: 'Beach',
+    countryId: 'nigeria',
+    emoji: '\u{1F3D6}', // 🏖
+    outlineAsset: 'assets/coloring/nigeria/nigeria_11_beach.png',
+    fact: 'Nigeria has beautiful beaches along the Atlantic coast, including Elegushi and Tarkwa Bay.',
+    factCategory: 'Nature',
+  ),
+  ColoringPage(
+    id: 'dreams',
+    title: 'Big Dreams',
+    countryId: 'nigeria',
+    emoji: '\u{1F31F}', // 🌟
+    outlineAsset: 'assets/coloring/nigeria/nigeria_12_dreams.png',
+    fact: 'Nigerian children dream big in tech, music, sports, and science!',
+    factCategory: 'Inspiration',
   ),
 ];
 

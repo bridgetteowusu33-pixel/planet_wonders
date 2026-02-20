@@ -105,6 +105,79 @@ Calm and respectful design.
 
 ---
 
+## Nigeria
+
+### Lagos City (id: city)
+
+Create a soft 3D illustrated Lagos cityscape for children.
+Include friendly rounded skyscrapers, a colourful market, and palm trees.
+Style should feel like a toy city model, not realistic architecture.
+Clear separation between buildings for coloring. White background.
+
+### Home (id: home)
+
+Create a 3D cartoon-style warm Nigerian home scene for children.
+Show a cosy family compound with rounded walls, colourful doors, and simple furniture.
+Friendly proportions, large clear regions for coloring. White background.
+
+### School Day (id: school)
+
+Create a 3D cartoon-style Nigerian school scene for children.
+Show kids in colourful uniforms, a friendly teacher, rounded classroom.
+Large clear regions, no tiny details.
+
+### Market Day (id: market)
+
+Create a 3D cartoon-style Nigerian market scene for kids.
+Show colourful fabric stalls, baskets of fruit, and friendly traders.
+Rounded forms, playful proportions, clear colour regions.
+
+### Ankara Clothes (id: clothes)
+
+Create a soft 3D illustration of Nigerian children wearing beautiful Ankara outfits.
+Bold geometric patterns on clothing, large colour regions, no tiny details.
+Characters should feel like friendly animated dolls, not realistic.
+
+### Music & Drums (id: music)
+
+Create a soft 3D illustrated Nigerian music scene for children.
+Show a dundun talking drum, a guitar, and musical notes.
+Rounded edges, playful shapes, joyful mood.
+Clear colour zones, no textures, looks like toy instruments.
+
+### Family Cooking (id: cooking)
+
+Create a 3D cartoon-style Nigerian family cooking scene for kids.
+Show a mother and child near a pot, with vegetables and spices.
+Warm, playful atmosphere. Clear regions for coloring.
+
+### Football (id: football)
+
+Create a 3D cartoon-style football scene with Nigerian kids playing.
+Friendly characters, rounded ball, simple goal posts.
+Green field, clear colour regions, joyful mood.
+
+### Olumo Rock (id: olumo)
+
+Create a 3D storybook-style Olumo Rock formation for kids.
+A massive rounded rock with steps carved into the side, simple vegetation at the base.
+The rock should look ancient but friendly, like a gentle guardian.
+Clear colour regions, warm sky, white background.
+
+### Beach (id: beach)
+
+Create a soft 3D illustrated Nigerian beach scene for children.
+Show golden sand, gentle rounded waves, palm trees, and a colourful fishing boat.
+Calm, friendly atmosphere. Clear separation between elements for coloring.
+
+### Big Dreams (id: dreams)
+
+Create a 3D cartoon-style Nigerian child dreaming big.
+Show thought bubbles with a rocket, a computer, a stethoscope, and a guitar.
+Friendly character, rounded forms, inspirational mood.
+
+---
+
 ## Important 3D Rules (apply to ALL prompts)
 
 - No photorealism

@@ -25,6 +25,7 @@ final List<Continent> worldContinents = [
         name: 'Nigeria',
         flagEmoji: '\u{1F1F3}\u{1F1EC}', // 🇳🇬
         continentId: 'africa',
+        isUnlocked: true,
         greeting: 'Welcome to Nigeria!',
       ),
       const Country(

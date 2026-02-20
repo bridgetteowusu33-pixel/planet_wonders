@@ -145,6 +145,77 @@ const _usaStory = Story(
 );
 
 // ---------------------------------------------------------------------------
+// Nigeria — "Adetutu's Adventure in Nigeria"
+// ---------------------------------------------------------------------------
+
+const _nigeriaStory = Story(
+  countryId: 'nigeria',
+  title: "Adetutu's Adventure in Nigeria",
+  badgeName: 'Nigeria Story Explorer',
+  pages: [
+    // Page 1 — Meet Adetutu
+    StoryPage(
+      title: 'Meet Adetutu',
+      text:
+          'This is Adetutu! She lives in Lagos, one of the biggest '
+          'and busiest cities in all of Africa.\n\n'
+          'Today she is wearing a beautiful Ankara dress with bright '
+          'patterns — she is ready for a special day!',
+      emoji: '\u{1F467}\u{1F3FE}', // 👧🏾
+      bgColor: Color(0xFFE8F5E9), // soft green tint
+      fact: 'Lagos is the largest city in Africa with over 20 million '
+          'people — that is more than many whole countries!',
+      factCategory: 'Geography',
+    ),
+
+    // Page 2 — The Bustling Market
+    StoryPage(
+      title: 'The Bustling Market',
+      text:
+          'Adetutu walks through Balogun Market with her auntie.\n\n'
+          'She sees towers of colourful fabrics, baskets of juicy '
+          'oranges, and traders calling out in Yoruba and Igbo. '
+          'The energy is amazing!',
+      emoji: '\u{1F6D2}', // 🛒
+      bgColor: Color(0xFFFFF3E0), // warm orange tint
+      fact: 'Nigeria has over 250 different languages — more than '
+          'almost any other country in the world!',
+      factCategory: 'Culture',
+    ),
+
+    // Page 3 — Rhythms of Nigeria
+    StoryPage(
+      title: 'Rhythms of Nigeria',
+      text:
+          'In the town square, Adetutu watches musicians play the '
+          'dundun, a beautiful talking drum.\n\n'
+          'The drum speaks in high and low tones, and people dance '
+          'and clap along. Adetutu taps her feet to the beat!',
+      emoji: '\u{1F941}', // 🥁
+      bgColor: Color(0xFFFCE4EC), // soft pink tint
+      fact: 'Afrobeats is a popular music genre that started in Nigeria '
+          'and is now loved all around the world!',
+      factCategory: 'Culture',
+    ),
+
+    // Page 4 — A Land of Stories
+    StoryPage(
+      title: 'A Land of Stories',
+      text:
+          "Adetutu's grandmother tells her about Zuma Rock — "
+          'a giant rock that towers over the land like a sleeping guardian.\n\n'
+          '"Nigeria is full of wonders," Grandma says with a warm smile. '
+          'Adetutu feels proud of her beautiful home.',
+      emoji: '\u{26F0}\u{FE0F}', // ⛰️
+      bgColor: Color(0xFFFFF8E1), // golden tint
+      fact: 'Zuma Rock is a massive 725-metre rock near Abuja. '
+          "Some people call it the 'Gateway to Abuja!'",
+      factCategory: 'Nature',
+    ),
+  ],
+);
+
+// ---------------------------------------------------------------------------
 // Story registry — add future country stories here.
 // ---------------------------------------------------------------------------
 
@@ -152,6 +223,7 @@ const _usaStory = Story(
 final Map<String, Story> storyRegistry = {
   'ghana': _ghanaStory,
   'usa': _usaStory,
+  'nigeria': _nigeriaStory,
 };
 
 /// Quick lookup.

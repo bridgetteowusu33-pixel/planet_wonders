@@ -120,7 +120,7 @@ ThemeData _buildTheme({
   final base = ThemeData(useMaterial3: true, brightness: brightness);
 
   return base.copyWith(
-    scaffoldBackgroundColor: colors.background,
+    scaffoldBackgroundColor: Colors.transparent,
     colorScheme: ColorScheme.fromSeed(
       seedColor: PWColors.blue,
       brightness: brightness,

@@ -41,7 +41,7 @@ class PassportScreen extends ConsumerWidget {
     final achievementState = ref.watch(achievementProvider);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F6F0),
+      backgroundColor: Colors.transparent,
       body: SafeArea(
         child: Stack(
           children: [

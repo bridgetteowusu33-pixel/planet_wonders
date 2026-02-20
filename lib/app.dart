@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'core/motion/motion_settings_provider.dart';
 import 'core/theme/pw_theme.dart';
 import 'core/theme/theme_provider.dart';
+import 'core/widgets/gradient_background.dart';
 import 'features/achievements/ui/achievement_tracker.dart';
 import 'features/creative_studio/canvas_screen.dart';
 import 'features/creative_studio/creative_studio_home.dart';
@@ -46,7 +47,12 @@ import 'features/stories/screens/story_screen.dart';
 import 'features/world_explorer/screens/continent_screen.dart';
 import 'features/world_explorer/screens/country_hub_screen.dart';
 import 'features/game_breaks/screens/memory_match_screen.dart';
+import 'features/game_breaks/screens/sliding_puzzle_screen.dart';
+import 'features/quiz/screens/quiz_screen.dart';
 import 'features/learning_report/screens/learning_report_screen.dart';
+import 'features/puzzles/presentation/puzzle_home_screen.dart';
+import 'features/puzzles/presentation/puzzle_pack_screen.dart';
+import 'features/puzzles/presentation/puzzle_play_screen.dart';
 import 'features/screen_time/lock/lock_overlay.dart';
 import 'features/screen_time/providers/usage_tracker_provider.dart';
 import 'features/screen_time/screens/screen_time_screen.dart';
@@ -78,6 +84,10 @@ TraceDifficulty _traceDifficultyFromQuery(String? raw) {
 
 class PlanetWondersApp extends ConsumerStatefulWidget {
   const PlanetWondersApp({super.key});
+
+  /// Navigator key exposed so widgets above the Navigator (e.g. LockOverlay
+  /// in the MaterialApp builder) can show dialogs.
+  static final rootNavigatorKey = GlobalKey<NavigatorState>();
 
   @override
   ConsumerState<PlanetWondersApp> createState() => _PlanetWondersAppState();
@@ -119,6 +129,7 @@ class _PlanetWondersAppState extends ConsumerState<PlanetWondersApp>
   }
 
   late final GoRouter _router = GoRouter(
+    navigatorKey: PlanetWondersApp.rootNavigatorKey,
     routes: [
       // Full-screen routes (no bottom nav)
       GoRoute(
@@ -270,11 +281,6 @@ class _PlanetWondersAppState extends ConsumerState<PlanetWondersApp>
         ],
       ),
       GoRoute(
-        path: '/game-break/memory/:countryId',
-        builder: (context, state) =>
-            MemoryMatchScreen(countryId: state.pathParameters['countryId']!),
-      ),
-      GoRoute(
         path: '/reports',
         builder: (context, state) => const LearningReportScreen(),
       ),
@@ -343,9 +349,55 @@ class _PlanetWondersAppState extends ConsumerState<PlanetWondersApp>
         builder: (context, state) => const ScreenTimeScreen(),
       ),
       GoRoute(
+        path: '/quiz',
+        builder: (context, state) {
+          final daily = state.uri.queryParameters['daily'] == 'true';
+          final quizId = state.uri.queryParameters['quizId'];
+          final countryId = state.uri.queryParameters['countryId'];
+          return QuizScreen(
+            daily: daily,
+            quizId: quizId,
+            countryId: countryId,
+          );
+        },
+      ),
+      GoRoute(
+        path: '/games/puzzles',
+        builder: (context, state) => const PuzzleHomeScreen(),
+        routes: [
+          GoRoute(
+            path: 'pack/:packId',
+            builder: (context, state) => PuzzlePackScreen(
+              packId: state.pathParameters['packId']!,
+            ),
+          ),
+          GoRoute(
+            path: 'play/:puzzleId',
+            builder: (context, state) => PuzzlePlayRouteGate(
+              puzzleId: state.pathParameters['puzzleId']!,
+              packId: state.uri.queryParameters['packId'],
+            ),
+          ),
+        ],
+      ),
+      GoRoute(
         path: '/games/:countryId',
         builder: (context, state) =>
             GamesHubScreen(countryId: state.pathParameters['countryId']!),
+        routes: [
+          GoRoute(
+            path: 'memory',
+            builder: (context, state) => MemoryMatchScreen(
+              countryId: state.pathParameters['countryId']!,
+            ),
+          ),
+          GoRoute(
+            path: 'puzzle',
+            builder: (context, state) => SlidingPuzzleScreen(
+              countryId: state.pathParameters['countryId']!,
+            ),
+          ),
+        ],
       ),
       GoRoute(
         path: '/world',
@@ -450,17 +502,22 @@ class _PlanetWondersAppState extends ConsumerState<PlanetWondersApp>
       builder: (context, child) {
         final tracker = ref.watch(usageTrackerProvider);
         final showLock = tracker.isLocked || tracker.isBedtimeLocked;
-        if (!showLock) return child!;
-        return Stack(
-          children: [
-            child!,
-            LockOverlay(
-              reason: tracker.isBedtimeLocked
-                  ? LockReason.bedtime
-                  : LockReason.dailyLimit,
-            ),
-          ],
-        );
+
+        Widget content = child!;
+        if (showLock) {
+          content = Stack(
+            children: [
+              content,
+              LockOverlay(
+                reason: tracker.isBedtimeLocked
+                    ? LockReason.bedtime
+                    : LockReason.dailyLimit,
+              ),
+            ],
+          );
+        }
+
+        return GradientBackground(child: content);
       },
     );
   }

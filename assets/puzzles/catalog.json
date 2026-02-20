@@ -1,0 +1,154 @@
+{
+  "packs": [
+    {
+      "id": "ghana_pack",
+      "title": "Ghana Pack",
+      "countryCode": "GH",
+      "thumbnail": "assets/puzzles/ghana/thumbs/ghana_cover.png",
+      "difficultyTiers": ["easy", "medium", "hard"],
+      "puzzles": [
+        {
+          "id": "ghana_01_beach",
+          "title": "Beach Day",
+          "image": "assets/puzzles/ghana/full/ghana_01_beach.jpg",
+          "thumbnail": "assets/puzzles/ghana/thumbs/ghana_01_beach.png",
+          "rows": 3,
+          "cols": 3,
+          "difficulty": "easy",
+          "targetTimeSec": 90,
+          "unlockedByDefault": true
+        },
+        {
+          "id": "ghana_02_market",
+          "title": "Busy Market",
+          "image": "assets/puzzles/ghana/full/ghana_02_market.jpg",
+          "thumbnail": "assets/puzzles/ghana/thumbs/ghana_02_market.png",
+          "rows": 4,
+          "cols": 4,
+          "difficulty": "easy",
+          "targetTimeSec": 120,
+          "unlockedByDefault": false
+        },
+        {
+          "id": "ghana_03_kente",
+          "title": "Kente Cloth",
+          "image": "assets/puzzles/ghana/full/ghana_03_kente.jpg",
+          "thumbnail": "assets/puzzles/ghana/thumbs/ghana_03_kente.png",
+          "rows": 4,
+          "cols": 5,
+          "difficulty": "medium",
+          "targetTimeSec": 180,
+          "unlockedByDefault": false
+        },
+        {
+          "id": "ghana_04_festival",
+          "title": "Festival Time",
+          "image": "assets/puzzles/ghana/full/ghana_04_festival.jpg",
+          "thumbnail": "assets/puzzles/ghana/thumbs/ghana_04_festival.png",
+          "rows": 5,
+          "cols": 5,
+          "difficulty": "medium",
+          "targetTimeSec": 210,
+          "unlockedByDefault": false
+        },
+        {
+          "id": "ghana_05_cocoa",
+          "title": "Cocoa Farm",
+          "image": "assets/puzzles/ghana/full/ghana_05_cocoa.jpg",
+          "thumbnail": "assets/puzzles/ghana/thumbs/ghana_05_cocoa.png",
+          "rows": 6,
+          "cols": 5,
+          "difficulty": "hard",
+          "targetTimeSec": 300,
+          "unlockedByDefault": false
+        },
+        {
+          "id": "ghana_06_flag",
+          "title": "Ghana Flag",
+          "image": "assets/puzzles/ghana/full/ghana_06_flag.jpg",
+          "thumbnail": "assets/puzzles/ghana/thumbs/ghana_06_flag.png",
+          "rows": 6,
+          "cols": 6,
+          "difficulty": "hard",
+          "targetTimeSec": 360,
+          "unlockedByDefault": false
+        }
+      ]
+    },
+    {
+      "id": "nigeria_pack",
+      "title": "Nigeria Pack",
+      "countryCode": "NG",
+      "thumbnail": "assets/puzzles/nigeria/thumb/ng_city_full.jpg",
+      "difficultyTiers": ["easy", "medium", "hard"],
+      "puzzles": [
+        {
+          "id": "ng_beach",
+          "title": "Beach Day",
+          "image": "assets/puzzles/nigeria/full/ng_beach_full.jpg",
+          "thumbnail": "assets/puzzles/nigeria/thumb/ng_beach_full.jpg",
+          "rows": 3,
+          "cols": 3,
+          "difficulty": "easy",
+          "targetTimeSec": 90,
+          "unlockedByDefault": true
+        },
+        {
+          "id": "ng_city",
+          "title": "Lagos City",
+          "image": "assets/puzzles/nigeria/full/ng_city_full.jpg",
+          "thumbnail": "assets/puzzles/nigeria/thumb/ng_city_full.jpg",
+          "rows": 4,
+          "cols": 4,
+          "difficulty": "easy",
+          "targetTimeSec": 120,
+          "unlockedByDefault": false
+        },
+        {
+          "id": "ng_flag",
+          "title": "Nigeria Flag",
+          "image": "assets/puzzles/nigeria/full/ng_flag_full.jpg",
+          "thumbnail": "assets/puzzles/nigeria/thumb/ng_flag_full.jpg",
+          "rows": 4,
+          "cols": 5,
+          "difficulty": "medium",
+          "targetTimeSec": 180,
+          "unlockedByDefault": false
+        },
+        {
+          "id": "ng_nike_art",
+          "title": "Nike Art Gallery",
+          "image": "assets/puzzles/nigeria/full/ng_nike_art_full.jpg",
+          "thumbnail": "assets/puzzles/nigeria/thumb/ng_nike_art_full.jpg",
+          "rows": 5,
+          "cols": 5,
+          "difficulty": "medium",
+          "targetTimeSec": 210,
+          "unlockedByDefault": false
+        },
+        {
+          "id": "ng_olumo_rock",
+          "title": "Olumo Rock",
+          "image": "assets/puzzles/nigeria/full/ng_olumo_rock_full.jpg",
+          "thumbnail": "assets/puzzles/nigeria/thumb/ng_olumo_rock_full.jpg",
+          "rows": 6,
+          "cols": 5,
+          "difficulty": "hard",
+          "targetTimeSec": 300,
+          "unlockedByDefault": false
+        },
+        {
+          "id": "ng_soccer",
+          "title": "Football Fun",
+          "image": "assets/puzzles/nigeria/full/ng_soccer_full.jpg",
+          "thumbnail": "assets/puzzles/nigeria/thumb/ng_soccer_full.jpg",
+          "rows": 6,
+          "cols": 6,
+          "difficulty": "hard",
+          "targetTimeSec": 360,
+          "unlockedByDefault": false
+        }
+      ]
+    }
+  ]
+}

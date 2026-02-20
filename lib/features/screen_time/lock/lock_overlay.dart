@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../app.dart';
 import '../../../core/theme/pw_theme.dart';
 import '../providers/screen_time_settings_provider.dart';
 import '../providers/usage_tracker_provider.dart';
@@ -135,8 +136,15 @@ class LockOverlay extends ConsumerWidget {
   }
 
   Future<void> _unlockWithPin(BuildContext context, WidgetRef ref) async {
+    // The LockOverlay lives above the Navigator (in MaterialApp.builder),
+    // so its own context cannot host dialogs. Use the root navigator's
+    // context instead.
+    final navContext =
+        PlanetWondersApp.rootNavigatorKey.currentContext;
+    if (navContext == null) return;
+
     final verified = await showPinDialog(
-      context: context,
+      context: navContext,
       mode: PinMode.verify,
       onVerify: (pin) =>
           ref.read(screenTimeSettingsProvider.notifier).verifyPin(pin),

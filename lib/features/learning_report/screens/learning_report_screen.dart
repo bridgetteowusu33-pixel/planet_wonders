@@ -166,7 +166,7 @@ class _LearningReportScreenState extends ConsumerState<LearningReportScreen> {
     final filteredCount = filtered.length;
 
     return Scaffold(
-      backgroundColor: PWThemeColors.of(context).background,
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
