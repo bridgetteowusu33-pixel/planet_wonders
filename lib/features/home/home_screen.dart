@@ -398,11 +398,11 @@ class _TodaysGuessCard extends ConsumerWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            PWColors.coral.withValues(alpha: 0.12),
-            PWColors.yellow.withValues(alpha: 0.10),
+            PWColors.coral.withValues(alpha: 0.25),
+            PWColors.yellow.withValues(alpha: 0.18),
           ],
         ),
-        border: Border.all(color: PWColors.coral.withValues(alpha: 0.2)),
+        border: Border.all(color: PWColors.coral.withValues(alpha: 0.35)),
       ),
       child: Material(
         color: Colors.transparent,

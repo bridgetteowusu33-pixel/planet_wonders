@@ -323,6 +323,7 @@ class _ColoringPageScreenState extends ConsumerState<ColoringPageScreen>
       if (byteData == null) return;
 
       await GalleryService.saveDrawing(byteData.buffer.asUint8List());
+      ref.invalidate(galleryProvider);
 
       final logPage = findColoringPage(widget.countryId, widget.pageId);
       ref.read(learningStatsProvider.notifier).logActivity(

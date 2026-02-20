@@ -23,12 +23,14 @@ class CreativeCanvasScreen extends ConsumerStatefulWidget {
     this.promptId,
     this.sceneId,
     this.projectId,
+    this.backgroundPainter,
   });
 
   final CreativeEntryMode mode;
   final String? promptId;
   final String? sceneId;
   final String? projectId;
+  final CustomPainter? backgroundPainter;
 
   @override
   ConsumerState<CreativeCanvasScreen> createState() =>
@@ -153,6 +155,7 @@ class _CreativeCanvasScreenState extends ConsumerState<CreativeCanvasScreen>
       if (bytes == null) return;
 
       await GalleryService.saveDrawing(bytes.buffer.asUint8List());
+      ref.invalidate(galleryProvider);
       await _controller.saveNow(updateSavingState: false);
 
       if (!mounted) return;
@@ -255,7 +258,10 @@ class _CreativeCanvasScreenState extends ConsumerState<CreativeCanvasScreen>
                           ),
                         ),
                       Expanded(
-                        child: CanvasArea(repaintKey: _canvasRepaintKey),
+                        child: CanvasArea(
+                          repaintKey: _canvasRepaintKey,
+                          backgroundPainter: widget.backgroundPainter,
+                        ),
                       ),
                       const SizedBox(height: 8),
                       Row(

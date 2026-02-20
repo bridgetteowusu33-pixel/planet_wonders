@@ -4,6 +4,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -23,16 +24,16 @@ import '../models/outfit_snapshot.dart';
 ///   4. Item carousel — horizontal scroll of outfit cards
 ///   5. Action buttons — Color Outfit + Save
 ///   6. Optional "Did You Know?" micro-card
-class FashionScreen extends StatefulWidget {
+class FashionScreen extends ConsumerStatefulWidget {
   const FashionScreen({super.key, required this.countryId});
 
   final String countryId;
 
   @override
-  State<FashionScreen> createState() => _FashionScreenState();
+  ConsumerState<FashionScreen> createState() => _FashionScreenState();
 }
 
-class _FashionScreenState extends State<FashionScreen> {
+class _FashionScreenState extends ConsumerState<FashionScreen> {
   final _characterKey = GlobalKey();
   int _activeCategoryIndex = 0;
   late final OutfitState _outfit;
@@ -92,6 +93,7 @@ class _FashionScreenState extends State<FashionScreen> {
       if (byteData == null || !mounted) return;
 
       await GalleryService.saveDrawing(byteData.buffer.asUint8List());
+      ref.invalidate(galleryProvider);
 
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(

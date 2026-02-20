@@ -2,9 +2,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/motion/motion_settings_provider.dart';
 import '../../../core/theme/pw_theme.dart';
 import '../../achievements/providers/achievement_provider.dart';
 import '../models/trace_shape.dart';
@@ -34,6 +36,7 @@ class _TraceScreenState extends ConsumerState<TraceScreen> {
   final GlobalKey _repaintKey = GlobalKey();
 
   ProviderSubscription<TraceState>? _traceSub;
+  Timer? _hintTimer;
   bool _completionHandled = false;
 
   @override
@@ -59,6 +62,7 @@ class _TraceScreenState extends ConsumerState<TraceScreen> {
   @override
   void dispose() {
     _traceSub?.close();
+    _hintTimer?.cancel();
     super.dispose();
   }
 
@@ -66,6 +70,12 @@ class _TraceScreenState extends ConsumerState<TraceScreen> {
     TraceState? previous,
     TraceState next,
   ) async {
+    if (previous != null &&
+        next.segmentIndex > previous.segmentIndex &&
+        !next.completed) {
+      HapticFeedback.lightImpact();
+    }
+
     if (_completionHandled) return;
 
     if (previous?.completed != true && next.completed) {
@@ -88,7 +98,8 @@ class _TraceScreenState extends ConsumerState<TraceScreen> {
         await showDialog<bool>(
           context: context,
           barrierDismissible: false,
-          builder: (_) => const _TraceCelebrationDialog(),
+          builder: (_) =>
+              _TraceCelebrationDialog(reduceMotion: MotionUtil.isReduced(ref)),
         ) ??
         false;
 
@@ -150,10 +161,42 @@ class _TraceScreenState extends ConsumerState<TraceScreen> {
     );
   }
 
+  Future<void> _confirmReset() async {
+    final controller = ref.read(traceControllerProvider.notifier);
+
+    final shouldReset =
+        await showDialog<bool>(
+          context: context,
+          builder: (context) => AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            title: const Text('Start over?'),
+            content: const Text('Your tracing progress will be erased.'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: const Text('Cancel'),
+              ),
+              FilledButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                style: FilledButton.styleFrom(backgroundColor: PWColors.coral),
+                child: const Text('Reset'),
+              ),
+            ],
+          ),
+        ) ??
+        false;
+
+    if (!shouldReset) return;
+    _completionHandled = false;
+    controller.resetTracing();
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(traceControllerProvider);
-    final controller = ref.read(traceControllerProvider.notifier);
+    final reduceMotion = MotionUtil.isReduced(ref);
 
     final shape = state.shape;
 
@@ -190,28 +233,46 @@ class _TraceScreenState extends ConsumerState<TraceScreen> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        actions: const [TraceAudioPlayerWidget(), SizedBox(width: 8)],
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: ActionChip(
+              onPressed: () => _openDifficultySelector(state.difficulty),
+              avatar: const Icon(Icons.tune_rounded, size: 18),
+              label: Text(
+                state.difficulty.name.toUpperCase(),
+                style: const TextStyle(fontWeight: FontWeight.w800),
+              ),
+            ),
+          ),
+          const TraceAudioPlayerWidget(),
+          const SizedBox(width: 8),
+        ],
       ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(14, 0, 14, 12),
           child: Column(
             children: [
+              // -- Top status row --
               Row(
                 children: [
-                  Text(
-                    'Difficulty:',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.w800,
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 7,
                     ),
-                  ),
-                  const SizedBox(width: 8),
-                  ActionChip(
-                    onPressed: () => _openDifficultySelector(state.difficulty),
-                    avatar: const Icon(Icons.tune_rounded, size: 18),
-                    label: Text(
-                      state.difficulty.name.toUpperCase(),
-                      style: const TextStyle(fontWeight: FontWeight.w800),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF2F6FF),
+                      borderRadius: BorderRadius.circular(999),
+                      border: Border.all(color: const Color(0xFFD2DDF4)),
+                    ),
+                    child: Text(
+                      segmentText,
+                      style: const TextStyle(
+                        color: Color(0xFF355791),
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
                   ),
                   const Spacer(),
@@ -236,32 +297,79 @@ class _TraceScreenState extends ConsumerState<TraceScreen> {
                 ],
               ),
               const SizedBox(height: 10),
+
+              // -- Canvas --
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(22),
+                    border: Border.all(
+                      color: const Color(0xFFDCE6F0),
+                      width: 2,
+                    ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.1),
+                        color: Colors.black.withValues(alpha: 0.10),
                         blurRadius: 14,
                         offset: const Offset(0, 8),
                       ),
                     ],
                   ),
-                  child: TraceCanvas(repaintKey: _repaintKey),
+                  child: TracingCanvas(repaintKey: _repaintKey),
                 ),
               ),
               const SizedBox(height: 12),
+
+              // -- Progress bar --
               TraceProgressBar(
                 progress: state.progress,
                 segmentText: segmentText,
               ),
               const SizedBox(height: 10),
+
+              // -- Action buttons --
               Row(
                 children: [
+                  // Reset button
+                  SizedBox(
+                    width: 48,
+                    height: 46,
+                    child: OutlinedButton(
+                      onPressed: state.completed ? null : _confirmReset,
+                      style: OutlinedButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                      ),
+                      child: const Icon(Icons.refresh_rounded, size: 22),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+
+                  // Hint button
                   Expanded(
                     child: OutlinedButton.icon(
-                      onPressed: controller.requestHint,
+                      onPressed: state.completed
+                          ? null
+                          : () {
+                              ref
+                                  .read(traceControllerProvider.notifier)
+                                  .requestHint(animatedGuide: !reduceMotion);
+
+                              _hintTimer?.cancel();
+                              _hintTimer = Timer(
+                                reduceMotion
+                                    ? const Duration(milliseconds: 900)
+                                    : const Duration(milliseconds: 1700),
+                                () {
+                                  if (!mounted) return;
+                                  ref
+                                      .read(traceControllerProvider.notifier)
+                                      .clearHintGlow();
+                                },
+                              );
+                            },
                       icon: const Icon(Icons.lightbulb_rounded),
                       label: const Text('Hint'),
                       style: OutlinedButton.styleFrom(
@@ -272,7 +380,9 @@ class _TraceScreenState extends ConsumerState<TraceScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 8),
+
+                  // Decorate button
                   Expanded(
                     child: FilledButton.icon(
                       onPressed: state.completed
@@ -304,14 +414,18 @@ class _TraceScreenState extends ConsumerState<TraceScreen> {
 }
 
 class _TraceCelebrationDialog extends StatelessWidget {
-  const _TraceCelebrationDialog();
+  const _TraceCelebrationDialog({required this.reduceMotion});
+
+  final bool reduceMotion;
 
   @override
   Widget build(BuildContext context) {
     return TweenAnimationBuilder<double>(
-      duration: const Duration(milliseconds: 360),
-      curve: Curves.easeOutBack,
-      tween: Tween<double>(begin: 0.9, end: 1),
+      duration: reduceMotion
+          ? const Duration(milliseconds: 1)
+          : const Duration(milliseconds: 360),
+      curve: reduceMotion ? Curves.linear : Curves.easeOutBack,
+      tween: Tween<double>(begin: reduceMotion ? 1 : 0.9, end: 1),
       builder: (context, scale, child) {
         return Transform.scale(scale: scale, child: child);
       },

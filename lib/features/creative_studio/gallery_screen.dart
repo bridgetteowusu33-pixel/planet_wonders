@@ -2,46 +2,22 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/services/gallery_service.dart';
 import '../../core/theme/pw_theme.dart';
 
-class CreativeStudioGalleryScreen extends StatefulWidget {
+class CreativeStudioGalleryScreen extends ConsumerWidget {
   const CreativeStudioGalleryScreen({super.key});
 
-  @override
-  State<CreativeStudioGalleryScreen> createState() =>
-      _CreativeStudioGalleryScreenState();
-}
-
-class _CreativeStudioGalleryScreenState
-    extends State<CreativeStudioGalleryScreen> {
-  List<File> _artworks = <File>[];
-  bool _loading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadGallery();
-  }
-
-  Future<void> _loadGallery() async {
-    final files = await GalleryService.loadGallery();
-    if (!mounted) return;
-    setState(() {
-      _artworks = files;
-      _loading = false;
-    });
-  }
-
-  Future<void> _showArtworkOptions(File artwork) async {
-    await showModalBottomSheet<void>(
-      context: context,
+  void _showArtworkOptions(BuildContext parentContext, File artwork) {
+    showModalBottomSheet<void>(
+      context: parentContext,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(26)),
       ),
-      builder: (context) {
+      builder: (sheetContext) {
         return SafeArea(
           top: false,
           child: Padding(
@@ -72,9 +48,9 @@ class _CreativeStudioGalleryScreenState
                 const SizedBox(height: 14),
                 FilledButton.icon(
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    Navigator.of(sheetContext).pop();
                     showDialog<void>(
-                      context: this.context,
+                      context: parentContext,
                       builder: (_) => Dialog.fullscreen(
                         child: Stack(
                           children: [
@@ -94,7 +70,7 @@ class _CreativeStudioGalleryScreenState
                                 alignment: Alignment.topLeft,
                                 child: IconButton(
                                   onPressed: () =>
-                                      Navigator.of(this.context).pop(),
+                                      Navigator.of(parentContext).pop(),
                                   icon: const Icon(Icons.arrow_back_rounded),
                                 ),
                               ),
@@ -110,8 +86,8 @@ class _CreativeStudioGalleryScreenState
                 const SizedBox(height: 10),
                 OutlinedButton.icon(
                   onPressed: () {
-                    Navigator.of(context).pop();
-                    this.context.push('/creative-studio/canvas?mode=free_draw');
+                    Navigator.of(sheetContext).pop();
+                    parentContext.push('/creative-studio/canvas?mode=free_draw');
                   },
                   icon: const Icon(Icons.edit_rounded),
                   label: const Text('Continue Drawing'),
@@ -125,7 +101,9 @@ class _CreativeStudioGalleryScreenState
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final galleryAsync = ref.watch(galleryProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Art'),
@@ -136,90 +114,95 @@ class _CreativeStudioGalleryScreenState
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: _loading
-              ? const Center(child: CircularProgressIndicator())
-              : _artworks.isEmpty
-              ? _EmptyCreativeGallery(
-                  onStart: () {
-                    context.push('/creative-studio/canvas?mode=free_draw');
-                  },
-                )
-              : GridView.builder(
-                  itemCount: _artworks.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 12,
-                    childAspectRatio: 0.88,
-                  ),
-                  itemBuilder: (context, index) {
-                    final artwork = _artworks[index];
-                    return Material(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(18),
-                      clipBehavior: Clip.antiAlias,
-                      child: InkWell(
-                        onTap: () => _showArtworkOptions(artwork),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Expanded(
-                              child: LayoutBuilder(
-                                builder: (context, constraints) {
-                                  final dpr = MediaQuery.of(
-                                    context,
-                                  ).devicePixelRatio;
-                                  final cacheWidth =
-                                      (constraints.maxWidth * dpr)
-                                          .round()
-                                          .clamp(1, 4096)
-                                          .toInt();
-                                  return Image.file(
-                                    artwork,
-                                    fit: BoxFit.cover,
-                                    cacheWidth: cacheWidth,
-                                    filterQuality: FilterQuality.low,
-                                  );
-                                },
+          child: galleryAsync.when(
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (_, _) => const Center(
+              child: Text('Could not load gallery'),
+            ),
+            data: (artworks) => artworks.isEmpty
+                ? _EmptyCreativeGallery(
+                    onStart: () {
+                      context.push('/creative-studio/canvas?mode=free_draw');
+                    },
+                  )
+                : GridView.builder(
+                    itemCount: artworks.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12,
+                      childAspectRatio: 0.88,
+                    ),
+                    itemBuilder: (context, index) {
+                      final artwork = artworks[index];
+                      return Material(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(18),
+                        clipBehavior: Clip.antiAlias,
+                        child: InkWell(
+                          onTap: () => _showArtworkOptions(context, artwork),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Expanded(
+                                child: LayoutBuilder(
+                                  builder: (context, constraints) {
+                                    final dpr = MediaQuery.of(
+                                      context,
+                                    ).devicePixelRatio;
+                                    final cacheWidth =
+                                        (constraints.maxWidth * dpr)
+                                            .round()
+                                            .clamp(1, 4096)
+                                            .toInt();
+                                    return Image.file(
+                                      artwork,
+                                      fit: BoxFit.cover,
+                                      cacheWidth: cacheWidth,
+                                      filterQuality: FilterQuality.low,
+                                    );
+                                  },
+                                ),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 8,
-                              ),
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.auto_awesome_rounded,
-                                    size: 16,
-                                    color: PWColors.navy,
-                                  ),
-                                  const SizedBox(width: 6),
-                                  Expanded(
-                                    child: Text(
-                                      'Artwork ${index + 1}',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall
-                                          ?.copyWith(
-                                            fontWeight: FontWeight.w800,
-                                          ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 8,
+                                ),
+                                child: Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.auto_awesome_rounded,
+                                      size: 16,
+                                      color: PWColors.navy,
                                     ),
-                                  ),
-                                  const Icon(
-                                    Icons.chevron_right_rounded,
-                                    size: 18,
-                                  ),
-                                ],
+                                    const SizedBox(width: 6),
+                                    Expanded(
+                                      child: Text(
+                                        'Artwork ${index + 1}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall
+                                            ?.copyWith(
+                                              fontWeight: FontWeight.w800,
+                                            ),
+                                      ),
+                                    ),
+                                    const Icon(
+                                      Icons.chevron_right_rounded,
+                                      size: 18,
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                ),
+                      );
+                    },
+                  ),
+          ),
         ),
       ),
     );

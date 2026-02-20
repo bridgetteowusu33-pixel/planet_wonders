@@ -9,9 +9,10 @@ import '../creative_controller.dart';
 import '../creative_state.dart';
 
 class CanvasArea extends ConsumerStatefulWidget {
-  const CanvasArea({super.key, required this.repaintKey});
+  const CanvasArea({super.key, required this.repaintKey, this.backgroundPainter});
 
   final GlobalKey repaintKey;
+  final CustomPainter? backgroundPainter;
 
   @override
   ConsumerState<CanvasArea> createState() => _CanvasAreaState();
@@ -167,6 +168,12 @@ class _CanvasAreaState extends ConsumerState<CanvasArea> {
                                         ),
                                       ),
                                     ),
+                                    if (widget.backgroundPainter != null)
+                                      Positioned.fill(
+                                        child: CustomPaint(
+                                          painter: widget.backgroundPainter,
+                                        ),
+                                      ),
                                     Positioned.fill(
                                       child: CustomPaint(
                                         painter: _StrokeLayerPainter(

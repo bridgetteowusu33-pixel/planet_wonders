@@ -9,11 +9,13 @@ class GuidingHand extends StatefulWidget {
     required this.path,
     required this.visible,
     required this.cycle,
+    this.reduceMotion = false,
   });
 
   final Path? path;
   final bool visible;
   final int cycle;
+  final bool reduceMotion;
 
   @override
   State<GuidingHand> createState() => _GuidingHandState();
@@ -39,7 +41,8 @@ class _GuidingHandState extends State<GuidingHand>
     super.didUpdateWidget(oldWidget);
     if (widget.cycle != oldWidget.cycle &&
         widget.visible &&
-        widget.path != null) {
+        widget.path != null &&
+        !widget.reduceMotion) {
       _controller
         ..reset()
         ..repeat();
@@ -66,13 +69,15 @@ class _GuidingHandState extends State<GuidingHand>
           animation: _controller,
           builder: (context, _) {
             final pose = _handAnimator.poseAt(path, _controller.value);
+            final reducedPose = _handAnimator.poseAt(path, 0.22);
+            final currentPose = widget.reduceMotion ? reducedPose : pose;
             return Stack(
               children: [
                 Positioned(
-                  left: pose.position.dx - 16,
-                  top: pose.position.dy - 16,
+                  left: currentPose.position.dx - 16,
+                  top: currentPose.position.dy - 16,
                   child: Transform.rotate(
-                    angle: pose.radians,
+                    angle: currentPose.radians,
                     child: Container(
                       width: 34,
                       height: 34,
@@ -104,7 +109,8 @@ class _GuidingHandState extends State<GuidingHand>
   }
 
   void _syncAnimationState() {
-    final shouldAnimate = widget.visible && widget.path != null;
+    final shouldAnimate =
+        widget.visible && widget.path != null && !widget.reduceMotion;
     if (shouldAnimate) {
       if (!_controller.isAnimating) {
         _controller.repeat();

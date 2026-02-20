@@ -1,41 +1,15 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/services/gallery_service.dart';
 import '../../core/theme/pw_theme.dart';
 
-class GalleryScreen extends StatefulWidget {
+class GalleryScreen extends ConsumerWidget {
   const GalleryScreen({super.key});
 
   @override
-  State<GalleryScreen> createState() => _GalleryScreenState();
-}
-
-class _GalleryScreenState extends State<GalleryScreen>
-    with AutomaticKeepAliveClientMixin<GalleryScreen> {
-  List<File> _drawings = [];
-  bool _loading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadGallery();
-  }
-
-  Future<void> _loadGallery() async {
-    final files = await GalleryService.loadGallery();
-    if (mounted) {
-      setState(() {
-        _drawings = files;
-        _loading = false;
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    super.build(context);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final galleryAsync = ref.watch(galleryProvider);
     final dpr = MediaQuery.of(context).devicePixelRatio;
     const gridSpacing = 12.0;
     const horizontalPadding = 32.0; // parent padding: 16 + 16
@@ -62,44 +36,46 @@ class _GalleryScreenState extends State<GalleryScreen>
             ),
             const SizedBox(height: 16),
             Expanded(
-              child: _loading
-                  ? const Center(child: CircularProgressIndicator())
-                  : _drawings.isEmpty
-                  ? const _EmptyGallery()
-                  : RepaintBoundary(
-                      child: GridView.builder(
-                        cacheExtent: 900,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 12,
-                              mainAxisSpacing: 12,
-                            ),
-                        itemCount: _drawings.length,
-                        itemBuilder: (context, index) {
-                          return RepaintBoundary(
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(16),
-                              child: Image.file(
-                                _drawings[index],
-                                fit: BoxFit.cover,
-                                cacheWidth: cacheWidth,
-                                filterQuality: FilterQuality.low,
+              child: galleryAsync.when(
+                loading: () =>
+                    const Center(child: CircularProgressIndicator()),
+                error: (_, _) => const Center(
+                  child: Text('Could not load gallery'),
+                ),
+                data: (drawings) => drawings.isEmpty
+                    ? const _EmptyGallery()
+                    : RepaintBoundary(
+                        child: GridView.builder(
+                          cacheExtent: 900,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 12,
+                                mainAxisSpacing: 12,
                               ),
-                            ),
-                          );
-                        },
+                          itemCount: drawings.length,
+                          itemBuilder: (context, index) {
+                            return RepaintBoundary(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(16),
+                                child: Image.file(
+                                  drawings[index],
+                                  fit: BoxFit.cover,
+                                  cacheWidth: cacheWidth,
+                                  filterQuality: FilterQuality.low,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                       ),
-                    ),
+              ),
             ),
           ],
         ),
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }
 
 class _EmptyGallery extends StatelessWidget {

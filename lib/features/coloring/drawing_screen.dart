@@ -43,6 +43,7 @@ class _DrawingScreenState extends ConsumerState<DrawingScreen> {
       if (byteData == null) return;
 
       await GalleryService.saveDrawing(byteData.buffer.asUint8List());
+      ref.invalidate(galleryProvider);
 
       ref.read(learningStatsProvider.notifier).logActivity(
         ActivityLogEntry(

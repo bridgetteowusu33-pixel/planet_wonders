@@ -81,7 +81,8 @@ class TraceShape {
   }) {
     final id = (json['id'] as String?)?.trim() ?? '';
     final title = (json['title'] as String?)?.trim() ?? '';
-    final emoji = (json['thumbnailEmoji'] as String?)?.trim() ?? '🎨';
+    final emoji =
+        ((json['thumbnailEmoji'] ?? json['emoji']) as String?)?.trim() ?? '🎨';
 
     if (id.isEmpty || title.isEmpty) {
       throw const FormatException('Trace shape is missing required fields.');

@@ -1,5 +1,6 @@
 // File: lib/features/draw_with_me/ui/draw_with_me_home.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/pw_theme.dart';
@@ -7,16 +8,15 @@ import '../engine/trace_engine.dart';
 import '../models/trace_shape.dart';
 import 'difficulty_selector.dart';
 
-class DrawWithMeHomeScreen extends StatefulWidget {
+class DrawWithMeHomeScreen extends ConsumerStatefulWidget {
   const DrawWithMeHomeScreen({super.key});
 
   @override
-  State<DrawWithMeHomeScreen> createState() => _DrawWithMeHomeScreenState();
+  ConsumerState<DrawWithMeHomeScreen> createState() =>
+      _DrawWithMeHomeScreenState();
 }
 
-class _DrawWithMeHomeScreenState extends State<DrawWithMeHomeScreen> {
-  final TraceEngine _engine = TraceEngine();
-
+class _DrawWithMeHomeScreenState extends ConsumerState<DrawWithMeHomeScreen> {
   bool _loading = true;
   String? _error;
 
@@ -40,11 +40,12 @@ class _DrawWithMeHomeScreenState extends State<DrawWithMeHomeScreen> {
     });
 
     try {
-      final packs = await _engine.loadPacks();
+      final engine = ref.read(traceEngineProvider);
+      final packs = await engine.loadPacks();
       final shapesByPack = <String, List<TraceShape>>{};
 
       for (final pack in packs) {
-        shapesByPack[pack.id] = await _engine.loadShapesForPack(pack.id);
+        shapesByPack[pack.id] = await engine.loadShapesForPack(pack.id);
       }
 
       if (!mounted) return;

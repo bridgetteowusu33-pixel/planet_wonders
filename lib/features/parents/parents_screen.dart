@@ -392,11 +392,11 @@ class ParentsScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  'Planet Wonders Kids\u{2122} by Afia Labs',
+                  'Planet Wonders Kids by Afia Labs',
                   style: GoogleFonts.nunito(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
-                    color: PWThemeColors.of(context).textMuted.withValues(alpha: 0.6),
+                    color: PWThemeColors.of(context).textMuted,
                   ),
                 ),
                 const SizedBox(height: 2),

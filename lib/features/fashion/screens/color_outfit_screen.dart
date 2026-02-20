@@ -59,6 +59,7 @@ class _ColorOutfitScreenState extends ConsumerState<ColorOutfitScreen> {
       if (byteData == null || !mounted) return;
 
       await GalleryService.saveDrawing(byteData.buffer.asUint8List());
+      ref.invalidate(galleryProvider);
 
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(

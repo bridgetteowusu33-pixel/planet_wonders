@@ -4,11 +4,16 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../engine/path_validator.dart';
 import '../engine/trace_engine.dart';
 import '../models/trace_shape.dart';
+import '../tracing/engine/tracing_engine.dart';
+import '../tracing/models/tracing_template.dart';
 
 enum TraceAudioCue { followPath, greatJob, tryAgain, completed }
+
+// ---------------------------------------------------------------------------
+// State
+// ---------------------------------------------------------------------------
 
 class TraceState {
   const TraceState({
@@ -22,7 +27,9 @@ class TraceState {
     required this.completed,
     required this.segmentStrokes,
     required this.activeStroke,
-    required this.activeCoverage,
+    required this.hintGlowPoint,
+    required this.showCompletionSparkles,
+    required this.sparklePositions,
     required this.handVisible,
     required this.handCycle,
     required this.muted,
@@ -43,7 +50,9 @@ class TraceState {
       completed: false,
       segmentStrokes: <List<Offset>>[],
       activeStroke: <Offset>[],
-      activeCoverage: 0,
+      hintGlowPoint: null,
+      showCompletionSparkles: false,
+      sparklePositions: <Offset>[],
       handVisible: true,
       handCycle: 0,
       muted: false,
@@ -63,7 +72,9 @@ class TraceState {
   final bool completed;
   final List<List<Offset>> segmentStrokes;
   final List<Offset> activeStroke;
-  final double activeCoverage;
+  final Offset? hintGlowPoint;
+  final bool showCompletionSparkles;
+  final List<Offset> sparklePositions;
   final bool handVisible;
   final int handCycle;
   final bool muted;
@@ -85,7 +96,10 @@ class TraceState {
     bool? completed,
     List<List<Offset>>? segmentStrokes,
     List<Offset>? activeStroke,
-    double? activeCoverage,
+    Offset? hintGlowPoint,
+    bool clearHintGlow = false,
+    bool? showCompletionSparkles,
+    List<Offset>? sparklePositions,
     bool? handVisible,
     int? handCycle,
     bool? muted,
@@ -105,7 +119,12 @@ class TraceState {
       completed: completed ?? this.completed,
       segmentStrokes: segmentStrokes ?? this.segmentStrokes,
       activeStroke: activeStroke ?? this.activeStroke,
-      activeCoverage: activeCoverage ?? this.activeCoverage,
+      hintGlowPoint: clearHintGlow
+          ? null
+          : (hintGlowPoint ?? this.hintGlowPoint),
+      showCompletionSparkles:
+          showCompletionSparkles ?? this.showCompletionSparkles,
+      sparklePositions: sparklePositions ?? this.sparklePositions,
       handVisible: handVisible ?? this.handVisible,
       handCycle: handCycle ?? this.handCycle,
       muted: muted ?? this.muted,
@@ -118,24 +137,41 @@ class TraceState {
   }
 }
 
+// ---------------------------------------------------------------------------
+// Provider
+// ---------------------------------------------------------------------------
+
 final traceControllerProvider =
     NotifierProvider.autoDispose<TraceController, TraceState>(
       TraceController.new,
     );
 
+// ---------------------------------------------------------------------------
+// Controller
+// ---------------------------------------------------------------------------
+
 class TraceController extends Notifier<TraceState> {
-  static const double _minPointDistanceSquared = 10.24; // 3.2px
-  final PathValidator _validator = const PathValidator();
+  final TracingEngine _engine = TracingEngine();
 
-  TraceLayout? _layout;
-  Size? _viewportSize;
-
-  TraceLayout? get layout => _layout;
+  TracingEngine get engine => _engine;
 
   @override
-  TraceState build() {
-    return TraceState.initial();
+  TraceState build() => TraceState.initial();
+
+  // ---- Difficulty mapping ----
+
+  static TracingDifficulty difficultyConfig(TraceDifficulty d) {
+    switch (d) {
+      case TraceDifficulty.easy:
+        return TracingDifficulty.easy;
+      case TraceDifficulty.medium:
+        return TracingDifficulty.medium;
+      case TraceDifficulty.hard:
+        return TracingDifficulty.hard;
+    }
   }
+
+  // ---- Session lifecycle ----
 
   Future<void> loadSession({
     required String packId,
@@ -152,7 +188,9 @@ class TraceController extends Notifier<TraceState> {
       completed: false,
       segmentStrokes: const <List<Offset>>[],
       activeStroke: const <Offset>[],
-      activeCoverage: 0,
+      clearHintGlow: true,
+      showCompletionSparkles: false,
+      sparklePositions: const <Offset>[],
       handVisible: true,
       handCycle: 0,
       pendingAudioCue: null,
@@ -160,13 +198,17 @@ class TraceController extends Notifier<TraceState> {
     );
 
     try {
-      final engine = ref.read(traceEngineProvider);
-      final shape = await engine.loadShape(packId: packId, shapeId: shapeId);
+      final loader = ref.read(traceEngineProvider);
+      final shape = await loader.loadShape(packId: packId, shapeId: shapeId);
+      final template = TracingTemplate.fromShape(shape, difficulty: difficulty);
 
-      _layout = null;
-      if (_viewportSize != null && _viewportSize!.longestSide > 0) {
-        _layout = engine.buildLayout(shape: shape, size: _viewportSize!);
-      }
+      _engine.configureFromTemplate(
+        template: template,
+        canvasSize: _engine.canvasSize.isEmpty
+            ? const Size(300, 300)
+            : _engine.canvasSize,
+        difficulty: difficultyConfig(difficulty),
+      );
 
       state = state.copyWith(
         loading: false,
@@ -187,34 +229,203 @@ class TraceController extends Notifier<TraceState> {
   void setViewportSize(Size size) {
     if (size.width <= 0 || size.height <= 0) return;
 
-    final prev = _viewportSize;
-    if (prev != null &&
+    final prev = _engine.canvasSize;
+    if (!prev.isEmpty &&
         (prev.width - size.width).abs() < 0.5 &&
         (prev.height - size.height).abs() < 0.5) {
       return;
     }
 
-    _viewportSize = size;
-
-    final shape = state.shape;
-    if (shape == null) return;
-
-    final engine = ref.read(traceEngineProvider);
-    _layout = engine.buildLayout(shape: shape, size: size);
-
+    _engine.updateCanvasSize(size);
     state = state.copyWith(layoutVersion: state.layoutVersion + 1);
   }
 
   void setDifficulty(TraceDifficulty difficulty) {
     if (state.difficulty == difficulty) return;
 
-    state = state.copyWith(difficulty: difficulty);
+    final shape = state.shape;
+    if (shape == null) {
+      state = state.copyWith(difficulty: difficulty);
+      return;
+    }
 
-    // Re-evaluate current active stroke under the new tolerance.
-    if (state.activeStroke.isNotEmpty) {
-      _updateCoverageForActiveStroke();
+    // Reconfigure engine with new difficulty.
+    final template = TracingTemplate.fromShape(shape, difficulty: difficulty);
+
+    _engine.configureFromTemplate(
+      template: template,
+      canvasSize: _engine.canvasSize,
+      difficulty: difficultyConfig(difficulty),
+    );
+
+    state = state.copyWith(
+      difficulty: difficulty,
+      segmentIndex: 0,
+      progress: 0,
+      completed: false,
+      segmentStrokes: List<List<Offset>>.generate(
+        shape.segments.length,
+        (_) => const <Offset>[],
+      ),
+      activeStroke: const <Offset>[],
+      clearHintGlow: true,
+      showCompletionSparkles: false,
+      sparklePositions: const <Offset>[],
+      handVisible: true,
+      handCycle: state.handCycle + 1,
+      layoutVersion: state.layoutVersion + 1,
+    );
+
+    _queueAudio(TraceAudioCue.followPath);
+  }
+
+  // ---- Pointer events ----
+
+  void startStroke(Offset screenPoint) {
+    if (state.completed || state.shape == null) return;
+
+    _engine.handlePointerDown(screenPoint);
+
+    state = state.copyWith(
+      activeStroke: const <Offset>[],
+      handVisible: false,
+      clearHintGlow: true,
+    );
+  }
+
+  void addStrokePoint(Offset screenPoint) {
+    if (state.completed || state.shape == null) return;
+
+    final result = _engine.handlePointerMove(screenPoint);
+
+    if (result.accepted) {
+      state = state.copyWith(
+        activeStroke: _engine.activeStrokePoints,
+        segmentIndex: result.activeSegmentIndex,
+        progress: result.totalProgress,
+        clearHintGlow: true,
+      );
+
+      if (result.segmentCompleted) {
+        _onSegmentCompleted(result);
+      }
+    } else if (result.distanceFromPath.isFinite) {
+      // Off-path: show hint glow at closest point.
+      state = state.copyWith(
+        hintGlowPoint: result.closestScreenPoint,
+        activeStroke: _engine.activeStrokePoints,
+      );
     }
   }
+
+  void endStroke() {
+    if (state.completed) return;
+
+    _engine.handlePointerUp();
+
+    state = state.copyWith(activeStroke: const <Offset>[], clearHintGlow: true);
+  }
+
+  // ---- Segment / shape completion ----
+
+  void _onSegmentCompleted(TracingPointResult result) {
+    // Sync segment strokes from engine.
+    state = state.copyWith(
+      segmentStrokes: _engine.segmentStrokes,
+      activeStroke: const <Offset>[],
+      segmentIndex: result.activeSegmentIndex,
+      progress: result.totalProgress,
+      completed: result.allCompleted,
+      clearHintGlow: true,
+    );
+
+    if (result.allCompleted) {
+      _triggerCompletionCelebration();
+      _queueAudio(TraceAudioCue.completed);
+      return;
+    }
+
+    _queueAudio(TraceAudioCue.greatJob);
+
+    // Show guiding hand for next segment.
+    state = state.copyWith(handVisible: true, handCycle: state.handCycle + 1);
+  }
+
+  void _triggerCompletionCelebration() {
+    // Generate sparkle positions along completed paths.
+    final sparkles = <Offset>[];
+    final rng = math.Random(42);
+
+    for (final seg in _engine.segments) {
+      final length = seg.length;
+      // Place 3-4 sparkles per segment.
+      final count = 3 + rng.nextInt(2);
+      for (int i = 0; i < count; i++) {
+        final d = (rng.nextDouble() * 0.8 + 0.1) * length;
+        final point = seg.screenPointAt(d);
+        if (point != null) {
+          // Offset slightly from path for visual scatter.
+          final jitter = Offset(
+            (rng.nextDouble() - 0.5) * 40,
+            (rng.nextDouble() - 0.5) * 40,
+          );
+          sparkles.add(point + jitter);
+        }
+      }
+    }
+
+    state = state.copyWith(
+      showCompletionSparkles: true,
+      sparklePositions: sparkles,
+      handVisible: false,
+    );
+  }
+
+  // ---- Hint / assist ----
+
+  void requestHint({required bool animatedGuide}) {
+    if (state.completed || state.shape == null) return;
+
+    state = state.copyWith(
+      handVisible: animatedGuide,
+      handCycle: animatedGuide ? state.handCycle + 1 : state.handCycle,
+      hintGlowPoint: _engine.hintPoint,
+    );
+    _queueAudio(TraceAudioCue.followPath);
+  }
+
+  void clearHintGlow() {
+    if (state.hintGlowPoint == null) return;
+    state = state.copyWith(clearHintGlow: true);
+  }
+
+  void resetTracing() {
+    final shape = state.shape;
+    if (shape == null) return;
+
+    _engine.reset();
+
+    state = state.copyWith(
+      segmentIndex: 0,
+      progress: 0,
+      completed: false,
+      segmentStrokes: List<List<Offset>>.generate(
+        shape.segments.length,
+        (_) => const <Offset>[],
+      ),
+      activeStroke: const <Offset>[],
+      clearHintGlow: true,
+      showCompletionSparkles: false,
+      sparklePositions: const <Offset>[],
+      handVisible: true,
+      handCycle: state.handCycle + 1,
+      layoutVersion: state.layoutVersion + 1,
+    );
+
+    _queueAudio(TraceAudioCue.followPath);
+  }
+
+  // ---- Audio ----
 
   void toggleMute() {
     state = state.copyWith(muted: !state.muted);
@@ -225,173 +436,8 @@ class TraceController extends Notifier<TraceState> {
     state = state.copyWith(clearPendingAudioCue: true);
   }
 
-  void startStroke(Offset point) {
-    if (state.completed || state.shape == null) return;
-
-    state = state.copyWith(
-      activeStroke: <Offset>[point],
-      handVisible: false,
-      activeCoverage: 0,
-    );
-  }
-
-  void addStrokePoint(Offset point) {
-    final active = state.activeStroke;
-    if (active.isEmpty || state.completed) return;
-
-    final last = active.last;
-    final dx = point.dx - last.dx;
-    final dy = point.dy - last.dy;
-    if ((dx * dx + dy * dy) < _minPointDistanceSquared) {
-      return; // touch sampling debounce
-    }
-
-    final nextStroke = [...active, point];
-    state = state.copyWith(activeStroke: nextStroke, handVisible: false);
-
-    _updateCoverageForActiveStroke();
-  }
-
-  void endStroke() {
-    if (state.completed || state.activeStroke.isEmpty) return;
-
-    final result = _currentValidationResult();
-    final config = TraceValidationConfig.fromDifficulty(state.difficulty);
-
-    if (result.completed) {
-      _completeCurrentSegment(points: state.activeStroke);
-      return;
-    }
-
-    final canAssist =
-        state.difficulty == TraceDifficulty.easy && result.suggestAutoComplete;
-
-    if (canAssist) {
-      _completeCurrentSegment(points: state.activeStroke, assisted: true);
-      return;
-    }
-
-    state = state.copyWith(activeStroke: const <Offset>[], activeCoverage: 0);
-
-    if (result.coverage < config.autoCompleteCoverage) {
-      _queueAudio(TraceAudioCue.tryAgain);
-    }
-  }
-
-  void requestHint() {
-    if (state.completed || state.shape == null) return;
-
-    if (state.difficulty == TraceDifficulty.easy) {
-      final activePath = _activeSegmentPath();
-      if (activePath != null) {
-        _completeCurrentSegment(
-          points: _samplePreview(activePath),
-          assisted: true,
-        );
-        return;
-      }
-    }
-
-    state = state.copyWith(handVisible: true, handCycle: state.handCycle + 1);
-    _queueAudio(TraceAudioCue.followPath);
-  }
-
-  Path? _activeSegmentPath() {
-    final layout = _layout;
-    if (layout == null || state.segmentIndex >= layout.segments.length) {
-      return null;
-    }
-    return layout.segments[state.segmentIndex].path;
-  }
-
-  List<Offset> _samplePreview(Path path) {
-    return _validator.samplePath(path, spacing: 14);
-  }
-
-  void _updateCoverageForActiveStroke() {
-    final result = _currentValidationResult();
-
-    final totalSegments = math.max(1, state.totalSegments);
-    final completedSegments = state.segmentIndex;
-    final progress =
-        ((completedSegments + result.coverage.clamp(0.0, 1.0)) / totalSegments)
-            .clamp(0.0, 1.0)
-            .toDouble();
-
-    state = state.copyWith(activeCoverage: result.coverage, progress: progress);
-
-    if (result.completed) {
-      _completeCurrentSegment(points: state.activeStroke);
-    }
-  }
-
-  TraceValidationResult _currentValidationResult() {
-    final layout = _layout;
-    final segmentIndex = state.segmentIndex;
-    if (layout == null ||
-        segmentIndex < 0 ||
-        segmentIndex >= layout.segments.length ||
-        state.activeStroke.isEmpty) {
-      return const TraceValidationResult(
-        coverage: 0,
-        completed: false,
-        suggestAutoComplete: false,
-      );
-    }
-
-    final segment = layout.segments[segmentIndex];
-    final config = TraceValidationConfig.fromDifficulty(state.difficulty);
-
-    return _validator.evaluate(
-      sampledPathPoints: segment.samplePoints,
-      userPoints: state.activeStroke,
-      config: config,
-    );
-  }
-
-  void _completeCurrentSegment({
-    required List<Offset> points,
-    bool assisted = false,
-  }) {
-    final shape = state.shape;
-    if (shape == null) return;
-
-    final index = state.segmentIndex;
-    if (index < 0 || index >= shape.segments.length) return;
-
-    final updatedSegments = [...state.segmentStrokes];
-    updatedSegments[index] = points.isEmpty ? const <Offset>[] : [...points];
-
-    final nextIndex = index + 1;
-    final total = math.max(1, shape.segments.length);
-    final completed = nextIndex >= shape.segments.length;
-
-    state = state.copyWith(
-      segmentStrokes: updatedSegments,
-      segmentIndex: completed ? index : nextIndex,
-      completed: completed,
-      activeStroke: const <Offset>[],
-      activeCoverage: 0,
-      progress: completed ? 1.0 : (nextIndex / total),
-      handVisible: !completed,
-      handCycle: state.handCycle + 1,
-    );
-
-    if (completed) {
-      _queueAudio(TraceAudioCue.completed);
-      return;
-    }
-
-    _queueAudio(TraceAudioCue.greatJob);
-
-    if (assisted) {
-      _queueAudio(TraceAudioCue.followPath);
-    }
-  }
-
   void _queueAudio(TraceAudioCue cue) {
     if (state.muted) return;
-
     state = state.copyWith(
       pendingAudioCue: cue,
       audioCueVersion: state.audioCueVersion + 1,
