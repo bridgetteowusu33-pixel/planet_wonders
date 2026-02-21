@@ -45,9 +45,13 @@ class PassportScreen extends ConsumerWidget {
       body: SafeArea(
         child: Stack(
           children: [
-            SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
+            Align(
+              alignment: Alignment.topCenter,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 700),
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
                 children: [
                   const SizedBox(height: 16),
                   Text(
@@ -163,6 +167,8 @@ class PassportScreen extends ConsumerWidget {
                     }),
                   const SizedBox(height: 24),
                 ],
+              ),
+            ),
               ),
             ),
             const BadgeUnlockAnimationListener(),

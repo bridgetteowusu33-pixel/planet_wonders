@@ -125,17 +125,21 @@ class _FashionScreenState extends ConsumerState<FashionScreen> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: SafeArea(
-        child: Column(
-          children: [
-            // ── Top bar ──
-            _TopBar(
-              flag: country?.flagEmoji ?? '',
-              countryName: country?.name ?? widget.countryId,
-            ),
+        child: Align(
+          alignment: Alignment.topCenter,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 800),
+            child: Column(
+              children: [
+                // ── Top bar ──
+                _TopBar(
+                  flag: country?.flagEmoji ?? '',
+                  countryName: country?.name ?? widget.countryId,
+                ),
 
-            // ── Character display ──
-            Expanded(
-              flex: 5,
+                // ── Character display ──
+                Expanded(
+                  flex: 5,
               child: RepaintBoundary(
                 key: _characterKey,
                 child: fashion.hasAssets
@@ -360,7 +364,9 @@ class _FashionScreenState extends ConsumerState<FashionScreen> {
                 ],
               ),
             ),
-          ],
+              ],
+            ),
+          ),
         ),
       ),
     );

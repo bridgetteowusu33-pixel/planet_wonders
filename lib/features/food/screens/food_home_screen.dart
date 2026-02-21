@@ -32,42 +32,55 @@ class FoodHomeScreen extends StatelessWidget {
       body: SafeArea(
         child: pack == null || pack.dishes.isEmpty
             ? _NoFood(countryName: countryName)
-            : Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  children: [
-                    _FoodBanner(
-                      flagEmoji: country?.flagEmoji ?? '',
-                      countryName: countryName,
-                    ),
-                    const SizedBox(height: 10),
-                    _FoodModeRow(
-                      countryId: countryId,
-                    ),
-                    const SizedBox(height: 14),
-                    Expanded(
-                      child: GridView.builder(
-                        itemCount: pack.dishes.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 12,
-                          mainAxisSpacing: 12,
-                          childAspectRatio: 0.84,
-                        ),
-                        itemBuilder: (context, index) {
-                          final dish = pack.dishes[index];
-                          return _FoodCard(
-                            dish: dish,
-                            onTap: () => context.push(
-                              '/food/$countryId/${dish.id}',
+            : LayoutBuilder(
+                builder: (context, constraints) {
+                  final w = constraints.maxWidth;
+                  final crossAxisCount = w >= 900 ? 4 : w >= 600 ? 3 : 2;
+
+                  return Align(
+                    alignment: Alignment.topCenter,
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 900),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Column(
+                          children: [
+                            _FoodBanner(
+                              flagEmoji: country?.flagEmoji ?? '',
+                              countryName: countryName,
                             ),
-                          );
-                        },
+                            const SizedBox(height: 10),
+                            _FoodModeRow(
+                              countryId: countryId,
+                            ),
+                            const SizedBox(height: 14),
+                            Expanded(
+                              child: GridView.builder(
+                                itemCount: pack.dishes.length,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: crossAxisCount,
+                                  crossAxisSpacing: 12,
+                                  mainAxisSpacing: 12,
+                                  childAspectRatio: 0.84,
+                                ),
+                                itemBuilder: (context, index) {
+                                  final dish = pack.dishes[index];
+                                  return _FoodCard(
+                                    dish: dish,
+                                    onTap: () => context.push(
+                                      '/food/$countryId/${dish.id}',
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ],
-                ),
+                  );
+                },
               ),
       ),
     );

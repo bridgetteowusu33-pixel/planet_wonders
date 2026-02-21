@@ -35,26 +35,39 @@ class ContinentScreen extends StatelessWidget {
         elevation: 0,
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: GridView.builder(
-            itemCount: continent.countries.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
-              childAspectRatio: 1.0,
-            ),
-            itemBuilder: (context, index) {
-              final country = continent.countries[index];
-              return CountryCard(
-                country: country,
-                onTap: () => context.push(
-                  '/world/${continent.id}/${country.id}',
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final w = constraints.maxWidth;
+            final crossAxisCount = w >= 900 ? 4 : w >= 600 ? 3 : 2;
+
+            return Align(
+              alignment: Alignment.topCenter,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 900),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: GridView.builder(
+                    itemCount: continent.countries.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: crossAxisCount,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12,
+                      childAspectRatio: 1.0,
+                    ),
+                    itemBuilder: (context, index) {
+                      final country = continent.countries[index];
+                      return CountryCard(
+                        country: country,
+                        onTap: () => context.push(
+                          '/world/${continent.id}/${country.id}',
+                        ),
+                      );
+                    },
+                  ),
                 ),
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ),
     );

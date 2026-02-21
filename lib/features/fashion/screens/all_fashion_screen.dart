@@ -30,12 +30,16 @@ class AllFashionScreen extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
             )
-          : Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: ListView.separated(
-                itemCount: countryIds.length,
-                separatorBuilder: (_, _) => const SizedBox(height: 12),
-                itemBuilder: (context, index) {
+          : Align(
+              alignment: Alignment.topCenter,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 700),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: ListView.separated(
+                    itemCount: countryIds.length,
+                    separatorBuilder: (_, _) => const SizedBox(height: 12),
+                    itemBuilder: (context, index) {
                   final countryId = countryIds[index];
                   final fashion = fashionRegistry[countryId]!;
                   final country = findCountryById(countryId);
@@ -102,7 +106,9 @@ class AllFashionScreen extends StatelessWidget {
                       ),
                     ),
                   );
-                },
+                    },
+                  ),
+                ),
               ),
             ),
     );

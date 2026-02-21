@@ -149,6 +149,70 @@
           "unlockedByDefault": false
         }
       ]
+    },
+    {
+      "id": "uk_pack",
+      "title": "UK Pack",
+      "countryCode": "GB",
+      "thumbnail": "assets/puzzles/uk/thumbs/uk_cover.png",
+      "difficultyTiers": ["easy", "medium", "hard"],
+      "puzzles": [
+        {
+          "id": "uk_01_bigben",
+          "title": "Big Ben",
+          "image": "assets/puzzles/uk/full/uk_01_bigben.jpg",
+          "thumbnail": "assets/puzzles/uk/thumbs/uk_01_bigben.png",
+          "rows": 3,
+          "cols": 3,
+          "difficulty": "easy",
+          "targetTimeSec": 90,
+          "unlockedByDefault": true
+        },
+        {
+          "id": "uk_02_towerbridge",
+          "title": "Tower Bridge",
+          "image": "assets/puzzles/uk/full/uk_02_towerbridge.jpg",
+          "thumbnail": "assets/puzzles/uk/thumbs/uk_02_towerbridge.png",
+          "rows": 4,
+          "cols": 4,
+          "difficulty": "easy",
+          "targetTimeSec": 120,
+          "unlockedByDefault": false
+        },
+        {
+          "id": "uk_03_palace",
+          "title": "Buckingham Palace",
+          "image": "assets/puzzles/uk/full/uk_03_palace.jpg",
+          "thumbnail": "assets/puzzles/uk/thumbs/uk_03_palace.png",
+          "rows": 4,
+          "cols": 5,
+          "difficulty": "medium",
+          "targetTimeSec": 180,
+          "unlockedByDefault": false
+        },
+        {
+          "id": "uk_04_stonehenge",
+          "title": "Stonehenge",
+          "image": "assets/puzzles/uk/full/uk_04_stonehenge.jpg",
+          "thumbnail": "assets/puzzles/uk/thumbs/uk_04_stonehenge.png",
+          "rows": 5,
+          "cols": 5,
+          "difficulty": "medium",
+          "targetTimeSec": 210,
+          "unlockedByDefault": false
+        },
+        {
+          "id": "uk_05_countryside",
+          "title": "Countryside",
+          "image": "assets/puzzles/uk/full/uk_05_countryside.jpg",
+          "thumbnail": "assets/puzzles/uk/thumbs/uk_05_countryside.png",
+          "rows": 6,
+          "cols": 5,
+          "difficulty": "hard",
+          "targetTimeSec": 300,
+          "unlockedByDefault": false
+        }
+      ]
     }
   ]
 }

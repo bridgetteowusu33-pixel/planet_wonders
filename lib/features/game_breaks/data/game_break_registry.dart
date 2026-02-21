@@ -105,6 +105,22 @@ const _brazilMemoryMatch = MemoryMatchData(
 );
 
 // ---------------------------------------------------------------------------
+// UK — crowns, buses, castles, tea
+// ---------------------------------------------------------------------------
+
+const _ukMemoryMatch = MemoryMatchData(
+  countryId: 'uk',
+  title: 'UK Memory Match',
+  bgColor: Color(0xFFE8EAF6),
+  pairs: [
+    MatchPair(id: 'crown', emoji: '\u{1F451}', label: 'Crown'), // 👑
+    MatchPair(id: 'bus', emoji: '\u{1F68C}', label: 'Bus'), // 🚌
+    MatchPair(id: 'castle', emoji: '\u{1F3F0}', label: 'Castle'), // 🏰
+    MatchPair(id: 'tea', emoji: '\u{1F375}', label: 'Tea'), // 🍵
+  ],
+);
+
+// ---------------------------------------------------------------------------
 // Registry
 // ---------------------------------------------------------------------------
 
@@ -113,6 +129,7 @@ final Map<String, MemoryMatchData> memoryMatchRegistry = {
   'ghana': _ghanaMemoryMatch,
   'usa': _usaMemoryMatch,
   'nigeria': _nigeriaMemoryMatch,
+  'uk': _ukMemoryMatch,
   'japan': _japanMemoryMatch,
   'india': _indiaMemoryMatch,
   'brazil': _brazilMemoryMatch,

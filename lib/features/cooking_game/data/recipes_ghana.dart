@@ -137,11 +137,83 @@ const nigeriaSuyaRecipe = Recipe(
   ],
 );
 
+// ---------------------------------------------------------------------------
+// UK
+// ---------------------------------------------------------------------------
+
+const ukFishAndChipsRecipe = Recipe(
+  id: 'uk_fish_and_chips',
+  countryId: 'uk',
+  name: 'Fish & Chips',
+  emoji: '\u{1F41F}', // 🐟
+  ingredients: [
+    Ingredient(id: 'fish', name: 'Fish', emoji: '\u{1F41F}'), // 🐟
+    Ingredient(id: 'potato', name: 'Potato', emoji: '\u{1F954}'), // 🥔
+    Ingredient(id: 'flour', name: 'Flour', emoji: '\u{1F33E}'), // 🌾
+    Ingredient(id: 'oil', name: 'Oil', emoji: '\u{1FAD9}'), // 🫙
+    Ingredient(id: 'salt', name: 'Salt', emoji: '\u{1F9C2}'), // 🧂
+  ],
+  steps: [
+    CookingStep(
+      state: CookingState.addIngredients,
+      instruction: 'Drag the fish, potatoes, and batter into the pot.',
+    ),
+    CookingStep(
+      state: CookingState.stir,
+      instruction: 'Stir in circles until the ring is full.',
+    ),
+    CookingStep(
+      state: CookingState.plate,
+      instruction: 'Serve the fish and chips onto the plate.',
+    ),
+  ],
+  funFacts: [
+    'Fish and chips is the UK\'s favourite takeaway!',
+    'The first chip shop opened in the 1860s.',
+    'British people add vinegar and mushy peas on the side.',
+  ],
+);
+
+const ukSconeRecipe = Recipe(
+  id: 'uk_scones',
+  countryId: 'uk',
+  name: 'Scones',
+  emoji: '\u{1F9C1}', // 🧁
+  ingredients: [
+    Ingredient(id: 'flour', name: 'Flour', emoji: '\u{1F33E}'), // 🌾
+    Ingredient(id: 'butter', name: 'Butter', emoji: '\u{1F9C8}'), // 🧈
+    Ingredient(id: 'milk', name: 'Milk', emoji: '\u{1F95B}'), // 🥛
+    Ingredient(id: 'sugar', name: 'Sugar', emoji: '\u{1F36C}'), // 🍬
+    Ingredient(id: 'jam', name: 'Jam', emoji: '\u{1F353}'), // 🍓
+  ],
+  steps: [
+    CookingStep(
+      state: CookingState.addIngredients,
+      instruction: 'Drag the flour, butter, milk, and sugar into the bowl.',
+    ),
+    CookingStep(
+      state: CookingState.stir,
+      instruction: 'Stir in circles to mix the dough.',
+    ),
+    CookingStep(
+      state: CookingState.plate,
+      instruction: 'Serve the scones with jam and cream.',
+    ),
+  ],
+  funFacts: [
+    'Scones are a must-have for afternoon tea!',
+    'People debate whether to put cream or jam on first.',
+    'Scones have been baked in Britain for hundreds of years.',
+  ],
+);
+
 final Map<String, Recipe> cookingRecipeRegistry = {
   ghanaJollofRecipe.id: ghanaJollofRecipe,
   ghanaWaakyeRecipe.id: ghanaWaakyeRecipe,
   nigeriaJollofRecipe.id: nigeriaJollofRecipe,
   nigeriaSuyaRecipe.id: nigeriaSuyaRecipe,
+  ukFishAndChipsRecipe.id: ukFishAndChipsRecipe,
+  ukSconeRecipe.id: ukSconeRecipe,
 };
 
 Recipe? findCookingRecipe(String recipeId) => cookingRecipeRegistry[recipeId];

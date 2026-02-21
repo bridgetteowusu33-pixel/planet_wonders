@@ -62,18 +62,22 @@ class _MemoryMatchScreenState extends ConsumerState<MemoryMatchScreen> {
     return Scaffold(
       backgroundColor: data.bgColor,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: [
-              const SizedBox(height: 12),
-
-              // ── Top bar ──
-              Row(
+        child: Align(
+          alignment: Alignment.topCenter,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 800),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
                 children: [
-                  IconButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(Icons.chevron_left_rounded, size: 28),
+                  const SizedBox(height: 12),
+
+                  // ── Top bar ──
+                  Row(
+                    children: [
+                      IconButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        icon: const Icon(Icons.chevron_left_rounded, size: 28),
                   ),
                   Expanded(
                     child: Text(
@@ -148,6 +152,8 @@ class _MemoryMatchScreenState extends ConsumerState<MemoryMatchScreen> {
 
               const SizedBox(height: 16),
             ],
+          ),
+        ),
           ),
         ),
       ),

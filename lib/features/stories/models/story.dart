@@ -4,8 +4,9 @@ import 'dart:ui';
 class StoryPage {
   final String title;
   final String text;
-  final String emoji; // placeholder until real illustrations are added
+  final String emoji; // fallback when no illustration image is provided
   final Color bgColor; // tinted background for the illustration area
+  final String? imagePath; // asset path for a real illustration
   final String? fact; // optional "Did You Know?" text
   final String? factCategory; // Culture, History, Language, Art & Symbols
 
@@ -14,10 +15,12 @@ class StoryPage {
     required this.text,
     required this.emoji,
     required this.bgColor,
+    this.imagePath,
     this.fact,
     this.factCategory,
   });
 
+  bool get hasImage => imagePath != null;
   bool get hasFact => fact != null;
 }
 

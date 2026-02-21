@@ -11,68 +11,81 @@ class GalleryScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final galleryAsync = ref.watch(galleryProvider);
     final dpr = MediaQuery.of(context).devicePixelRatio;
-    const gridSpacing = 12.0;
-    const horizontalPadding = 32.0; // parent padding: 16 + 16
-    final cellWidth =
-        (MediaQuery.of(context).size.width - horizontalPadding - gridSpacing) /
-        2;
-    final cacheWidth = (cellWidth * dpr).round().clamp(1, 1024).toInt();
 
     return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 8),
-            Text(
-              'My Gallery',
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
-            const SizedBox(height: 4),
-            Text(
-              'Your saved artwork',
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: galleryAsync.when(
-                loading: () =>
-                    const Center(child: CircularProgressIndicator()),
-                error: (_, _) => const Center(
-                  child: Text('Could not load gallery'),
-                ),
-                data: (drawings) => drawings.isEmpty
-                    ? const _EmptyGallery()
-                    : RepaintBoundary(
-                        child: GridView.builder(
-                          cacheExtent: 900,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 12,
-                                mainAxisSpacing: 12,
-                              ),
-                          itemCount: drawings.length,
-                          itemBuilder: (context, index) {
-                            return RepaintBoundary(
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(16),
-                                child: Image.file(
-                                  drawings[index],
-                                  fit: BoxFit.cover,
-                                  cacheWidth: cacheWidth,
-                                  filterQuality: FilterQuality.low,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final w = constraints.maxWidth;
+          final crossAxisCount = w >= 900 ? 4 : w >= 600 ? 3 : 2;
+          const gridSpacing = 12.0;
+          const horizontalPadding = 32.0;
+          final cellWidth =
+              (w - horizontalPadding - (crossAxisCount - 1) * gridSpacing) /
+              crossAxisCount;
+          final cacheWidth = (cellWidth * dpr).round().clamp(1, 1024).toInt();
+
+          return Align(
+            alignment: Alignment.topCenter,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 1000),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 8),
+                    Text(
+                      'My Gallery',
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Your saved artwork',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    const SizedBox(height: 16),
+                    Expanded(
+                      child: galleryAsync.when(
+                        loading: () =>
+                            const Center(child: CircularProgressIndicator()),
+                        error: (_, _) => const Center(
+                          child: Text('Could not load gallery'),
+                        ),
+                        data: (drawings) => drawings.isEmpty
+                            ? const _EmptyGallery()
+                            : RepaintBoundary(
+                                child: GridView.builder(
+                                  cacheExtent: 900,
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: crossAxisCount,
+                                        crossAxisSpacing: 12,
+                                        mainAxisSpacing: 12,
+                                      ),
+                                  itemCount: drawings.length,
+                                  itemBuilder: (context, index) {
+                                    return RepaintBoundary(
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(16),
+                                        child: Image.file(
+                                          drawings[index],
+                                          fit: BoxFit.cover,
+                                          cacheWidth: cacheWidth,
+                                          filterQuality: FilterQuality.low,
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 ),
                               ),
-                            );
-                          },
-                        ),
                       ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

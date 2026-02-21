@@ -7,6 +7,7 @@ final Map<String, List<ColoringPage>> coloringRegistry = {
   'ghana': _ghanaPages,
   'usa': _usaPages,
   'nigeria': _nigeriaPages,
+  'uk': _ukPages,
 };
 
 final _ghanaPages = [
@@ -593,6 +594,123 @@ final _nigeriaPages = [
     outlineAsset: 'assets/coloring/nigeria/nigeria_12_dreams.png',
     fact: 'Nigerian children dream big in tech, music, sports, and science!',
     factCategory: 'Inspiration',
+  ),
+];
+
+final _ukPages = [
+  // ── Landmarks ──
+  ColoringPage(
+    id: 'bigben',
+    title: 'Big Ben',
+    countryId: 'uk',
+    emoji: '\u{1F554}', // 🕔
+    outlineAsset: 'assets/coloring/uk/uk_01_bigben.png',
+    fact: 'Big Ben is the nickname of the Great Bell inside the Elizabeth Tower '
+        'at the Palace of Westminster.',
+    factCategory: 'History',
+  ),
+  ColoringPage(
+    id: 'towerbridge',
+    title: 'Tower Bridge',
+    countryId: 'uk',
+    emoji: '\u{1F309}', // 🌉
+    outlineAsset: 'assets/coloring/uk/uk_02_towerbridge.png',
+    fact: 'Tower Bridge can open in the middle to let tall ships pass through '
+        'on the River Thames!',
+    factCategory: 'History',
+  ),
+  ColoringPage(
+    id: 'palace',
+    title: 'Buckingham Palace',
+    countryId: 'uk',
+    emoji: '\u{1F3F0}', // 🏰
+    outlineAsset: 'assets/coloring/uk/uk_03_palace.png',
+    fact: 'Buckingham Palace has 775 rooms, including 78 bathrooms!',
+    factCategory: 'History',
+  ),
+  ColoringPage(
+    id: 'doubledecker',
+    title: 'Double-Decker Bus',
+    countryId: 'uk',
+    emoji: '\u{1F68C}', // 🚌
+    outlineAsset: 'assets/coloring/uk/uk_04_doubledecker.png',
+    fact: 'London\'s famous red double-decker buses have been running since 1956!',
+    factCategory: 'Culture',
+  ),
+  ColoringPage(
+    id: 'phonebox',
+    title: 'Red Phone Box',
+    countryId: 'uk',
+    emoji: '\u{260E}\u{FE0F}', // ☎️
+    outlineAsset: 'assets/coloring/uk/uk_05_phonebox.png',
+    fact: 'The red telephone box was designed in 1924 and became a symbol of Britain.',
+    factCategory: 'Culture',
+  ),
+  ColoringPage(
+    id: 'stonehenge',
+    title: 'Stonehenge',
+    countryId: 'uk',
+    emoji: '\u{1FAA8}', // 🪨
+    outlineAsset: 'assets/coloring/uk/uk_06_stonehenge.png',
+    fact: 'Stonehenge is about 5,000 years old and nobody knows exactly '
+        'how the giant stones were moved!',
+    factCategory: 'Nature',
+  ),
+  ColoringPage(
+    id: 'countryside',
+    title: 'Countryside',
+    countryId: 'uk',
+    emoji: '\u{1F33F}', // 🌿
+    outlineAsset: 'assets/coloring/uk/uk_07_countryside.png',
+    fact: 'The British countryside has rolling green hills, stone walls, '
+        'and fluffy sheep.',
+    factCategory: 'Nature',
+  ),
+  // ── Food ──
+  ColoringPage(
+    id: 'food_fishandchips',
+    title: 'Fish & Chips',
+    countryId: 'uk',
+    emoji: '\u{1F41F}', // 🐟
+    outlineAsset: 'assets/coloring/uk/food/uk_food_01_fishandchips.png',
+    fact: 'Fish and chips is the UK\'s most famous takeaway meal.',
+    factCategory: 'Food',
+  ),
+  ColoringPage(
+    id: 'food_scones',
+    title: 'Scones',
+    countryId: 'uk',
+    emoji: '\u{1F9C1}', // 🧁
+    outlineAsset: 'assets/coloring/uk/food/uk_food_02_scones.png',
+    fact: 'Scones with clotted cream and jam are a classic afternoon tea treat.',
+    factCategory: 'Food',
+  ),
+  ColoringPage(
+    id: 'food_englishbreakfast',
+    title: 'English Breakfast',
+    countryId: 'uk',
+    emoji: '\u{1F373}', // 🍳
+    outlineAsset: 'assets/coloring/uk/food/uk_food_03_englishbreakfast.png',
+    fact: 'A full English breakfast can have eggs, bacon, sausages, beans, and toast.',
+    factCategory: 'Food',
+  ),
+  ColoringPage(
+    id: 'food_crumpets',
+    title: 'Crumpets',
+    countryId: 'uk',
+    emoji: '\u{1F95E}', // 🥞
+    outlineAsset: 'assets/coloring/uk/food/uk_food_04_crumpets.png',
+    fact: 'Crumpets are soft, spongy, and full of little holes for melted butter.',
+    factCategory: 'Food',
+  ),
+  ColoringPage(
+    id: 'food_trifle',
+    title: 'Trifle',
+    countryId: 'uk',
+    emoji: '\u{1F370}', // 🍰
+    outlineAsset: 'assets/coloring/uk/food/uk_food_05_trifle.png',
+    fact: 'Trifle is a layered dessert with cake, fruit, custard, and cream.',
+    factCategory: 'Food',
   ),
 ];
 

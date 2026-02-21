@@ -111,6 +111,7 @@ final List<Continent> worldContinents = [
         flagEmoji: '\u{1F1EC}\u{1F1E7}', // 🇬🇧
         continentId: 'europe',
         greeting: 'Welcome to the UK!',
+        isUnlocked: true,
       ),
       const Country(
         id: 'spain',

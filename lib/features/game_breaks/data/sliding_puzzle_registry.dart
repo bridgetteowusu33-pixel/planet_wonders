@@ -120,6 +120,53 @@ const _nigeriaPuzzle = SlidingPuzzleData(
 );
 
 // ---------------------------------------------------------------------------
+// UK — landmark photos
+// ---------------------------------------------------------------------------
+
+const _ukPuzzle = SlidingPuzzleData(
+  countryId: 'uk',
+  title: 'UK Sliding Puzzle',
+  bgColor: Color(0xFFE8EAF6),
+  puzzleImages: [
+    PuzzleImageEntry(
+      id: 'buckingham',
+      imagePath: 'assets/sliding_puzzles/uk/uk_01_buckingham_palace.jpg',
+      label: '\u{1F451} Buckingham Palace',
+      historyFact: 'Did you know? Buckingham Palace has 775 rooms '
+          'and has been the royal family\'s London home since 1837!',
+    ),
+    PuzzleImageEntry(
+      id: 'towerbridge',
+      imagePath: 'assets/sliding_puzzles/uk/uk_02_tower_bridge.jpg',
+      label: '\u{1F309} Tower Bridge',
+      historyFact: 'Amazing! Tower Bridge can open in the middle to let '
+          'tall ships pass through on the River Thames!',
+    ),
+    PuzzleImageEntry(
+      id: 'bigben',
+      imagePath: 'assets/sliding_puzzles/uk/uk_03_big_ben.jpg',
+      label: '\u{1F554} Big Ben',
+      historyFact: 'Fun fact! Big Ben is actually the nickname for the '
+          'Great Bell inside the Elizabeth Tower at Parliament.',
+    ),
+    PuzzleImageEntry(
+      id: 'stonehenge',
+      imagePath: 'assets/sliding_puzzles/uk/uk_04_stonehenge.jpg',
+      label: '\u{1FAA8} Stonehenge',
+      historyFact: 'Wow! Stonehenge is about 5,000 years old and nobody '
+          'knows exactly how the giant stones were moved there!',
+    ),
+    PuzzleImageEntry(
+      id: 'towerlondon',
+      imagePath: 'assets/sliding_puzzles/uk/uk_05_tower_of_london.jpg',
+      label: '\u{1F3F0} Tower of London',
+      historyFact: 'Did you know? The Tower of London is guarded by '
+          'ravens \u{2014} legend says the kingdom will fall if they ever leave!',
+    ),
+  ],
+);
+
+// ---------------------------------------------------------------------------
 // Registry
 // ---------------------------------------------------------------------------
 
@@ -128,6 +175,7 @@ final Map<String, SlidingPuzzleData> slidingPuzzleRegistry = {
   'ghana': _ghanaPuzzle,
   'usa': _usaPuzzle,
   'nigeria': _nigeriaPuzzle,
+  'uk': _ukPuzzle,
 };
 
 /// Quick lookup — returns themed data or null.

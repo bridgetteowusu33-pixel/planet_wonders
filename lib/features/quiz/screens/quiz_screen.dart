@@ -209,13 +209,17 @@ class _QuizBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        children: [
-          const SizedBox(height: 12),
+    return Align(
+      alignment: Alignment.topCenter,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 700),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            children: [
+              const SizedBox(height: 12),
 
-          // ── Top bar ──
+              // ── Top bar ──
           Row(
             children: [
               IconButton(
@@ -326,8 +330,10 @@ class _QuizBody extends StatelessWidget {
             ],
           ),
 
-          const SizedBox(height: 8),
-        ],
+              const SizedBox(height: 8),
+            ],
+          ),
+        ),
       ),
     );
   }

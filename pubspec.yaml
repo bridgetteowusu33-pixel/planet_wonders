@@ -120,6 +120,15 @@ flutter:
     - assets/food/nigeria/
     - assets/quiz/
     - assets/audio/quiz/
+    - assets/stories/nigeria/
+    - assets/stories/usa/
+    - assets/stories/uk/
+    - assets/food/uk/
+    - assets/coloring/uk/
+    - assets/coloring/uk/food/
+    - assets/sliding_puzzles/uk/
+    - assets/puzzles/uk/full/
+    - assets/puzzles/uk/thumbs/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

@@ -21,35 +21,50 @@ class WorldExplorerScreen extends StatelessWidget {
         elevation: 0,
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            children: [
-              Text(
-                'Tap a place to explore the planet!',
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              const SizedBox(height: 16),
-              Expanded(
-                child: GridView.builder(
-                  itemCount: worldContinents.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 12,
-                    childAspectRatio: 1.0,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final w = constraints.maxWidth;
+            final crossAxisCount = w >= 900 ? 4 : w >= 600 ? 3 : 2;
+
+            return Align(
+              alignment: Alignment.topCenter,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 900),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    children: [
+                      Text(
+                        'Tap a place to explore the planet!',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                      const SizedBox(height: 16),
+                      Expanded(
+                        child: GridView.builder(
+                          itemCount: worldContinents.length,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: crossAxisCount,
+                            crossAxisSpacing: 12,
+                            mainAxisSpacing: 12,
+                            childAspectRatio: 1.0,
+                          ),
+                          itemBuilder: (context, index) {
+                            final continent = worldContinents[index];
+                            return ContinentCard(
+                              continent: continent,
+                              onTap: () =>
+                                  context.push('/world/${continent.id}'),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                  itemBuilder: (context, index) {
-                    final continent = worldContinents[index];
-                    return ContinentCard(
-                      continent: continent,
-                      onTap: () => context.push('/world/${continent.id}'),
-                    );
-                  },
                 ),
               ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );

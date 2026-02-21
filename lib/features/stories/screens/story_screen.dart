@@ -108,14 +108,21 @@ class _StoryScreenState extends State<StoryScreen> {
     final isFirstPage = _currentPage == 0;
     final isLastPage = _currentPage == story.pageCount - 1;
 
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: SafeArea(
-        child: Column(
-          children: [
-            // ── Top bar ──
-            Padding(
-              padding: const EdgeInsets.fromLTRB(4, 4, 12, 0),
+        child: Align(
+          alignment: Alignment.topCenter,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 800),
+            child: Column(
+              children: [
+                // ── Top bar ──
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(4, 4, 12, 0),
               child: Row(
                 children: [
                   IconButton(
@@ -153,75 +160,78 @@ class _StoryScreenState extends State<StoryScreen> {
 
             const SizedBox(height: 4),
 
-            // ── Page content (swipeable) ──
-            Expanded(
-              child: PageView.builder(
-                controller: _pageController,
-                itemCount: story.pageCount,
-                onPageChanged: _onPageChanged,
-                itemBuilder: (_, i) => _PageContent(
-                  page: story.pages[i],
-                  pageNumber: i + 1,
-                  totalPages: story.pageCount,
+                // ── Page content (swipeable) ──
+                Expanded(
+                  child: PageView.builder(
+                    controller: _pageController,
+                    itemCount: story.pageCount,
+                    onPageChanged: _onPageChanged,
+                    itemBuilder: (_, i) => _PageContent(
+                      page: story.pages[i],
+                      pageNumber: i + 1,
+                      totalPages: story.pageCount,
+                      isLandscape: isLandscape,
+                    ),
+                  ),
                 ),
-              ),
-            ),
 
-            // ── Bottom nav ──
-            Padding(
-              padding: const EdgeInsets.fromLTRB(24, 8, 24, 16),
-              child: Row(
-                children: [
-                  // Back
-                  if (!isFirstPage)
-                    Expanded(
-                      child: _PillButton(
-                        label: 'Back',
-                        color: const Color(0xFFE8A838),
-                        leadingText: '<  ',
-                        onPressed: () => _goToPage(_currentPage - 1),
+                // ── Bottom nav ──
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 8, 24, 16),
+                  child: Row(
+                    children: [
+                      // Back
+                      if (!isFirstPage)
+                        Expanded(
+                          child: _PillButton(
+                            label: 'Back',
+                            color: const Color(0xFFE8A838),
+                            leadingText: '<  ',
+                            onPressed: () => _goToPage(_currentPage - 1),
+                          ),
+                        )
+                      else
+                        const Spacer(),
+
+                      // Page indicator
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(
+                          '${_currentPage + 1} / ${story.pageCount}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 15,
+                            color: PWColors.navy.withValues(alpha: 0.4),
+                          ),
+                        ),
                       ),
-                    )
-                  else
-                    const Spacer(),
 
-                  // Page indicator
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(
-                      '${_currentPage + 1} / ${story.pageCount}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 15,
-                        color: PWColors.navy.withValues(alpha: 0.4),
+                      // Next / Finish
+                      Expanded(
+                        child: _PillButton(
+                          label: isLastPage ? 'Finish!' : 'Next',
+                          color: isLastPage
+                              ? PWColors.coral
+                              : const Color(0xFF4CAF50),
+                          trailingText: isLastPage ? null : '  >',
+                          onPressed: () {
+                            if (isLastPage) {
+                              _tts.stop();
+                              context.pushReplacement(
+                                '/story/${widget.countryId}/complete',
+                              );
+                            } else {
+                              _goToPage(_currentPage + 1);
+                            }
+                          },
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-
-                  // Next / Finish
-                  Expanded(
-                    child: _PillButton(
-                      label: isLastPage ? 'Finish!' : 'Next',
-                      color: isLastPage
-                          ? PWColors.coral
-                          : const Color(0xFF4CAF50),
-                      trailingText: isLastPage ? null : '  >',
-                      onPressed: () {
-                        if (isLastPage) {
-                          _tts.stop();
-                          context.pushReplacement(
-                            '/story/${widget.countryId}/complete',
-                          );
-                        } else {
-                          _goToPage(_currentPage + 1);
-                        }
-                      },
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
@@ -344,11 +354,13 @@ class _PageContent extends StatelessWidget {
     required this.page,
     required this.pageNumber,
     required this.totalPages,
+    this.isLandscape = false,
   });
 
   final StoryPage page;
   final int pageNumber;
   final int totalPages;
+  final bool isLandscape;
 
   @override
   Widget build(BuildContext context) {
@@ -356,7 +368,7 @@ class _PageContent extends StatelessWidget {
       children: [
         // ── Illustration area ──
         Expanded(
-          flex: 5,
+          flex: isLandscape ? 3 : 5,
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 8),
             decoration: BoxDecoration(
@@ -370,12 +382,28 @@ class _PageContent extends StatelessWidget {
                 ),
               ],
             ),
-            child: Center(
-              child: Text(
-                page.emoji,
-                style: const TextStyle(fontSize: 100),
-              ),
-            ),
+            child: page.hasImage
+                ? ClipRRect(
+                    borderRadius: BorderRadius.circular(28),
+                    child: Image.asset(
+                      page.imagePath!,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: double.infinity,
+                      errorBuilder: (_, _, _) => Center(
+                        child: Text(
+                          page.emoji,
+                          style: const TextStyle(fontSize: 100),
+                        ),
+                      ),
+                    ),
+                  )
+                : Center(
+                    child: Text(
+                      page.emoji,
+                      style: const TextStyle(fontSize: 100),
+                    ),
+                  ),
           ),
         ),
 

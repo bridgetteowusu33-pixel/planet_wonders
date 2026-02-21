@@ -79,6 +79,46 @@
       "answer": "Olumo Rock",
       "funFact": "People once sheltered inside Olumo Rock's caves — you can still climb it today!",
       "image": "assets/sliding_puzzles/nigeria/nigeria_monument_05_olumo_rock.jpg"
+    },
+    {
+      "id": "buckingham_palace",
+      "countryId": "uk",
+      "question": "Which famous palace in London has 775 rooms?",
+      "answer": "Buckingham Palace",
+      "funFact": "The King lives here! Buckingham Palace has been the royal family's London home since 1837.",
+      "image": "assets/sliding_puzzles/uk/uk_01_buckingham_palace.jpg"
+    },
+    {
+      "id": "tower_bridge",
+      "countryId": "uk",
+      "question": "Which bridge in London can open in the middle to let ships through?",
+      "answer": "Tower Bridge",
+      "funFact": "Tower Bridge opens about 800 times a year! It takes just five minutes to fully open.",
+      "image": "assets/sliding_puzzles/uk/uk_02_tower_bridge.jpg"
+    },
+    {
+      "id": "big_ben",
+      "countryId": "uk",
+      "question": "What is the famous clock tower at the Palace of Westminster called?",
+      "answer": "Big Ben",
+      "funFact": "Big Ben is actually the nickname for the Great Bell — the tower is called the Elizabeth Tower!",
+      "image": "assets/sliding_puzzles/uk/uk_03_big_ben.jpg"
+    },
+    {
+      "id": "stonehenge",
+      "countryId": "uk",
+      "question": "Which circle of giant stones in England is about 5,000 years old?",
+      "answer": "Stonehenge",
+      "funFact": "Nobody knows for sure how the enormous stones were moved — some came from over 150 miles away!",
+      "image": "assets/sliding_puzzles/uk/uk_04_stonehenge.jpg"
+    },
+    {
+      "id": "tower_of_london",
+      "countryId": "uk",
+      "question": "Which castle in London is guarded by ravens and holds the Crown Jewels?",
+      "answer": "Tower of London",
+      "funFact": "Legend says the kingdom will fall if the ravens ever leave the Tower of London!",
+      "image": "assets/sliding_puzzles/uk/uk_05_tower_of_london.jpg"
     }
   ]
 }

@@ -101,6 +101,14 @@ class _HomeScreenState extends State<HomeScreen> {
         gradientBottom: const Color(0xFFEA8B1D),
         onTap: () => context.push('/cooking?source=home&view=hub'),
       ),
+      _HomeStickerConfig(
+        title: 'Games',
+        iconAsset: 'assets/icons/games.png',
+        fallbackEmoji: '\u{1F3AE}',
+        gradientTop: const Color(0xFF9C5FFF),
+        gradientBottom: const Color(0xFF6B3FA0),
+        onTap: () => context.push('/games'),
+      ),
     ];
 
     return Scaffold(

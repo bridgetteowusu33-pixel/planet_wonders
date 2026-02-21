@@ -38,71 +38,78 @@ class CountryHubScreen extends StatelessWidget {
         elevation: 0,
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            children: [
-              // --- Banner ---
-              _CountryBanner(
-                flagEmoji: country.flagEmoji,
-                greeting: country.greeting,
-              ),
-
-              const SizedBox(height: 14),
-
-              // --- Subtitle ---
-              Text(
-                'Discover the wonders of ${country.name}!',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontSize: 17,
-                    ),
-              ),
-
-              const SizedBox(height: 16),
-
-              // --- Activity grid ---
-              GridView.count(
-                crossAxisCount: 3,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                mainAxisSpacing: 12,
-                crossAxisSpacing: 12,
-                childAspectRatio: 0.9,
+        child: Align(
+          alignment: Alignment.topCenter,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 800),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
                 children: [
-                  ActivityCard(
-                    emoji: '\u{1F3A8}', // 🎨
-                    label: 'Color',
-                    color: const Color(0xFFFF9800),
-                    onTap: () => context.push('/color/${country.id}'),
+                  // --- Banner ---
+                  _CountryBanner(
+                    flagEmoji: country.flagEmoji,
+                    greeting: country.greeting,
                   ),
-                  ActivityCard(
-                    emoji: '\u{1F4D6}', // 📖
-                    label: 'Story',
-                    color: const Color(0xFF9C27B0),
-                    onTap: () => context.push('/story/${country.id}'),
+
+                  const SizedBox(height: 14),
+
+                  // --- Subtitle ---
+                  Text(
+                    'Discover the wonders of ${country.name}!',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          fontSize: 17,
+                        ),
                   ),
-                  ActivityCard(
-                    emoji: '\u{1F457}', // 👗
-                    label: 'Fashion',
-                    color: const Color(0xFF4CAF50),
-                    onTap: () => context.push('/fashion/${country.id}'),
+
+                  const SizedBox(height: 16),
+
+                  // --- Activity grid ---
+                  GridView.count(
+                    crossAxisCount: 3,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    mainAxisSpacing: 12,
+                    crossAxisSpacing: 12,
+                    childAspectRatio: 0.9,
+                    children: [
+                      ActivityCard(
+                        emoji: '\u{1F3A8}', // 🎨
+                        label: 'Color',
+                        color: const Color(0xFFFF9800),
+                        onTap: () => context.push('/color/${country.id}'),
+                      ),
+                      ActivityCard(
+                        emoji: '\u{1F4D6}', // 📖
+                        label: 'Story',
+                        color: const Color(0xFF9C27B0),
+                        onTap: () => context.push('/story/${country.id}'),
+                      ),
+                      ActivityCard(
+                        emoji: '\u{1F457}', // 👗
+                        label: 'Fashion',
+                        color: const Color(0xFF4CAF50),
+                        onTap: () => context.push('/fashion/${country.id}'),
+                      ),
+                      ActivityCard(
+                        emoji: '\u{1F373}', // 🍳
+                        label: 'Food',
+                        color: PWColors.coral,
+                        onTap: () => context.push('/food/${country.id}'),
+                      ),
+                      ActivityCard(
+                        emoji: '\u{1F3AE}', // 🎮
+                        label: 'Games',
+                        color: PWColors.mint,
+                        onTap: () => context
+                            .push('/games?countryId=${country.id}'),
+                      ),
+                    ],
                   ),
-                  ActivityCard(
-                    emoji: '\u{1F373}', // 🍳
-                    label: 'Food',
-                    color: PWColors.coral,
-                    onTap: () => context.push('/food/${country.id}'),
-                  ),
-                  ActivityCard(
-                    emoji: '\u{1F3AE}', // 🎮
-                    label: 'Games',
-                    color: PWColors.mint,
-                    onTap: () => context.push('/games/${country.id}'),
-                  ),
+                  const SizedBox(height: 16),
                 ],
               ),
-              const SizedBox(height: 16),
-            ],
+            ),
           ),
         ),
       ),

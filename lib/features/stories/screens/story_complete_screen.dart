@@ -222,6 +222,11 @@ List<(String, String)> _stickersFor(String countryId) {
       ('\u{1F941}', 'Drum'), // 🥁
       ('\u{1F9F5}', 'Ankara'), // 🧵
     ],
+    'uk' => [
+      ('\u{1F309}', 'Bridge'), // 🌉
+      ('\u{1F3A7}', 'Heze'), // 🎧
+      ('\u{2B50}', 'Twins'), // ⭐
+    ],
     _ => [
       ('\u{2B50}', 'Star'), // ⭐
       ('\u{1F30D}', 'Globe'), // 🌍

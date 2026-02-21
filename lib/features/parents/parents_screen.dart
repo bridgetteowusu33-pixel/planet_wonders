@@ -46,8 +46,12 @@ class ParentsScreen extends ConsumerWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      body: Align(
+        alignment: Alignment.topCenter,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 700),
+          child: ListView(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         children: [
           // ── Bedtime Active pill ──
           if (bedtime.enabled && bedtime.isActive) ...[
@@ -414,6 +418,8 @@ class ParentsScreen extends ConsumerWidget {
 
           const SizedBox(height: 32),
         ],
+      ),
+        ),
       ),
     );
   }

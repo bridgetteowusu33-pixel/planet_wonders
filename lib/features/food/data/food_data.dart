@@ -262,7 +262,7 @@ const _nigeriaFoodPack = FoodPack(
       id: 'jollof',
       name: 'Jollof Rice',
       emoji: '\u{1F35B}', // 🍛
-      previewAsset: 'assets/food/nigeria/nigeria_jollof_chef.png',
+      previewAsset: 'assets/food/nigeria/ng_jollof_chef.png',
       coloringPageId: 'jollof',
       funFact: 'Nigerian jollof rice is famous for its smoky flavour.',
       didYouKnow: [
@@ -274,7 +274,7 @@ const _nigeriaFoodPack = FoodPack(
       id: 'suya',
       name: 'Suya',
       emoji: '\u{1F356}', // 🍖
-      previewAsset: 'assets/food/nigeria/nigeria_suya_chef.png',
+      previewAsset: 'assets/food/nigeria/ng_suya_chef.png',
       coloringPageId: 'suya',
       funFact: 'Suya is spicy grilled meat sold on the streets.',
       didYouKnow: [
@@ -286,7 +286,7 @@ const _nigeriaFoodPack = FoodPack(
       id: 'pounded_yam',
       name: 'Pounded Yam',
       emoji: '\u{1F372}', // 🍲
-      previewAsset: 'assets/food/nigeria/nigeria_pounded_yam_chef.png',
+      previewAsset: 'assets/food/nigeria/ng_pounded_yam_chef.png',
       coloringPageId: 'cooking',
       funFact: 'Pounded yam is soft and stretchy, served with soup.',
       didYouKnow: [
@@ -298,7 +298,7 @@ const _nigeriaFoodPack = FoodPack(
       id: 'egusi',
       name: 'Egusi Soup',
       emoji: '\u{1F958}', // 🥘
-      previewAsset: 'assets/food/nigeria/nigeria_egusi_chef.png',
+      previewAsset: 'assets/food/nigeria/ng_egusi_chef.png',
       coloringPageId: 'cooking',
       funFact: 'Egusi soup is made from ground melon seeds.',
       didYouKnow: [
@@ -310,7 +310,7 @@ const _nigeriaFoodPack = FoodPack(
       id: 'chin_chin',
       name: 'Chin Chin',
       emoji: '\u{1F36A}', // 🍪
-      previewAsset: 'assets/food/nigeria/nigeria_chin_chin_chef.png',
+      previewAsset: 'assets/food/nigeria/ng_chin_chin_chef.png',
       coloringPageId: 'cooking',
       funFact: 'Chin chin is a crunchy fried snack loved by kids.',
       didYouKnow: [
@@ -321,11 +321,139 @@ const _nigeriaFoodPack = FoodPack(
   ],
 );
 
+const _ukFoodPack = FoodPack(
+  countryId: 'uk',
+  bannerEmoji: '\u{1F374}', // 🍴
+  dishes: [
+    FoodDish(
+      id: 'fishandchips',
+      name: 'Fish & Chips',
+      emoji: '\u{1F41F}', // 🐟
+      previewAsset: 'assets/food/uk/Fish and chips.png',
+      coloringPageId: 'food_fishandchips',
+      funFact: 'Fish and chips is the UK\'s most famous takeaway meal.',
+      didYouKnow: [
+        'The first fish and chip shop opened in the 1860s.',
+        'British people eat about 382 million portions a year!',
+      ],
+    ),
+    FoodDish(
+      id: 'shepherdspie',
+      name: 'Shepherd\'s Pie',
+      emoji: '\u{1F967}', // 🥧
+      previewAsset: 'assets/food/uk/Shepherds_pie.png',
+      coloringPageId: 'food_shepherdspie',
+      funFact: 'Shepherd\'s pie has mashed potato on top and tasty meat inside.',
+      didYouKnow: [
+        'It is called shepherd\'s pie when made with lamb.',
+        'Cottage pie is the same dish but made with beef!',
+      ],
+    ),
+    FoodDish(
+      id: 'scones',
+      name: 'Scones',
+      emoji: '\u{1F9C1}', // 🧁
+      previewAsset: 'assets/food/uk/Scones.png',
+      coloringPageId: 'food_scones',
+      funFact: 'Scones are a favourite treat for afternoon tea.',
+      didYouKnow: [
+        'Scones are served with clotted cream and strawberry jam.',
+        'People debate whether to put cream or jam on first!',
+      ],
+    ),
+    FoodDish(
+      id: 'englishbreakfast',
+      name: 'English Breakfast',
+      emoji: '\u{1F373}', // 🍳
+      previewAsset: 'assets/food/uk/English_breakfast.png',
+      coloringPageId: 'food_englishbreakfast',
+      funFact: 'A full English breakfast is a big, hearty meal to start the day.',
+      didYouKnow: [
+        'It often includes eggs, bacon, sausages, beans, and toast.',
+        'Some people call it a "fry-up" because much of it is fried!',
+      ],
+    ),
+    FoodDish(
+      id: 'bangersandmash',
+      name: 'Bangers & Mash',
+      emoji: '\u{1F356}', // 🍖
+      previewAsset: 'assets/food/uk/Bangers_and_mash.png',
+      coloringPageId: 'food_bangersandmash',
+      funFact: 'Bangers and mash is sausages with creamy mashed potatoes.',
+      didYouKnow: [
+        'Sausages are called "bangers" because they used to pop in the pan!',
+        'Onion gravy is a favourite topping.',
+      ],
+    ),
+    FoodDish(
+      id: 'crumpets',
+      name: 'Crumpets',
+      emoji: '\u{1F95E}', // 🥞
+      previewAsset: 'assets/food/uk/Crumpets.png',
+      coloringPageId: 'food_crumpets',
+      funFact: 'Crumpets are soft, spongy, and full of little holes for butter.',
+      didYouKnow: [
+        'Crumpets are toasted and served warm with melted butter.',
+        'British people eat about 80 million crumpets every year!',
+      ],
+    ),
+    FoodDish(
+      id: 'trifle',
+      name: 'Trifle',
+      emoji: '\u{1F370}', // 🍰
+      previewAsset: 'assets/food/uk/Trifle.png',
+      coloringPageId: 'food_trifle',
+      funFact: 'Trifle is a layered dessert with cake, fruit, custard, and cream.',
+      didYouKnow: [
+        'Trifle has been enjoyed in Britain for over 400 years!',
+        'Every layer adds a different flavour and texture.',
+      ],
+    ),
+    FoodDish(
+      id: 'yorkshirepudding',
+      name: 'Yorkshire Pudding',
+      emoji: '\u{1F35E}', // 🍞
+      previewAsset: 'assets/food/uk/Yorkshire_pudding.png',
+      coloringPageId: 'food_yorkshirepudding',
+      funFact: 'Yorkshire pudding is puffy and golden, served with a roast dinner.',
+      didYouKnow: [
+        'It is made from batter — eggs, flour, and milk.',
+        'Some people fill giant Yorkshire puddings with gravy and meat!',
+      ],
+    ),
+    FoodDish(
+      id: 'cornishpasty',
+      name: 'Cornish Pasty',
+      emoji: '\u{1F950}', // 🥐
+      previewAsset: 'assets/food/uk/Cornish_pasty.png',
+      coloringPageId: 'food_cornishpasty',
+      funFact: 'Cornish pasties are handheld pies filled with meat and vegetables.',
+      didYouKnow: [
+        'Tin miners in Cornwall used to carry pasties for lunch.',
+        'The crimped edge was a handle so miners didn\'t dirty the filling!',
+      ],
+    ),
+    FoodDish(
+      id: 'stickytoffee',
+      name: 'Sticky Toffee Pudding',
+      emoji: '\u{1F36E}', // 🍮
+      previewAsset: 'assets/food/uk/sticky_toffee_pudding.png',
+      coloringPageId: 'food_stickytoffee',
+      funFact: 'Sticky toffee pudding is a warm, sweet cake with toffee sauce.',
+      didYouKnow: [
+        'It is made with dates, which give it a rich flavour.',
+        'It is often served with vanilla ice cream or custard.',
+      ],
+    ),
+  ],
+);
+
 /// Country → Food pack registry.
 final Map<String, FoodPack> foodRegistry = {
   'ghana': _ghanaFoodPack,
   'usa': _usaFoodPack,
   'nigeria': _nigeriaFoodPack,
+  'uk': _ukFoodPack,
 };
 
 FoodPack? findFoodPack(String countryId) => foodRegistry[countryId];
