@@ -4,6 +4,7 @@ import 'package:flutter_tts/flutter_tts.dart';
 
 import '../../../core/motion/motion_settings_provider.dart';
 import '../../../core/theme/pw_theme.dart';
+import '../../stickers/providers/sticker_provider.dart';
 import '../data/quiz_models.dart';
 import '../providers/quiz_providers.dart';
 import '../widgets/quiz_badge_popup.dart';
@@ -121,6 +122,10 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
         }
       },
     );
+    ref.read(stickerProvider.notifier).checkAndAward(
+          conditionType: 'quiz_completed',
+          countryId: quiz.countryId,
+        );
   }
 
   void _nextQuiz(List<QuizItem> quizzes) {
@@ -264,7 +269,7 @@ class _QuizBody extends StatelessWidget {
               aspectRatio: 16 / 10,
               child: Image.asset(
                 quiz.image,
-                fit: BoxFit.cover,
+                fit: BoxFit.contain,
                 errorBuilder: (_, _, _) => Container(
                   color: PWColors.blue.withValues(alpha: 0.1),
                   child: const Center(

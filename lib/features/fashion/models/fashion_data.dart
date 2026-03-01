@@ -17,7 +17,7 @@ class FashionData {
   final String characterName;
   final String characterEmoji;
 
-  /// Path to the character body PNG (e.g. 'assets/characters/Ava/ava.png').
+  /// Path to the character body PNG (e.g. 'assets/characters/Ava/ava.webp').
   /// When non-null, the fashion screen renders layered PNGs instead of emojis.
   final String? bodyAsset;
 

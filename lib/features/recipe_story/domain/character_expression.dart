@@ -95,6 +95,7 @@ String characterForCountry(String countryId) {
     'ghana' => '\u{1F469}\u{1F3FE}', // 👩🏾 (Afia)
     'usa' => '\u{1F469}', // 👩 (Ava)
     'nigeria' => '\u{1F467}\u{1F3FE}', // 👧🏾 (Adetutu)
+    'uk' => '\u{1F467}\u{1F3FD}', // 👧🏽 (Heze & Aza)
     _ => '\u{1F9D1}\u{200D}\u{1F373}', // 🧑‍🍳
   };
 }
@@ -105,6 +106,18 @@ String characterNameForCountry(String countryId) {
     'ghana' => 'Afia',
     'usa' => 'Ava',
     'nigeria' => 'Adetutu',
+    'uk' => 'Heze & Aza',
     _ => 'Chef',
+  };
+}
+
+/// The flag emoji for each supported country.
+String flagForCountry(String countryId) {
+  return switch (countryId) {
+    'ghana' => '\u{1F1EC}\u{1F1ED}', // 🇬🇭
+    'usa' => '\u{1F1FA}\u{1F1F8}', // 🇺🇸
+    'nigeria' => '\u{1F1F3}\u{1F1EC}', // 🇳🇬
+    'uk' => '\u{1F1EC}\u{1F1E7}', // 🇬🇧
+    _ => '\u{1F30D}', // 🌍
   };
 }

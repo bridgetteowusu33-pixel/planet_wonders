@@ -35,6 +35,21 @@
       "end": [430, 580]
     }
   ],
+  "decorations": {
+    "revealAfterSegment": 1,
+    "eyes": [
+      {"cx": 855, "cy": 535, "r": 14, "pupilR": 8, "highlightR": 4, "highlightOffset": [-3, -3]},
+      {"cx": 905, "cy": 535, "r": 14, "pupilR": 8, "highlightR": 4, "highlightOffset": [-3, -3]}
+    ],
+    "nosePath": "",
+    "mouthPath": "M860,572 C872,586 898,586 910,572",
+    "tonguePath": "",
+    "blush": [
+      {"cx": 840, "cy": 565, "rx": 14, "ry": 8},
+      {"cx": 920, "cy": 565, "rx": 14, "ry": 8}
+    ],
+    "eyebrowPaths": []
+  },
   "audio": {
     "intro": "turtle_intro.mp3",
     "success": "great_job.mp3"

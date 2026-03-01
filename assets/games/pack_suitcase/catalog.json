@@ -1,0 +1,96 @@
+{
+  "packs": [
+    {
+      "packId": "ghana_adventure",
+      "countryId": "ghana",
+      "destination": "Accra, Ghana",
+      "characterName": "Afia",
+      "characterEmoji": "\ud83d\udc67\ud83c\udffe",
+      "difficulty": "easy",
+      "hint": "Warm and sunny! Pack light and colourful.",
+      "requiredCount": 5,
+      "correctItems": [
+        { "id": "kente_cloth", "name": "Kente Cloth", "emoji": "\ud83e\udde3", "funFact": "Kente is hand-woven by the Ashanti people of Ghana!" },
+        { "id": "sunscreen", "name": "Sunscreen", "emoji": "\u2600\ufe0f", "funFact": "Ghana is close to the equator so the sun is very strong!" },
+        { "id": "drumsticks", "name": "Drumsticks", "emoji": "\ud83e\udd41", "funFact": "Djembe drums are an important part of Ghanaian music!" },
+        { "id": "water_bottle", "name": "Water Bottle", "emoji": "\ud83d\udca7", "funFact": "Staying hydrated is important when exploring!" },
+        { "id": "camera", "name": "Camera", "emoji": "\ud83d\udcf7", "funFact": "You will want photos of Cape Coast Castle!" },
+        { "id": "passport", "name": "Passport", "emoji": "\ud83d\udec2", "funFact": "You need a passport to travel to another country!" }
+      ],
+      "distractors": [
+        { "id": "snow_boots", "name": "Snow Boots", "emoji": "\ud83e\udd7e", "funFact": "Ghana is tropical \u2014 you won\u2019t need these!" },
+        { "id": "ice_skates", "name": "Ice Skates", "emoji": "\u26f8\ufe0f", "funFact": "There are no ice rinks in Accra!" },
+        { "id": "ski_goggles", "name": "Ski Goggles", "emoji": "\ud83e\udd7d", "funFact": "No skiing in Ghana \u2014 it\u2019s warm year-round!" }
+      ]
+    },
+    {
+      "packId": "uk_adventure",
+      "countryId": "uk",
+      "destination": "London, United Kingdom",
+      "characterName": "Heze & Aza",
+      "characterEmoji": "\ud83d\udc67\ud83c\udffd\ud83e\uddd1\ud83c\udffd",
+      "difficulty": "easy",
+      "hint": "Rainy and cool! Bring layers.",
+      "requiredCount": 5,
+      "correctItems": [
+        { "id": "umbrella", "name": "Umbrella", "emoji": "\u2602\ufe0f", "funFact": "London gets rain almost 150 days a year!" },
+        { "id": "warm_jacket", "name": "Warm Jacket", "emoji": "\ud83e\udde5", "funFact": "British weather can be chilly even in summer!" },
+        { "id": "london_map", "name": "London Map", "emoji": "\ud83d\uddfa\ufe0f", "funFact": "London has over 270 Tube stations to explore!" },
+        { "id": "camera", "name": "Camera", "emoji": "\ud83d\udcf7", "funFact": "Big Ben and Tower Bridge are must-see landmarks!" },
+        { "id": "passport", "name": "Passport", "emoji": "\ud83d\udec2", "funFact": "You need a passport to enter the United Kingdom!" },
+        { "id": "scarf", "name": "Scarf", "emoji": "\ud83e\udde3", "funFact": "A scarf keeps you cosy on windy London days!" }
+      ],
+      "distractors": [
+        { "id": "surfboard", "name": "Surfboard", "emoji": "\ud83c\udfc4", "funFact": "The Thames is not a surfing spot!" },
+        { "id": "snorkel", "name": "Snorkel", "emoji": "\ud83e\udd3f", "funFact": "London\u2019s rain is above you, not below!" },
+        { "id": "flip_flops", "name": "Flip Flops", "emoji": "\ud83e\ude74", "funFact": "Too cold for flip flops in London most of the year!" }
+      ]
+    },
+    {
+      "packId": "nigeria_adventure",
+      "countryId": "nigeria",
+      "destination": "Lagos, Nigeria",
+      "characterName": "Adetutu",
+      "characterEmoji": "\ud83d\udc67\ud83c\udffe",
+      "difficulty": "easy",
+      "hint": "Hot and buzzing! Pack for adventure.",
+      "requiredCount": 5,
+      "correctItems": [
+        { "id": "sunglasses", "name": "Sunglasses", "emoji": "\ud83d\udd76\ufe0f", "funFact": "Lagos is one of the sunniest cities in West Africa!" },
+        { "id": "light_dress", "name": "Light Dress", "emoji": "\ud83d\udc57", "funFact": "Nigerians love bright, colourful clothing!" },
+        { "id": "water_bottle", "name": "Water Bottle", "emoji": "\ud83d\udca7", "funFact": "Lagos can be very hot \u2014 stay hydrated!" },
+        { "id": "camera", "name": "Camera", "emoji": "\ud83d\udcf7", "funFact": "Lagos has amazing markets and beaches to photograph!" },
+        { "id": "passport", "name": "Passport", "emoji": "\ud83d\udec2", "funFact": "Nigeria is in West Africa \u2014 don\u2019t forget your passport!" },
+        { "id": "hat", "name": "Sun Hat", "emoji": "\ud83d\udc52", "funFact": "A hat keeps the strong Nigerian sun off your face!" }
+      ],
+      "distractors": [
+        { "id": "snow_boots", "name": "Snow Boots", "emoji": "\ud83e\udd7e", "funFact": "It never snows in Lagos!" },
+        { "id": "heavy_coat", "name": "Heavy Coat", "emoji": "\ud83e\udde5", "funFact": "Way too hot for a heavy coat in Nigeria!" },
+        { "id": "ice_skates", "name": "Ice Skates", "emoji": "\u26f8\ufe0f", "funFact": "No frozen lakes in tropical Lagos!" }
+      ]
+    },
+    {
+      "packId": "usa_adventure",
+      "countryId": "usa",
+      "destination": "New York, USA",
+      "characterName": "Ava",
+      "characterEmoji": "\ud83d\udc69",
+      "difficulty": "easy",
+      "hint": "Big city vibes! Comfy shoes are a must.",
+      "requiredCount": 5,
+      "correctItems": [
+        { "id": "comfy_shoes", "name": "Comfy Shoes", "emoji": "\ud83d\udc5f", "funFact": "You will walk a LOT exploring New York City!" },
+        { "id": "camera", "name": "Camera", "emoji": "\ud83d\udcf7", "funFact": "The Statue of Liberty is one of the most photographed landmarks!" },
+        { "id": "city_map", "name": "City Map", "emoji": "\ud83d\uddfa\ufe0f", "funFact": "New York has five boroughs to explore!" },
+        { "id": "passport", "name": "Passport", "emoji": "\ud83d\udec2", "funFact": "The USA is a big country \u2014 bring your passport!" },
+        { "id": "hoodie", "name": "Hoodie", "emoji": "\ud83e\udde5", "funFact": "New York evenings can be cool, even in summer!" },
+        { "id": "backpack", "name": "Backpack", "emoji": "\ud83c\udf92", "funFact": "A backpack is handy for carrying snacks in Central Park!" }
+      ],
+      "distractors": [
+        { "id": "surfboard", "name": "Surfboard", "emoji": "\ud83c\udfc4", "funFact": "Manhattan is not a surfing destination!" },
+        { "id": "ski_goggles", "name": "Ski Goggles", "emoji": "\ud83e\udd7d", "funFact": "No ski slopes in the middle of New York City!" },
+        { "id": "snorkel", "name": "Snorkel", "emoji": "\ud83e\udd3f", "funFact": "The Hudson River is not for snorkelling!" }
+      ]
+    }
+  ]
+}

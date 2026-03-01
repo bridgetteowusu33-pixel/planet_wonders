@@ -28,62 +28,70 @@ class DrawingToolbar extends ConsumerWidget {
       drawingProvider.select((s) => s.precisionMode),
     );
 
-    return Wrap(
-      alignment: WrapAlignment.center,
-      crossAxisAlignment: WrapCrossAlignment.center,
-      spacing: 16,
-      runSpacing: 8,
-      children: [
+    final buttons = <Widget>[
+      _ToolButton(
+        icon: Icons.brush_rounded,
+        label: 'Brush',
+        isActive: currentTool == DrawingTool.marker,
+        onTap: () =>
+            ref.read(drawingProvider.notifier).setTool(DrawingTool.marker),
+      ),
+      if (showFill)
         _ToolButton(
-          icon: Icons.brush_rounded,
-          label: 'Brush',
-          isActive: currentTool == DrawingTool.marker,
+          icon: Icons.format_color_fill_rounded,
+          label: 'Fill',
+          isActive: currentTool == DrawingTool.fill,
           onTap: () =>
-              ref.read(drawingProvider.notifier).setTool(DrawingTool.marker),
+              ref.read(drawingProvider.notifier).setTool(DrawingTool.fill),
         ),
-        if (showFill)
-          _ToolButton(
-            icon: Icons.format_color_fill_rounded,
-            label: 'Fill',
-            isActive: currentTool == DrawingTool.fill,
-            onTap: () =>
-                ref.read(drawingProvider.notifier).setTool(DrawingTool.fill),
-          ),
+      _ToolButton(
+        icon: Icons.auto_fix_high_rounded,
+        label: 'Eraser',
+        isActive: currentTool == DrawingTool.eraser,
+        onTap: () =>
+            ref.read(drawingProvider.notifier).setTool(DrawingTool.eraser),
+      ),
+      _ToolButton(
+        icon: Icons.undo_rounded,
+        label: 'Undo',
+        isActive: false,
+        enabled: canUndo,
+        onTap: () => ref.read(drawingProvider.notifier).undo(),
+      ),
+      _ToolButton(
+        icon: Icons.redo_rounded,
+        label: 'Redo',
+        isActive: false,
+        enabled: canRedo,
+        onTap: () => ref.read(drawingProvider.notifier).redo(),
+      ),
+      _ToolButton(
+        icon: Icons.center_focus_strong_rounded,
+        label: 'Precision',
+        isActive: precisionMode,
+        onTap: () => ref.read(drawingProvider.notifier).togglePrecisionMode(),
+      ),
+      if (onResetRequested != null)
         _ToolButton(
-          icon: Icons.auto_fix_high_rounded,
-          label: 'Eraser',
-          isActive: currentTool == DrawingTool.eraser,
-          onTap: () =>
-              ref.read(drawingProvider.notifier).setTool(DrawingTool.eraser),
-        ),
-        _ToolButton(
-          icon: Icons.undo_rounded,
-          label: 'Undo',
+          icon: Icons.restart_alt_rounded,
+          label: 'Reset',
           isActive: false,
-          enabled: canUndo,
-          onTap: () => ref.read(drawingProvider.notifier).undo(),
+          onTap: onResetRequested!,
         ),
-        _ToolButton(
-          icon: Icons.redo_rounded,
-          label: 'Redo',
-          isActive: false,
-          enabled: canRedo,
-          onTap: () => ref.read(drawingProvider.notifier).redo(),
+    ];
+
+    return SizedBox(
+      height: 68,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(
+          parent: AlwaysScrollableScrollPhysics(),
         ),
-        _ToolButton(
-          icon: Icons.center_focus_strong_rounded,
-          label: 'Precision',
-          isActive: precisionMode,
-          onTap: () => ref.read(drawingProvider.notifier).togglePrecisionMode(),
-        ),
-        if (onResetRequested != null)
-          _ToolButton(
-            icon: Icons.restart_alt_rounded,
-            label: 'Reset',
-            isActive: false,
-            onTap: onResetRequested!,
-          ),
-      ],
+        padding: const EdgeInsets.symmetric(horizontal: 4),
+        itemCount: buttons.length,
+        separatorBuilder: (_, _) => const SizedBox(width: 12),
+        itemBuilder: (_, index) => buttons[index],
+      ),
     );
   }
 }

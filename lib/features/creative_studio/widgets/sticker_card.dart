@@ -18,12 +18,12 @@ class StickerCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
+          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 6),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(sticker.emoji, style: const TextStyle(fontSize: 32)),
-              const SizedBox(height: 6),
+              _buildImage(),
+              const SizedBox(height: 4),
               Text(
                 sticker.label,
                 style: Theme.of(
@@ -37,5 +37,22 @@ class StickerCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _buildImage() {
+    final path = sticker.assetPath;
+    if (path != null && path.isNotEmpty) {
+      return Image.asset(
+        path,
+        width: 40,
+        height: 40,
+        fit: BoxFit.contain,
+        errorBuilder: (_, _, _) => Text(
+          sticker.emoji,
+          style: const TextStyle(fontSize: 32),
+        ),
+      );
+    }
+    return Text(sticker.emoji, style: const TextStyle(fontSize: 32));
   }
 }

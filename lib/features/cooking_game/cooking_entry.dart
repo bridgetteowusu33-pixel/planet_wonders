@@ -85,6 +85,19 @@ Future<void> openCookingRecipeStory(
   context.push(route);
 }
 
+/// Launch helper for V2 cooking gameplay.
+Future<void> openCookingGameV2(
+  BuildContext context, {
+  String? recipeId,
+}) async {
+  final query = <String, String>{};
+  if (recipeId != null && recipeId.isNotEmpty) {
+    query['recipeId'] = recipeId;
+  }
+  final route = Uri(path: '/cooking-v2', queryParameters: query).toString();
+  context.push(route);
+}
+
 String? _resolveCountryId(String? countryId, String? recipeId) {
   if (countryId != null && countryId.isNotEmpty) {
     return countryId;
@@ -141,11 +154,9 @@ class CookingEntryButton extends StatelessWidget {
     return FilledButton.icon(
       onPressed: () {
         if (openView == 'play') {
-          openCookingGame(
+          openCookingGameV2(
             context,
-            source: source,
-            countryId: countryId,
-            recipeId: recipeId,
+            recipeId: '${recipeId}_v2',
           );
           return;
         }

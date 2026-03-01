@@ -6,7 +6,7 @@
       "question": "Which big white castle is over 370 years old?",
       "answer": "Cape Coast Castle",
       "funFact": "Did you know? This castle is so important that the whole world helps protect it!",
-      "image": "assets/sliding_puzzles/ghana/ghana_01_capecoast_castle.jpg"
+      "image": "assets/sliding_puzzles/ghana/ghana_01_capecoast_castle.webp"
     },
     {
       "id": "flagstaff",
@@ -14,7 +14,7 @@
       "question": "Where does Ghana's president work and make big decisions?",
       "answer": "Flagstaff House",
       "funFact": "Fun fact! This building is also called Jubilee House and it looks super fancy!",
-      "image": "assets/sliding_puzzles/ghana/ghana_01_flagstaffhouse.jpg"
+      "image": "assets/sliding_puzzles/ghana/ghana_01_flagstaffhouse.webp"
     },
     {
       "id": "independence",
@@ -22,7 +22,7 @@
       "question": "Where did Ghana celebrate becoming a free country in 1957?",
       "answer": "Independence Square",
       "funFact": "Wow! Ghana was the first country in sub-Saharan Africa to become independent!",
-      "image": "assets/sliding_puzzles/ghana/ghana_01_independence_square.jpg"
+      "image": "assets/sliding_puzzles/ghana/ghana_01_independence_square.webp"
     },
     {
       "id": "kakum",
@@ -30,7 +30,7 @@
       "question": "Which park has a bridge almost as tall as a 10-story building?",
       "answer": "Kakum National Park",
       "funFact": "Amazing! You can walk high in the treetops on a rope bridge called a canopy walkway!",
-      "image": "assets/sliding_puzzles/ghana/ghana_01_kakum.jpg"
+      "image": "assets/sliding_puzzles/ghana/ghana_01_kakum.webp"
     },
     {
       "id": "nkrumah",
@@ -38,7 +38,7 @@
       "question": "Who was Ghana's very first president?",
       "answer": "Dr. Kwame Nkrumah",
       "funFact": "Did you know? Dr. Nkrumah helped many other African countries gain freedom too!",
-      "image": "assets/sliding_puzzles/ghana/ghana_01_kwame_nkrumah.jpg"
+      "image": "assets/sliding_puzzles/ghana/ghana_01_kwame_nkrumah.webp"
     },
     {
       "id": "aso_rock",
@@ -46,7 +46,7 @@
       "question": "Where does the president of Nigeria live and work?",
       "answer": "Aso Rock Villa",
       "funFact": "The villa sits at the base of a huge rock formation called Aso Rock in Abuja!",
-      "image": "assets/sliding_puzzles/nigeria/nigeria_monument_01_aso_rock.jpg"
+      "image": "assets/sliding_puzzles/nigeria/nigeria_monument_01_aso_rock.webp"
     },
     {
       "id": "national_theatre",
@@ -54,7 +54,7 @@
       "question": "Which famous Lagos building is shaped like a military hat?",
       "answer": "National Theatre",
       "funFact": "The National Theatre hosts plays, music, and dance — it was built in 1976!",
-      "image": "assets/sliding_puzzles/nigeria/nigeria_monument_03_national_theatre.png"
+      "image": "assets/sliding_puzzles/nigeria/nigeria_monument_03_national_theatre.webp"
     },
     {
       "id": "tinubu_square",
@@ -62,7 +62,7 @@
       "question": "Which square in Lagos is named after a powerful woman trader?",
       "answer": "Tinubu Square",
       "funFact": "Madam Tinubu was a famous trader and leader who helped shape Nigerian history!",
-      "image": "assets/sliding_puzzles/nigeria/nigeria_monument_04_tinubu_square.jpg"
+      "image": "assets/sliding_puzzles/nigeria/nigeria_monument_04_tinubu_square.webp"
     },
     {
       "id": "freedom_park",
@@ -70,7 +70,7 @@
       "question": "Which Lagos park used to be a prison but is now a place for art and music?",
       "answer": "Freedom Park",
       "funFact": "Freedom Park was turned from a colonial prison into a beautiful open space in 2010!",
-      "image": "assets/sliding_puzzles/nigeria/nigeria_monument_05_freedom_park.jpg"
+      "image": "assets/sliding_puzzles/nigeria/nigeria_monument_05_freedom_park.webp"
     },
     {
       "id": "olumo_rock",
@@ -78,7 +78,7 @@
       "question": "Which ancient rock in Abeokuta was used as a fortress during wars?",
       "answer": "Olumo Rock",
       "funFact": "People once sheltered inside Olumo Rock's caves — you can still climb it today!",
-      "image": "assets/sliding_puzzles/nigeria/nigeria_monument_05_olumo_rock.jpg"
+      "image": "assets/sliding_puzzles/nigeria/nigeria_monument_05_olumo_rock.webp"
     },
     {
       "id": "buckingham_palace",
@@ -86,7 +86,7 @@
       "question": "Which famous palace in London has 775 rooms?",
       "answer": "Buckingham Palace",
       "funFact": "The King lives here! Buckingham Palace has been the royal family's London home since 1837.",
-      "image": "assets/sliding_puzzles/uk/uk_01_buckingham_palace.jpg"
+      "image": "assets/sliding_puzzles/uk/buckingham.webp"
     },
     {
       "id": "tower_bridge",
@@ -94,7 +94,7 @@
       "question": "Which bridge in London can open in the middle to let ships through?",
       "answer": "Tower Bridge",
       "funFact": "Tower Bridge opens about 800 times a year! It takes just five minutes to fully open.",
-      "image": "assets/sliding_puzzles/uk/uk_02_tower_bridge.jpg"
+      "image": "assets/sliding_puzzles/uk/tower_bridge.webp"
     },
     {
       "id": "big_ben",
@@ -102,7 +102,7 @@
       "question": "What is the famous clock tower at the Palace of Westminster called?",
       "answer": "Big Ben",
       "funFact": "Big Ben is actually the nickname for the Great Bell — the tower is called the Elizabeth Tower!",
-      "image": "assets/sliding_puzzles/uk/uk_03_big_ben.jpg"
+      "image": "assets/sliding_puzzles/uk/big_ben.webp"
     },
     {
       "id": "stonehenge",
@@ -110,15 +110,71 @@
       "question": "Which circle of giant stones in England is about 5,000 years old?",
       "answer": "Stonehenge",
       "funFact": "Nobody knows for sure how the enormous stones were moved — some came from over 150 miles away!",
-      "image": "assets/sliding_puzzles/uk/uk_04_stonehenge.jpg"
+      "image": "assets/sliding_puzzles/uk/stonehenge.webp"
     },
     {
-      "id": "tower_of_london",
+      "id": "double_decker_bus",
       "countryId": "uk",
-      "question": "Which castle in London is guarded by ravens and holds the Crown Jewels?",
-      "answer": "Tower of London",
-      "funFact": "Legend says the kingdom will fall if the ravens ever leave the Tower of London!",
-      "image": "assets/sliding_puzzles/uk/uk_05_tower_of_london.jpg"
+      "question": "What are London's famous red buses with two floors called?",
+      "answer": "Double Decker Bus",
+      "funFact": "London's iconic red double decker buses have been around since 1956 and carry millions of passengers every year!",
+      "image": "assets/sliding_puzzles/uk/double_decker_bus.webp"
+    },
+    {
+      "id": "red_phone_box",
+      "countryId": "uk",
+      "question": "What colour is the famous British telephone box?",
+      "answer": "Red Phone Box",
+      "funFact": "The red telephone box was designed in 1924 and became one of the most recognised symbols of Britain!",
+      "image": "assets/sliding_puzzles/uk/red_phone_box.webp"
+    },
+    {
+      "id": "countryside",
+      "countryId": "uk",
+      "question": "What do you call the green rolling hills and villages outside British cities?",
+      "answer": "The Countryside",
+      "funFact": "The British countryside has stone walls, thatched cottages, and sheep-dotted hills that are hundreds of years old!",
+      "image": "assets/sliding_puzzles/uk/countryside.webp"
+    },
+    {
+      "id": "statue_of_liberty",
+      "countryId": "usa",
+      "question": "Which giant green statue holds a torch and welcomes visitors to New York?",
+      "answer": "Statue of Liberty",
+      "funFact": "The Statue of Liberty was a gift from France in 1886 — she is over 300 feet tall!",
+      "image": "assets/coloring/usa/cities/usa_04_nyc.png"
+    },
+    {
+      "id": "white_house",
+      "countryId": "usa",
+      "question": "Where does the President of the United States live and work?",
+      "answer": "The White House",
+      "funFact": "The White House has 132 rooms, 35 bathrooms, and even a bowling alley and a movie theatre!",
+      "image": "assets/coloring/usa/cities/usa_05_dc.png"
+    },
+    {
+      "id": "golden_gate",
+      "countryId": "usa",
+      "question": "Which famous red bridge stretches across the bay in San Francisco?",
+      "answer": "Golden Gate Bridge",
+      "funFact": "The Golden Gate Bridge is painted a colour called 'International Orange' so ships can see it through the fog!",
+      "image": "assets/coloring/usa/cities/usa_06_sf.png"
+    },
+    {
+      "id": "hollywood_sign",
+      "countryId": "usa",
+      "question": "Which giant white letters on a hillside are a symbol of the movie capital of the world?",
+      "answer": "The Hollywood Sign",
+      "funFact": "The Hollywood Sign originally said 'Hollywoodland' — it was an advert for houses in 1923!",
+      "image": "assets/coloring/usa/cities/usa_07_hollywood.png"
+    },
+    {
+      "id": "yellowstone",
+      "countryId": "usa",
+      "question": "Which national park has geysers that shoot hot water into the sky?",
+      "answer": "Yellowstone National Park",
+      "funFact": "Yellowstone's Old Faithful geyser erupts about every 90 minutes — you can set your watch by it!",
+      "image": "assets/coloring/usa/cities/usa_08_yellowstone.png"
     }
   ]
 }

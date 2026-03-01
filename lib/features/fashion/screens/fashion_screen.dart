@@ -97,9 +97,16 @@ class _FashionScreenState extends ConsumerState<FashionScreen> {
 
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Outfit saved to Gallery!'),
+        SnackBar(
+          content: const Row(
+            children: [
+              Icon(Icons.check_circle_rounded, color: Colors.white, size: 20),
+              SizedBox(width: 8),
+              Text('Saved to Gallery!'),
+            ],
+          ),
           behavior: SnackBarBehavior.floating,
+          backgroundColor: const Color(0xFF4CAF50),
         ),
       );
     } finally {
@@ -348,10 +355,7 @@ class _FashionScreenState extends ConsumerState<FashionScreen> {
                                 color: Colors.white,
                               ),
                             )
-                          : const Text(
-                              '\u{1F4BE}', // 💾
-                              style: TextStyle(fontSize: 18),
-                            ),
+                          : const Icon(Icons.camera_alt_rounded, size: 20),
                       label: const Text('Save'),
                       style: FilledButton.styleFrom(
                         backgroundColor: const Color(0xFF4CAF50),

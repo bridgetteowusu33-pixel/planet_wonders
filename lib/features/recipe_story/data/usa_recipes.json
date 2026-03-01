@@ -1,0 +1,489 @@
+{
+  "country": "usa",
+  "recipes": [
+    {
+      "id": "usa_burger_story",
+      "title": "Ava Makes a Burger!",
+      "emoji": "\uD83C\uDF54",
+      "difficulty": 1,
+      "imageAsset": "assets/coloring/usa/food/usa_food_01_burger.png",
+      "thumbnailAsset": "assets/coloring/usa/food/usa_food_01_burger.png",
+      "intro": "Ava is firing up the grill to make the juiciest, cheesiest burger ever!",
+      "introFact": "Americans eat about 50 billion burgers every year \u2014 that\u2019s a LOT of burgers!",
+      "completionMessage": "A big, juicy burger stacked high \u2014 time to eat!",
+      "completionAsset": "assets/coloring/usa/food/usa_food_01_burger.png",
+      "completionFact": "The hamburger became famous at the 1904 World\u2019s Fair in St. Louis!",
+      "badgeTitle": "Burger Chef",
+      "rewardCultureStars": 1,
+      "steps": [
+        {
+          "story": "Tap to shape the beef into a round patty!",
+          "action": "tap",
+          "requiredCount": 3,
+          "asset": "assets/coloring/usa/food/usa_food_01_burger.png",
+          "fact": "The best burgers are shaped gently \u2014 don\u2019t squish the meat too hard!",
+          "sfx": "tap"
+        },
+        {
+          "story": "Drag the patty onto the hot grill!",
+          "action": "drag",
+          "requiredCount": 1,
+          "asset": "assets/coloring/usa/food/usa_food_01_burger.png",
+          "fact": "That sizzling sound means the grill is nice and hot!",
+          "sfx": "drop"
+        },
+        {
+          "story": "Hold to cook the patty until it\u2019s perfectly done!",
+          "action": "hold",
+          "holdDurationMs": 2000,
+          "asset": "assets/coloring/usa/food/usa_food_01_burger.png",
+          "fact": "Cheeseburgers were invented by adding a slice of cheese right at the end!",
+          "sfx": "hold"
+        },
+        {
+          "story": "Tap to add lettuce, tomato, and cheese on top!",
+          "action": "tap",
+          "requiredCount": 3,
+          "asset": "assets/coloring/usa/food/usa_food_01_burger.png",
+          "fact": "Everyone builds their burger differently \u2014 that\u2019s what makes it fun!",
+          "sfx": "tap"
+        }
+      ]
+    },
+    {
+      "id": "usa_pizza_story",
+      "title": "Ava\u2019s Perfect Pizza!",
+      "emoji": "\uD83C\uDF55",
+      "difficulty": 1,
+      "imageAsset": "assets/coloring/usa/food/usa_food_02_pizza.png",
+      "thumbnailAsset": "assets/coloring/usa/food/usa_food_02_pizza.png",
+      "intro": "Pizza night! Ava is making a pizza from scratch with all her favourite toppings!",
+      "introFact": "Pizza became hugely popular in America after soldiers brought the recipe back from Italy after World War II!",
+      "completionMessage": "Bubbly, cheesy pizza fresh from the oven \u2014 slice and enjoy!",
+      "completionAsset": "assets/coloring/usa/food/usa_food_02_pizza.png",
+      "completionFact": "Pepperoni is the most popular pizza topping in America!",
+      "badgeTitle": "Pizza Maker",
+      "rewardCultureStars": 1,
+      "steps": [
+        {
+          "story": "Tap to knead the pizza dough until it\u2019s stretchy!",
+          "action": "tap",
+          "requiredCount": 4,
+          "asset": "assets/coloring/usa/food/usa_food_02_pizza.png",
+          "fact": "Pizza dough needs yeast to make it rise and get bubbly!",
+          "sfx": "tap"
+        },
+        {
+          "story": "Stir the tomato sauce in circles over the dough!",
+          "action": "stir",
+          "asset": "assets/coloring/usa/food/usa_food_02_pizza.png",
+          "fact": "The sauce goes on first \u2014 spread it all the way to the edges!",
+          "sfx": "stir"
+        },
+        {
+          "story": "Drag the cheese and toppings onto the pizza!",
+          "action": "drag",
+          "requiredCount": 1,
+          "asset": "assets/coloring/usa/food/usa_food_02_pizza.png",
+          "fact": "Mozzarella cheese gets all stretchy and gooey when it melts!",
+          "sfx": "drop"
+        },
+        {
+          "story": "Hold to bake the pizza in the hot oven!",
+          "action": "hold",
+          "holdDurationMs": 2000,
+          "asset": "assets/coloring/usa/food/usa_food_02_pizza.png",
+          "fact": "New York pizza is thin and foldable, but Chicago pizza is thick and deep!",
+          "sfx": "hold"
+        }
+      ]
+    },
+    {
+      "id": "usa_hotdog_story",
+      "title": "Ava\u2019s Ballpark Hot Dog!",
+      "emoji": "\uD83C\uDF2D",
+      "difficulty": 1,
+      "imageAsset": "assets/coloring/usa/food/usa_food_03_hotdog.png",
+      "thumbnailAsset": "assets/coloring/usa/food/usa_food_03_hotdog.png",
+      "intro": "It\u2019s game day! Ava is making classic American hot dogs for everyone!",
+      "introFact": "Hot dogs are a must-have at every baseball game in America!",
+      "completionMessage": "A classic hot dog with all the fixings \u2014 play ball!",
+      "completionAsset": "assets/coloring/usa/food/usa_food_03_hotdog.png",
+      "completionFact": "Americans eat about 20 billion hot dogs every year!",
+      "badgeTitle": "Hot Dog Pro",
+      "rewardCultureStars": 1,
+      "steps": [
+        {
+          "story": "Drag the hot dog onto the grill!",
+          "action": "drag",
+          "requiredCount": 1,
+          "asset": "assets/coloring/usa/food/usa_food_03_hotdog.png",
+          "fact": "Hot dogs sizzle and get grill marks on the barbecue!",
+          "sfx": "drop"
+        },
+        {
+          "story": "Hold to grill until the hot dog is sizzling!",
+          "action": "hold",
+          "holdDurationMs": 2000,
+          "asset": "assets/coloring/usa/food/usa_food_03_hotdog.png",
+          "fact": "The famous Nathan\u2019s hot dog eating contest happens every July 4th!",
+          "sfx": "hold"
+        },
+        {
+          "story": "Tap to place it in the bun!",
+          "action": "tap",
+          "requiredCount": 2,
+          "asset": "assets/coloring/usa/food/usa_food_03_hotdog.png",
+          "fact": "Hot dog buns were invented so people wouldn\u2019t burn their hands!",
+          "sfx": "tap"
+        },
+        {
+          "story": "Tap to squirt mustard and ketchup on top!",
+          "action": "tap_spice_shaker",
+          "requiredCount": 3,
+          "asset": "assets/coloring/usa/food/usa_food_03_hotdog.png",
+          "fact": "In Chicago, people never put ketchup on a hot dog \u2014 only mustard!",
+          "sfx": "tap"
+        }
+      ]
+    },
+    {
+      "id": "usa_pancakes_story",
+      "title": "Ava\u2019s Fluffy Pancakes!",
+      "emoji": "\uD83E\uDD5E",
+      "difficulty": 1,
+      "imageAsset": "assets/coloring/usa/food/usa_food_04_pancakes.png",
+      "thumbnailAsset": "assets/coloring/usa/food/usa_food_04_pancakes.png",
+      "intro": "Good morning! Ava is flipping fluffy pancakes for a special weekend breakfast!",
+      "introFact": "Pancakes have been eaten in America since the very first colonists arrived!",
+      "completionMessage": "A tall stack of fluffy pancakes with maple syrup \u2014 breakfast is served!",
+      "completionAsset": "assets/coloring/usa/food/usa_food_04_pancakes.png",
+      "completionFact": "Maple syrup comes from the sap of maple trees \u2014 it takes 40 gallons of sap to make 1 gallon of syrup!",
+      "badgeTitle": "Pancake Flipper",
+      "rewardCultureStars": 1,
+      "steps": [
+        {
+          "story": "Tap to crack the eggs into the bowl!",
+          "action": "tap",
+          "requiredCount": 3,
+          "asset": "assets/coloring/usa/food/usa_food_04_pancakes.png",
+          "fact": "Eggs help make pancakes fluffy and golden!",
+          "sfx": "tap"
+        },
+        {
+          "story": "Drag the flour and milk into the bowl!",
+          "action": "drag",
+          "requiredCount": 1,
+          "asset": "assets/coloring/usa/food/usa_food_04_pancakes.png",
+          "fact": "Buttermilk is the secret to extra fluffy pancakes!",
+          "sfx": "drop"
+        },
+        {
+          "story": "Stir the batter gently \u2014 a few lumps are OK!",
+          "action": "stir",
+          "asset": "assets/coloring/usa/food/usa_food_04_pancakes.png",
+          "fact": "Over-mixing makes pancakes tough \u2014 lumpy batter is perfect!",
+          "sfx": "stir"
+        },
+        {
+          "story": "Hold to cook until bubbles appear, then flip!",
+          "action": "hold",
+          "holdDurationMs": 2000,
+          "asset": "assets/coloring/usa/food/usa_food_04_pancakes.png",
+          "fact": "When you see bubbles on top, it\u2019s time to flip!",
+          "sfx": "hold"
+        }
+      ]
+    },
+    {
+      "id": "usa_donut_story",
+      "title": "Ava\u2019s Donut Shop!",
+      "emoji": "\uD83C\uDF69",
+      "difficulty": 1,
+      "imageAsset": "assets/coloring/usa/food/usa_food_05_donut.png",
+      "thumbnailAsset": "assets/coloring/usa/food/usa_food_05_donut.png",
+      "intro": "Ava is making donuts from scratch \u2014 with icing and sprinkles on top!",
+      "introFact": "The donut hole was invented so the middle would cook evenly \u2014 clever!",
+      "completionMessage": "Colourful donuts with icing and sprinkles \u2014 too pretty to eat!",
+      "completionAsset": "assets/coloring/usa/food/usa_food_05_donut.png",
+      "completionFact": "Americans eat over 10 billion donuts every year!",
+      "badgeTitle": "Donut Artist",
+      "rewardCultureStars": 1,
+      "steps": [
+        {
+          "story": "Tap to mix the flour, sugar, and eggs into dough!",
+          "action": "tap",
+          "requiredCount": 3,
+          "asset": "assets/coloring/usa/food/usa_food_05_donut.png",
+          "fact": "Donut dough is soft and slightly sweet!",
+          "sfx": "tap"
+        },
+        {
+          "story": "Stir the dough until it\u2019s smooth and round!",
+          "action": "stir",
+          "asset": "assets/coloring/usa/food/usa_food_05_donut.png",
+          "fact": "Donuts are shaped in a ring so they cook evenly in the oil!",
+          "sfx": "stir"
+        },
+        {
+          "story": "Hold to fry the donuts until they\u2019re golden!",
+          "action": "hold",
+          "holdDurationMs": 2000,
+          "asset": "assets/coloring/usa/food/usa_food_05_donut.png",
+          "fact": "Donuts only need about 2 minutes in the hot oil to turn golden!",
+          "sfx": "hold"
+        },
+        {
+          "story": "Tap to add icing and sprinkles on top!",
+          "action": "tap_spice_shaker",
+          "requiredCount": 4,
+          "asset": "assets/coloring/usa/food/usa_food_05_donut.png",
+          "fact": "National Donut Day is celebrated on the first Friday in June!",
+          "sfx": "tap"
+        }
+      ]
+    },
+    {
+      "id": "usa_icecream_story",
+      "title": "Ava\u2019s Ice Cream Sundae!",
+      "emoji": "\uD83C\uDF68",
+      "difficulty": 1,
+      "imageAsset": "assets/coloring/usa/food/usa_food_06_icecream.png",
+      "thumbnailAsset": "assets/coloring/usa/food/usa_food_06_icecream.png",
+      "intro": "It\u2019s a hot summer day! Ava is making the most amazing ice cream sundae!",
+      "introFact": "The ice cream cone was invented at the 1904 World\u2019s Fair when a vendor ran out of cups!",
+      "completionMessage": "Scoops of ice cream with toppings galore \u2014 the perfect treat!",
+      "completionAsset": "assets/coloring/usa/food/usa_food_06_icecream.png",
+      "completionFact": "Americans eat about 1.5 billion gallons of ice cream each year!",
+      "badgeTitle": "Ice Cream Star",
+      "rewardCultureStars": 1,
+      "steps": [
+        {
+          "story": "Drag the cream and sugar into the ice cream maker!",
+          "action": "drag",
+          "requiredCount": 1,
+          "asset": "assets/coloring/usa/food/usa_food_06_icecream.png",
+          "fact": "Ice cream is made by freezing cream while stirring it!",
+          "sfx": "drop"
+        },
+        {
+          "story": "Stir and churn until the ice cream is thick and creamy!",
+          "action": "stir",
+          "asset": "assets/coloring/usa/food/usa_food_06_icecream.png",
+          "fact": "Vanilla is the most popular ice cream flavour in America!",
+          "sfx": "stir"
+        },
+        {
+          "story": "Tap to scoop the ice cream into a bowl!",
+          "action": "tap",
+          "requiredCount": 3,
+          "asset": "assets/coloring/usa/food/usa_food_06_icecream.png",
+          "fact": "A perfect scoop should be round like a ball!",
+          "sfx": "tap"
+        },
+        {
+          "story": "Tap to add sprinkles, sauce, and a cherry on top!",
+          "action": "tap_spice_shaker",
+          "requiredCount": 3,
+          "asset": "assets/coloring/usa/food/usa_food_06_icecream.png",
+          "fact": "The cherry on top of a sundae became famous in the early 1900s!",
+          "sfx": "tap"
+        }
+      ]
+    },
+    {
+      "id": "usa_friedchicken_story",
+      "title": "Ava\u2019s Crispy Fried Chicken!",
+      "emoji": "\uD83C\uDF57",
+      "difficulty": 2,
+      "imageAsset": "assets/coloring/usa/food/usa_food_07_friedchicken.png",
+      "thumbnailAsset": "assets/coloring/usa/food/usa_food_07_friedchicken.png",
+      "intro": "Ava is learning her grandma\u2019s secret recipe for the crispiest fried chicken!",
+      "introFact": "Southern fried chicken is one of America\u2019s most famous and beloved dishes!",
+      "completionMessage": "Golden, crispy fried chicken \u2014 finger-lickin\u2019 good!",
+      "completionAsset": "assets/coloring/usa/food/usa_food_07_friedchicken.png",
+      "completionFact": "The secret to great fried chicken is soaking it in buttermilk first!",
+      "badgeTitle": "Fried Chicken Chef",
+      "rewardCultureStars": 1,
+      "steps": [
+        {
+          "story": "Drag the chicken into the buttermilk to soak!",
+          "action": "drag",
+          "requiredCount": 1,
+          "asset": "assets/coloring/usa/food/usa_food_07_friedchicken.png",
+          "fact": "Buttermilk makes the chicken super tender and juicy!",
+          "sfx": "drop"
+        },
+        {
+          "story": "Tap to coat the chicken in seasoned flour!",
+          "action": "tap",
+          "requiredCount": 4,
+          "asset": "assets/coloring/usa/food/usa_food_07_friedchicken.png",
+          "fact": "The spice blend in the flour is usually a family secret!",
+          "sfx": "tap"
+        },
+        {
+          "story": "Stir the chicken gently in the hot oil!",
+          "action": "stir",
+          "asset": "assets/coloring/usa/food/usa_food_07_friedchicken.png",
+          "fact": "The oil needs to be very hot so the crust gets extra crispy!",
+          "sfx": "stir"
+        },
+        {
+          "story": "Hold to fry until the chicken is golden brown and crunchy!",
+          "action": "hold",
+          "holdDurationMs": 2000,
+          "asset": "assets/coloring/usa/food/usa_food_07_friedchicken.png",
+          "fact": "Fried chicken is a favourite food for picnics and family gatherings!",
+          "sfx": "hold"
+        }
+      ]
+    },
+    {
+      "id": "usa_applepie_story",
+      "title": "Ava Bakes Apple Pie!",
+      "emoji": "\uD83E\uDD67",
+      "difficulty": 2,
+      "imageAsset": "assets/coloring/usa/food/usa_food_08_applepie.png",
+      "thumbnailAsset": "assets/coloring/usa/food/usa_food_08_applepie.png",
+      "intro": "It\u2019s autumn! Ava picked fresh apples and is baking a classic American apple pie!",
+      "introFact": "The saying \u201Cas American as apple pie\u201D shows just how loved this dessert is!",
+      "completionMessage": "A golden, cinnamon-scented apple pie \u2014 best served warm!",
+      "completionAsset": "assets/coloring/usa/food/usa_food_08_applepie.png",
+      "completionFact": "Apple pie has been eaten in America since the 1600s!",
+      "badgeTitle": "Pie Baker",
+      "rewardCultureStars": 1,
+      "steps": [
+        {
+          "story": "Tap to peel and slice the apples!",
+          "action": "tap_chop",
+          "requiredCount": 5,
+          "asset": "assets/coloring/usa/food/usa_food_08_applepie.png",
+          "fact": "Granny Smith apples are perfect for pie because they\u2019re tart and hold their shape!",
+          "sfx": "tap"
+        },
+        {
+          "story": "Drag the apple slices into the pie crust!",
+          "action": "drag",
+          "requiredCount": 1,
+          "asset": "assets/coloring/usa/food/usa_food_08_applepie.png",
+          "fact": "Stack the apple slices high \u2014 they shrink down as they bake!",
+          "sfx": "drop"
+        },
+        {
+          "story": "Tap to sprinkle cinnamon and sugar on top!",
+          "action": "tap_spice_shaker",
+          "requiredCount": 3,
+          "asset": "assets/coloring/usa/food/usa_food_08_applepie.png",
+          "fact": "Cinnamon and apples are a match made in heaven!",
+          "sfx": "tap"
+        },
+        {
+          "story": "Hold to bake the pie until the crust is golden and flaky!",
+          "action": "hold",
+          "holdDurationMs": 2000,
+          "asset": "assets/coloring/usa/food/usa_food_08_applepie.png",
+          "fact": "Many people serve apple pie warm with a scoop of vanilla ice cream!",
+          "sfx": "hold"
+        }
+      ]
+    },
+    {
+      "id": "usa_sandwich_story",
+      "title": "Ava\u2019s Super Sandwich!",
+      "emoji": "\uD83E\uDD6A",
+      "difficulty": 1,
+      "imageAsset": "assets/coloring/usa/food/usa_food_09_sandwich.png",
+      "thumbnailAsset": "assets/coloring/usa/food/usa_food_09_sandwich.png",
+      "intro": "Lunchtime! Ava is building the tallest, tastiest sandwich for a picnic!",
+      "introFact": "The sandwich is named after the Earl of Sandwich from England \u2014 but Americans made it famous!",
+      "completionMessage": "A big, colourful sandwich \u2014 packed with delicious layers!",
+      "completionAsset": "assets/coloring/usa/food/usa_food_09_sandwich.png",
+      "completionFact": "Peanut butter and jelly is the most popular kids\u2019 sandwich in America!",
+      "badgeTitle": "Sandwich Builder",
+      "rewardCultureStars": 1,
+      "steps": [
+        {
+          "story": "Tap to lay out the bread slices!",
+          "action": "tap",
+          "requiredCount": 2,
+          "asset": "assets/coloring/usa/food/usa_food_09_sandwich.png",
+          "fact": "Sliced bread was invented in 1928 \u2014 that\u2019s why people say \u201Cthe best thing since sliced bread!\u201D",
+          "sfx": "tap"
+        },
+        {
+          "story": "Drag the turkey, cheese, and veggies onto the bread!",
+          "action": "drag",
+          "requiredCount": 1,
+          "asset": "assets/coloring/usa/food/usa_food_09_sandwich.png",
+          "fact": "Americans invented famous sandwiches like the club and the Reuben!",
+          "sfx": "drop"
+        },
+        {
+          "story": "Tap to add lettuce, tomato, and sauce!",
+          "action": "tap",
+          "requiredCount": 3,
+          "asset": "assets/coloring/usa/food/usa_food_09_sandwich.png",
+          "fact": "Fresh vegetables make a sandwich crunchy and colourful!",
+          "sfx": "tap"
+        },
+        {
+          "story": "Tap to close and cut the sandwich in half!",
+          "action": "tap_chop",
+          "requiredCount": 1,
+          "asset": "assets/coloring/usa/food/usa_food_09_sandwich.png",
+          "fact": "Cutting a sandwich diagonally makes it look extra fancy!",
+          "sfx": "tap"
+        }
+      ]
+    },
+    {
+      "id": "usa_milkshake_story",
+      "title": "Ava\u2019s Milkshake Bar!",
+      "emoji": "\uD83E\uDD64",
+      "difficulty": 1,
+      "imageAsset": "assets/coloring/usa/food/usa_food_10_milkshake.png",
+      "thumbnailAsset": "assets/coloring/usa/food/usa_food_10_milkshake.png",
+      "intro": "Ava is blending the thickest, creamiest milkshake at her very own milkshake bar!",
+      "introFact": "Milkshakes became super popular in American diners in the 1950s!",
+      "completionMessage": "A thick, creamy milkshake with whipped cream on top \u2014 slurp!",
+      "completionAsset": "assets/coloring/usa/food/usa_food_10_milkshake.png",
+      "completionFact": "The electric blender was invented in 1922 and made milkshakes thick and creamy!",
+      "badgeTitle": "Milkshake Mixer",
+      "rewardCultureStars": 1,
+      "steps": [
+        {
+          "story": "Drag the ice cream and milk into the blender!",
+          "action": "drag",
+          "requiredCount": 1,
+          "asset": "assets/coloring/usa/food/usa_food_10_milkshake.png",
+          "fact": "The more ice cream you add, the thicker the shake!",
+          "sfx": "drop"
+        },
+        {
+          "story": "Tap to add strawberries for flavour!",
+          "action": "tap",
+          "requiredCount": 3,
+          "asset": "assets/coloring/usa/food/usa_food_10_milkshake.png",
+          "fact": "Chocolate, vanilla, and strawberry are the three classic milkshake flavours!",
+          "sfx": "tap"
+        },
+        {
+          "story": "Stir and blend until it\u2019s thick and smooth!",
+          "action": "stir",
+          "asset": "assets/coloring/usa/food/usa_food_10_milkshake.png",
+          "fact": "A good milkshake should be so thick you can barely get it through the straw!",
+          "sfx": "stir"
+        },
+        {
+          "story": "Tap to add whipped cream and a cherry on top!",
+          "action": "tap_spice_shaker",
+          "requiredCount": 2,
+          "asset": "assets/coloring/usa/food/usa_food_10_milkshake.png",
+          "fact": "Classic American diners serve milkshakes in tall metal cups!",
+          "sfx": "tap"
+        }
+      ]
+    }
+  ]
+}

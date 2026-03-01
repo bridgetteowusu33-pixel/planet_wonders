@@ -1,6 +1,4 @@
 // File: lib/features/creative_studio/widgets/canvas_area.dart
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -438,15 +436,32 @@ class _EditableStickerState extends State<_EditableSticker> {
         child: Center(
           child: Transform.rotate(
             angle: widget.sticker.rotation,
-            child: Text(
-              widget.sticker.emoji,
-              style: TextStyle(
-                fontSize: math.max(22, 44 * widget.sticker.scale),
-              ),
-            ),
+            child: _buildStickerContent(),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildStickerContent() {
+    final scale = widget.sticker.scale;
+    final path = widget.sticker.assetPath;
+    if (path != null && path.isNotEmpty) {
+      final imgSize = 80.0 * scale;
+      return Image.asset(
+        path,
+        width: imgSize,
+        height: imgSize,
+        fit: BoxFit.contain,
+        errorBuilder: (_, _, _) => Text(
+          widget.sticker.emoji,
+          style: TextStyle(fontSize: 44 * scale),
+        ),
+      );
+    }
+    return Text(
+      widget.sticker.emoji,
+      style: TextStyle(fontSize: 44 * scale),
     );
   }
 }

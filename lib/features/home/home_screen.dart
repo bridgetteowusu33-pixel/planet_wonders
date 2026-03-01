@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme/pw_theme.dart';
+import '../../shared/widgets/flying_airplane.dart';
 import '../coloring/data/coloring_data.dart';
 import '../quiz/providers/quiz_providers.dart';
 import '../stories/data/story_data.dart';
@@ -36,18 +37,18 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   static const List<String> _warmupAssets = <String>[
-    'assets/backgrounds/home_beach_bg.png',
-    'assets/logos/planet_wonders_logo.png',
-    'assets/icons/world.png',
-    'assets/icons/book.png',
-    'assets/icons/crayon.png',
-    'assets/icons/palette.png',
-    'assets/icons/dress.png',
-    'assets/icons/cooking.png',
-    'assets/icons/home.png',
-    'assets/icons/gallery.png',
-    'assets/icons/passport.png',
-    'assets/icons/parents.png',
+    'assets/backgrounds/home_beach_bg.webp',
+    'assets/logos/planet_wonders_logo.webp',
+    'assets/icons/world.webp',
+    'assets/icons/book.webp',
+    'assets/icons/crayon.webp',
+    'assets/icons/palette.webp',
+    'assets/icons/dress.webp',
+    'assets/icons/cooking.webp',
+    'assets/icons/home.webp',
+    'assets/icons/gallery.webp',
+    'assets/icons/passport.webp',
+    'assets/icons/parents.webp',
   ];
 
   @override
@@ -55,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final actions = <_HomeStickerConfig>[
       _HomeStickerConfig(
         title: 'World Explorer',
-        iconAsset: 'assets/icons/world.png',
+        iconAsset: 'assets/icons/world.webp',
         fallbackEmoji: '🌍',
         gradientTop: const Color(0xFFFFD64C),
         gradientBottom: const Color(0xFFF3A91D),
@@ -63,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       _HomeStickerConfig(
         title: 'Stories',
-        iconAsset: 'assets/icons/book.png',
+        iconAsset: 'assets/icons/book.webp',
         fallbackEmoji: '📖',
         gradientTop: const Color(0xFF2F9DFF),
         gradientBottom: const Color(0xFF215AE5),
@@ -71,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       _HomeStickerConfig(
         title: 'Coloring Pages',
-        iconAsset: 'assets/icons/crayon.png',
+        iconAsset: 'assets/icons/crayon.webp',
         fallbackEmoji: '🖍️',
         gradientTop: const Color(0xFFFF6B5F),
         gradientBottom: const Color(0xFFE23C2D),
@@ -79,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       _HomeStickerConfig(
         title: 'Creative Studio',
-        iconAsset: 'assets/icons/palette.png',
+        iconAsset: 'assets/icons/palette.webp',
         fallbackEmoji: '🎨',
         gradientTop: const Color(0xFFFF7656),
         gradientBottom: const Color(0xFFDA3429),
@@ -87,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       _HomeStickerConfig(
         title: 'Fashion Studio',
-        iconAsset: 'assets/icons/dress.png',
+        iconAsset: 'assets/icons/dress.webp',
         fallbackEmoji: '👗',
         gradientTop: const Color(0xFF5BE3CF),
         gradientBottom: const Color(0xFF20AFA0),
@@ -95,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       _HomeStickerConfig(
         title: 'Cooking Fun',
-        iconAsset: 'assets/icons/cooking.png',
+        iconAsset: 'assets/icons/cooking.webp',
         fallbackEmoji: '🍳',
         gradientTop: const Color(0xFFFFC23B),
         gradientBottom: const Color(0xFFEA8B1D),
@@ -113,7 +114,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: SafeArea(
+      body: Stack(
+        children: [
+          const FlyingAirplane(),
+          SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
             final isTablet = constraints.maxWidth >= 900;
@@ -211,6 +215,8 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           },
         ),
+          ),
+        ],
       ),
     );
   }
@@ -230,7 +236,7 @@ class _HomeLogo extends StatelessWidget {
     return SizedBox(
       height: logoHeight,
       child: Image.asset(
-        'assets/logos/planet_wonders_logo.png',
+        'assets/logos/planet_wonders_logo.webp',
         fit: BoxFit.contain,
         cacheHeight: cacheHeight,
         filterQuality: FilterQuality.low,
@@ -442,7 +448,7 @@ class _TodaysGuessCard extends ConsumerWidget {
                         style: GoogleFonts.nunito(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
-                          color: PWColors.navy.withValues(alpha: 0.55),
+                          color: PWColors.navy.withValues(alpha: 0.85),
                         ),
                       ),
                     ],

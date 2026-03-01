@@ -41,6 +41,19 @@
       "end": [170, 610]
     }
   ],
+  "decorations": {
+    "revealAfterSegment": 0,
+    "eyes": [],
+    "nosePath": "",
+    "mouthPath": "",
+    "tonguePath": "",
+    "blush": [
+      {"cx": 660, "cy": 560, "rx": 24, "ry": 14}
+    ],
+    "eyebrowPaths": [
+      "M620,445 C640,432 680,432 700,445"
+    ]
+  },
   "audio": {
     "intro": "bird_intro.mp3",
     "success": "great_job.mp3"

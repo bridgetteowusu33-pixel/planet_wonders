@@ -42,6 +42,7 @@ dependencies:
   shared_preferences: ^2.5.0
   path_drawing: ^1.0.1
   audioplayers: ^6.1.0
+  just_audio: ^0.9.40
   crypto: ^3.0.6
 
 dev_dependencies:
@@ -79,9 +80,19 @@ flutter:
     - assets/traces/vehicles_basic/
     - assets/traces/objects_basic/
     - assets/audio/
+    - assets/audio/stories/ghana/
+    - assets/audio/stories/usa/
+    - assets/audio/stories/nigeria/
+    - assets/audio/stories/uk/
     - assets/stickers/
+    - assets/stickers/ghana/
+    - assets/stickers/usa/
+    - assets/stickers/nigeria/
+    - assets/stickers/uk/
+    - assets/stickers/general/
     - assets/backgrounds/
     - assets/icons/
+    - assets/flags/
     - assets/cooking/
     - assets/cooking/ingredients/
     - assets/cooking/pots/
@@ -109,6 +120,8 @@ flutter:
     - assets/clothes/Ghana/shoes/
     - lib/features/recipe_story/data/ghana_recipes.json
     - lib/features/recipe_story/data/nigeria_recipes.json
+    - lib/features/recipe_story/data/uk_recipes.json
+    - lib/features/recipe_story/data/usa_recipes.json
     - assets/puzzles/
     - assets/puzzles/ghana/full/
     - assets/puzzles/ghana/thumbs/
@@ -120,6 +133,7 @@ flutter:
     - assets/food/nigeria/
     - assets/quiz/
     - assets/audio/quiz/
+    - assets/stories/ghana/
     - assets/stories/nigeria/
     - assets/stories/usa/
     - assets/stories/uk/
@@ -129,6 +143,51 @@ flutter:
     - assets/sliding_puzzles/uk/
     - assets/puzzles/uk/full/
     - assets/puzzles/uk/thumbs/
+    - assets/cooking/v2/ghana/
+    - assets/cooking/v2/ghana/afia/
+    - assets/cooking/v2/ghana/pot/
+    - assets/cooking/v2/ghana/ingredients/
+    - assets/cooking/v2/ghana/props/
+    - assets/cooking/v2/ghana/effects/
+    - assets/cooking/v2/nigeria/
+    - assets/cooking/v2/nigeria/adetutu/
+    - assets/cooking/v2/nigeria/pot/
+    - assets/cooking/v2/nigeria/ingredients/
+    - assets/cooking/v2/nigeria/props/
+    - assets/cooking/v2/nigeria/effects/
+    - assets/cooking/sounds/nigeria/
+    - assets/cooking/v2/usa/
+    - assets/cooking/v2/usa/ava/
+    - assets/cooking/v2/usa/pot/
+    - assets/cooking/v2/usa/ingredients/
+    - assets/cooking/v2/usa/props/
+    - assets/cooking/v2/usa/effects/
+    - assets/cooking/v2/uk/
+    - assets/cooking/v2/uk/twins/
+    - assets/cooking/v2/uk/pot/
+    - assets/cooking/v2/uk/ingredients/
+    - assets/cooking/v2/uk/props/
+    - assets/cooking/v2/uk/effects/
+    - assets/backgrounds/country/
+    - assets/backgrounds/world/
+    - assets/animations/
+    - assets/games/pack_suitcase/
+    - assets/games/pack_suitcase/items/
+    - assets/games/pack_suitcase/ui/
+    - assets/v2/ghana/
+    - assets/v2/ghana/afia/
+    - assets/v2/ghana/effects/
+    - assets/v2/ghana/ingredients/
+    - assets/v2/ghana/pot/
+    - assets/v2/ghana/props/
+    - assets/v2/nigreia/adetutu/
+    - assets/v2/nigreia/pots/
+    - assets/v2/USA/ava/
+    - assets/v2/USA/pots/
+    - assets/v2/uk/twins/
+    - assets/v2/uk/pots/
+    - assets/food/usa/
+    - assets/clothes/USA/schoon_uniform/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

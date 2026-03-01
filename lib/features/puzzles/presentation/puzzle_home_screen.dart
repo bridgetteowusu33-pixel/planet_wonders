@@ -18,6 +18,12 @@ class PuzzleHomeScreen extends ConsumerWidget {
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
+        actions: [
+          IconButton(
+            onPressed: () => context.go('/'),
+            icon: const Icon(Icons.home_rounded),
+          ),
+        ],
       ),
       body: DecoratedBox(
         decoration: const BoxDecoration(

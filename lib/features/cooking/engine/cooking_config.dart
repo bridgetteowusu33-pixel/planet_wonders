@@ -8,7 +8,7 @@ class CookingConfig {
     this.spiceWeight = 0.10,
     this.serveWeight = 0.30,
     this.stirVelocityTarget = 2.4,
-    this.spiceMotionThreshold = 62,
+    this.spiceMotionThreshold = 20,
   });
 
   final double ingredientWeight;

@@ -26,21 +26,12 @@ class GradientBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    if (isDark) {
-      return DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: _darkColors,
-            stops: const [0.0, 0.55, 1.0],
-          ),
-        ),
-        child: child,
-      );
-    }
+    final bgImage = isDark
+        ? 'assets/backgrounds/home_bg_night.webp'
+        : 'assets/backgrounds/home_beach_bg.webp';
 
-    // Light mode: beach image background
+    final fallbackColors = isDark ? _darkColors : _lightColors;
+
     final mq = MediaQuery.maybeOf(context);
     final cacheWidth = mq == null
         ? null
@@ -53,19 +44,18 @@ class GradientBackground extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         Image.asset(
-          'assets/backgrounds/home_beach_bg.png',
+          bgImage,
           fit: BoxFit.cover,
           alignment: Alignment.center,
           cacheWidth: cacheWidth,
           filterQuality: FilterQuality.low,
           errorBuilder: (context, error, stackTrace) {
-            // Fallback to gradient if image is missing
             return DecoratedBox(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: _lightColors,
+                  colors: fallbackColors,
                   stops: const [0.0, 0.55, 1.0],
                 ),
               ),
@@ -78,11 +68,17 @@ class GradientBackground extends StatelessWidget {
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [
-                Colors.white.withValues(alpha: 0.14),
-                Colors.transparent,
-                Colors.black.withValues(alpha: 0.08),
-              ],
+              colors: isDark
+                  ? [
+                      Colors.black.withValues(alpha: 0.3),
+                      Colors.transparent,
+                      Colors.black.withValues(alpha: 0.2),
+                    ]
+                  : [
+                      Colors.white.withValues(alpha: 0.14),
+                      Colors.transparent,
+                      Colors.black.withValues(alpha: 0.08),
+                    ],
             ),
           ),
         ),

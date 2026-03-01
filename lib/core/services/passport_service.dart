@@ -1,4 +1,11 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+/// Riverpod provider for passport badges — invalidate after unlocking a badge
+/// so watchers (e.g. PassportScreen) refresh automatically.
+final passportBadgesProvider = FutureProvider<Set<String>>((ref) async {
+  return PassportService.unlockedBadges();
+});
 
 class PassportService {
   static const String _kUnlockedBadges = 'passport_unlocked_badges';

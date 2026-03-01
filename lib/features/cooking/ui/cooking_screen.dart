@@ -2,6 +2,8 @@ import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 import '../animations/confetti_anim.dart';
 import '../data/ghana_recipes.dart';
@@ -9,8 +11,13 @@ import '../engine/cooking_controller.dart';
 import '../engine/cooking_engine.dart';
 import '../engine/cooking_step.dart';
 import '../models/recipe.dart';
+import '../../../shared/widgets/recipe_detail_sheet.dart';
 import 'chef_widget.dart';
 import 'ingredient_widget.dart';
+import 'painters/ghana_kitchen_painter.dart';
+import 'painters/nigeria_kitchen_painter.dart';
+import 'painters/usa_kitchen_painter.dart';
+import '../../cooking_game/uk/british_kitchen_painter.dart';
 import 'pot_widget.dart';
 import 'serve_widget.dart';
 
@@ -20,11 +27,13 @@ class CookingScreen extends StatefulWidget {
     this.recipe = ghanaJollofRecipe,
     this.onExit,
     this.onCompleted,
+    this.recipeDetail,
   });
 
   final Recipe recipe;
   final VoidCallback? onExit;
   final Future<void> Function(Recipe recipe, CookingScore score)? onCompleted;
+  final RecipeDetailData? recipeDetail;
 
   @override
   State<CookingScreen> createState() => _CookingScreenState();
@@ -35,6 +44,10 @@ class _CookingScreenState extends State<CookingScreen> {
   Offset? _lastSpicePoint;
   DateTime? _lastSpiceTime;
 
+  final FlutterTts _tts = FlutterTts();
+  bool _ttsMuted = false;
+  bool _ttsSpeaking = false;
+
   @override
   void initState() {
     super.initState();
@@ -43,14 +56,38 @@ class _CookingScreenState extends State<CookingScreen> {
       onCompleted: widget.onCompleted,
     );
 
+    _initTts();
+
+    // Speak step-transition messages via stepCompletedEvent changes.
+    _controller.stepCompletedEvent.addListener(_onStepCompleted);
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       _controller.preloadAssets(context);
     });
   }
 
+  Future<void> _initTts() async {
+    await _tts.setLanguage('en-US');
+    await _tts.setSpeechRate(0.4);
+    await _tts.setPitch(1.1);
+    _tts.setCompletionHandler(() => _ttsSpeaking = false);
+  }
+
+  void _onStepCompleted() {
+    if (_ttsMuted || _ttsSpeaking) return;
+    // Speak the current chef message at step transitions.
+    final message = _controller.chefMessage.value;
+    if (message.isNotEmpty) {
+      _ttsSpeaking = true;
+      _tts.speak(message);
+    }
+  }
+
   @override
   void dispose() {
+    _controller.stepCompletedEvent.removeListener(_onStepCompleted);
+    _tts.stop();
     _controller.dispose();
     super.dispose();
   }
@@ -62,6 +99,12 @@ class _CookingScreenState extends State<CookingScreen> {
       return;
     }
     Navigator.of(context).maybePop();
+  }
+
+  void _showRecipeSheet(BuildContext context) {
+    final detail = widget.recipeDetail;
+    if (detail == null) return;
+    showRecipeDetailSheet(context, detail);
   }
 
   @override
@@ -96,7 +139,7 @@ class _CookingScreenState extends State<CookingScreen> {
                       Positioned.fill(
                         child: IgnorePointer(
                           child: CustomPaint(
-                            painter: const _StorybookKitchenPainter(),
+                            painter: _kitchenPainterFor(widget.recipe.country),
                           ),
                         ),
                       ),
@@ -108,7 +151,15 @@ class _CookingScreenState extends State<CookingScreen> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
                             const SizedBox(height: 8),
-                            _Header(recipeName: widget.recipe.name),
+                            _Header(
+                              recipeName: widget.recipe.name,
+                              onRecipeTap: () => _showRecipeSheet(context),
+                              ttsMuted: _ttsMuted,
+                              onTtsMuteToggle: () {
+                                setState(() => _ttsMuted = !_ttsMuted);
+                                if (_ttsMuted) _tts.stop();
+                              },
+                            ),
                             const SizedBox(height: 10),
                             AnimatedBuilder(
                               animation: _controller.state,
@@ -126,6 +177,7 @@ class _CookingScreenState extends State<CookingScreen> {
                                   ? _TabletGameLayout(
                                       controller: _controller,
                                       recipe: widget.recipe,
+                                      onSpiceTap: _onSpiceTap,
                                       onSpicePanUpdate: _onSpicePanUpdate,
                                       onSpicePanStart: _onSpicePanStart,
                                       onSpicePanEnd: _onSpicePanEnd,
@@ -133,6 +185,7 @@ class _CookingScreenState extends State<CookingScreen> {
                                   : _PhoneGameLayout(
                                       controller: _controller,
                                       recipe: widget.recipe,
+                                      onSpiceTap: _onSpiceTap,
                                       onSpicePanUpdate: _onSpicePanUpdate,
                                       onSpicePanStart: _onSpicePanStart,
                                       onSpicePanEnd: _onSpicePanEnd,
@@ -239,6 +292,7 @@ class _CookingScreenState extends State<CookingScreen> {
                           return Positioned.fill(
                             child: _CompletionOverlay(
                               recipe: widget.recipe,
+                              characterName: _controller.characterName,
                               scoreListenable: _controller.score,
                               onExit: _exit,
                             ),
@@ -274,7 +328,8 @@ class _CookingScreenState extends State<CookingScreen> {
 
     final distance = (details.localPosition - previous).distance;
     final dtMs = math.max(1, now.difference(previousTime).inMilliseconds);
-    final intensity = distance / dtMs * 40;
+    // Use higher multiplier so gentle shakes register for kids.
+    final intensity = distance / dtMs * 80;
 
     _controller.onSpiceMotion(intensity);
     _lastSpicePoint = details.localPosition;
@@ -285,12 +340,18 @@ class _CookingScreenState extends State<CookingScreen> {
     _lastSpicePoint = null;
     _lastSpiceTime = null;
   }
+
+  void _onSpiceTap() {
+    // Tap fallback: send an intensity that always passes the threshold.
+    _controller.onSpiceMotion(100);
+  }
 }
 
 class _TabletGameLayout extends StatelessWidget {
   const _TabletGameLayout({
     required this.controller,
     required this.recipe,
+    required this.onSpiceTap,
     required this.onSpicePanStart,
     required this.onSpicePanUpdate,
     required this.onSpicePanEnd,
@@ -298,6 +359,7 @@ class _TabletGameLayout extends StatelessWidget {
 
   final CookingController controller;
   final Recipe recipe;
+  final VoidCallback onSpiceTap;
   final GestureDragStartCallback onSpicePanStart;
   final GestureDragUpdateCallback onSpicePanUpdate;
   final GestureDragEndCallback onSpicePanEnd;
@@ -316,6 +378,7 @@ class _TabletGameLayout extends StatelessWidget {
               child: _PotAndSpiceArea(
                 controller: controller,
                 recipe: recipe,
+                onSpiceTap: onSpiceTap,
                 onSpicePanStart: onSpicePanStart,
                 onSpicePanUpdate: onSpicePanUpdate,
                 onSpicePanEnd: onSpicePanEnd,
@@ -351,6 +414,7 @@ class _PhoneGameLayout extends StatelessWidget {
   const _PhoneGameLayout({
     required this.controller,
     required this.recipe,
+    required this.onSpiceTap,
     required this.onSpicePanStart,
     required this.onSpicePanUpdate,
     required this.onSpicePanEnd,
@@ -358,6 +422,7 @@ class _PhoneGameLayout extends StatelessWidget {
 
   final CookingController controller;
   final Recipe recipe;
+  final VoidCallback onSpiceTap;
   final GestureDragStartCallback onSpicePanStart;
   final GestureDragUpdateCallback onSpicePanUpdate;
   final GestureDragEndCallback onSpicePanEnd;
@@ -377,6 +442,7 @@ class _PhoneGameLayout extends StatelessWidget {
               child: _PotAndSpiceArea(
                 controller: controller,
                 recipe: recipe,
+                onSpiceTap: onSpiceTap,
                 onSpicePanStart: onSpicePanStart,
                 onSpicePanUpdate: onSpicePanUpdate,
                 onSpicePanEnd: onSpicePanEnd,
@@ -409,6 +475,7 @@ class _PotAndSpiceArea extends StatelessWidget {
   const _PotAndSpiceArea({
     required this.controller,
     required this.recipe,
+    required this.onSpiceTap,
     required this.onSpicePanStart,
     required this.onSpicePanUpdate,
     required this.onSpicePanEnd,
@@ -416,6 +483,7 @@ class _PotAndSpiceArea extends StatelessWidget {
 
   final CookingController controller;
   final Recipe recipe;
+  final VoidCallback onSpiceTap;
   final GestureDragStartCallback onSpicePanStart;
   final GestureDragUpdateCallback onSpicePanUpdate;
   final GestureDragEndCallback onSpicePanEnd;
@@ -427,6 +495,7 @@ class _PotAndSpiceArea extends StatelessWidget {
       controller.splashTick,
       controller.successGlow,
       controller.lastDroppedIngredientAsset,
+      controller.potFace,
     ]);
 
     return AnimatedBuilder(
@@ -443,6 +512,7 @@ class _PotAndSpiceArea extends StatelessWidget {
                 splashTick: controller.splashTick.value,
                 successGlow: controller.successGlow.value,
                 dropAssetPath: controller.lastDroppedIngredientAsset.value,
+                potFace: controller.potFace.value,
                 onIngredientAccepted: controller.onIngredientDropped,
                 onStirStart: controller.onStirStart,
                 onStirUpdate: controller.onStirUpdate,
@@ -455,6 +525,7 @@ class _PotAndSpiceArea extends StatelessWidget {
               _SpicePad(
                 isVisible: true,
                 progress: controller.state.progress,
+                onTap: onSpiceTap,
                 onPanStart: onSpicePanStart,
                 onPanUpdate: onSpicePanUpdate,
                 onPanEnd: onSpicePanEnd,
@@ -554,18 +625,23 @@ class _IngredientBoard extends StatelessWidget {
                       spacing: 8,
                       runSpacing: 8,
                       children: ingredients
-                          .map((ingredient) {
+                          .asMap().entries
+                          .map((entry) {
+                            final index = entry.key;
+                            final ingredient = entry.value;
                             final isAdded = controller.state.addedIngredientIds
                                 .contains(ingredient.id);
                             return IgnorePointer(
                               ignoring: !canAdd || isAdded,
                               child: AnimatedOpacity(
                                 duration: const Duration(milliseconds: 200),
-                                opacity: isAdded ? 0.4 : (canAdd ? 1 : 0.6),
+                                opacity: canAdd ? 1 : 0.6,
                                 child: Stack(
                                   children: <Widget>[
                                     IngredientWidget(
                                       ingredient: ingredient,
+                                      isAdded: isAdded,
+                                      wiggleIndex: index,
                                       onTapToss: () => controller
                                           .onIngredientDropped(ingredient),
                                     ),
@@ -609,6 +685,7 @@ class _SpicePad extends StatelessWidget {
   const _SpicePad({
     required this.isVisible,
     required this.progress,
+    required this.onTap,
     required this.onPanStart,
     required this.onPanUpdate,
     required this.onPanEnd,
@@ -616,6 +693,7 @@ class _SpicePad extends StatelessWidget {
 
   final bool isVisible;
   final double progress;
+  final VoidCallback onTap;
   final GestureDragStartCallback onPanStart;
   final GestureDragUpdateCallback onPanUpdate;
   final GestureDragEndCallback onPanEnd;
@@ -634,11 +712,12 @@ class _SpicePad extends StatelessWidget {
           child: RepaintBoundary(
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
+              onTap: onTap,
               onPanStart: onPanStart,
               onPanUpdate: onPanUpdate,
               onPanEnd: onPanEnd,
               child: Container(
-                height: 80,
+                height: 100,
                 padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -686,7 +765,7 @@ class _SpicePad extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           const Text(
-                            'Shake to add spice!',
+                            'Shake or tap to add spice!',
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w800,
@@ -733,9 +812,17 @@ class _SpicePad extends StatelessWidget {
 }
 
 class _Header extends StatelessWidget {
-  const _Header({required this.recipeName});
+  const _Header({
+    required this.recipeName,
+    required this.onRecipeTap,
+    required this.ttsMuted,
+    required this.onTtsMuteToggle,
+  });
 
   final String recipeName;
+  final VoidCallback onRecipeTap;
+  final bool ttsMuted;
+  final VoidCallback onTtsMuteToggle;
 
   @override
   Widget build(BuildContext context) {
@@ -771,6 +858,39 @@ class _Header extends StatelessWidget {
                   fontSize: 24,
                   color: Colors.white,
                   fontWeight: FontWeight.w900,
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: onTtsMuteToggle,
+              child: Container(
+                width: 38,
+                height: 38,
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.3),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  ttsMuted ? Icons.volume_off_rounded : Icons.volume_up_rounded,
+                  color: Colors.white,
+                  size: 22,
+                ),
+              ),
+            ),
+            const SizedBox(width: 8),
+            GestureDetector(
+              onTap: onRecipeTap,
+              child: Container(
+                width: 38,
+                height: 38,
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.3),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.menu_book_rounded,
+                  color: Colors.white,
+                  size: 22,
                 ),
               ),
             ),
@@ -936,16 +1056,38 @@ class _StepDot extends StatelessWidget {
   }
 }
 
-class _CompletionOverlay extends StatelessWidget {
+class _CompletionOverlay extends StatefulWidget {
   const _CompletionOverlay({
     required this.recipe,
+    required this.characterName,
     required this.scoreListenable,
     required this.onExit,
   });
 
   final Recipe recipe;
+  final String characterName;
   final ValueListenable<CookingScore?> scoreListenable;
   final VoidCallback onExit;
+
+  @override
+  State<_CompletionOverlay> createState() => _CompletionOverlayState();
+}
+
+class _CompletionOverlayState extends State<_CompletionOverlay> {
+  @override
+  void initState() {
+    super.initState();
+    // "Ta-da" haptic sequence: heavy → medium → light.
+    _playTadaHaptic();
+  }
+
+  Future<void> _playTadaHaptic() async {
+    await HapticFeedback.heavyImpact();
+    await Future<void>.delayed(const Duration(milliseconds: 100));
+    await HapticFeedback.mediumImpact();
+    await Future<void>.delayed(const Duration(milliseconds: 100));
+    await HapticFeedback.lightImpact();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -1006,12 +1148,41 @@ class _CompletionOverlay extends StatelessWidget {
                 ],
               ),
               child: ValueListenableBuilder<CookingScore?>(
-                valueListenable: scoreListenable,
+                valueListenable: widget.scoreListenable,
                 builder: (context, score, _) {
                   final stars = score?.stars ?? 1;
+                  final isPerfect = stars >= 3;
                   return Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
+                      // Dish badge big reveal
+                      TweenAnimationBuilder<double>(
+                        tween: Tween<double>(begin: 0, end: 1),
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.elasticOut,
+                        builder: (context, t, child) {
+                          return Transform.scale(
+                            scale: t,
+                            child: Opacity(
+                              opacity: t.clamp(0, 1),
+                              child: child,
+                            ),
+                          );
+                        },
+                        child: SizedBox(
+                          width: 80,
+                          height: 80,
+                          child: Image.asset(
+                            widget.recipe.badge.iconAsset,
+                            fit: BoxFit.contain,
+                            errorBuilder: (_, _, _) => const Text(
+                              '\u{1F372}', // 🍲
+                              style: TextStyle(fontSize: 64),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 4),
                       // Celebration emoji row
                       TweenAnimationBuilder<double>(
                         tween: Tween<double>(begin: 0, end: 1),
@@ -1022,25 +1193,39 @@ class _CompletionOverlay extends StatelessWidget {
                         },
                         child: const Text(
                           '\u{1F389}',
-                          style: TextStyle(fontSize: 48),
+                          style: TextStyle(fontSize: 38),
                         ),
                       ),
                       const SizedBox(height: 6),
-                      const Text(
-                        'Dish Complete!',
+                      Text(
+                        isPerfect ? 'Perfect Chef!' : 'Dish Complete!',
                         style: TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.w900,
-                          color: Color(0xFF1D3557),
+                          color: isPerfect
+                              ? const Color(0xFFFF8C00)
+                              : const Color(0xFF1D3557),
                         ),
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        recipe.name,
+                        widget.recipe.name,
                         style: const TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w700,
                           color: Color(0xFF355070),
+                        ),
+                      ),
+                      // Character-specific pride message
+                      Padding(
+                        padding: const EdgeInsets.only(top: 2),
+                        child: Text(
+                          'Chef ${widget.characterName} is so proud!',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: const Color(0xFF355070).withValues(alpha: 0.8),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 12),
@@ -1101,7 +1286,7 @@ class _CompletionOverlay extends StatelessWidget {
                                 height: 56,
                                 width: 56,
                                 child: Image.asset(
-                                  recipe.badge.iconAsset,
+                                  widget.recipe.badge.iconAsset,
                                   fit: BoxFit.contain,
                                   errorBuilder: (context, error, stackTrace) =>
                                       const Icon(
@@ -1126,7 +1311,7 @@ class _CompletionOverlay extends StatelessWidget {
                                       ),
                                     ),
                                     Text(
-                                      recipe.badge.title,
+                                      widget.recipe.badge.title,
                                       style: const TextStyle(
                                         fontSize: 17,
                                         fontWeight: FontWeight.w800,
@@ -1145,32 +1330,38 @@ class _CompletionOverlay extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            _MetricChip(
-                              label: 'Accuracy',
-                              value: score.accuracy,
-                              icon: Icons.check_circle_rounded,
-                              color: const Color(0xFF74C69D),
+                            Flexible(
+                              child: _MetricChip(
+                                label: 'Accuracy',
+                                value: score.accuracy,
+                                icon: Icons.check_circle_rounded,
+                                color: const Color(0xFF74C69D),
+                              ),
                             ),
                             const SizedBox(width: 8),
-                            _MetricChip(
-                              label: 'Speed',
-                              value: score.speed,
-                              icon: Icons.bolt_rounded,
-                              color: const Color(0xFFFFB703),
+                            Flexible(
+                              child: _MetricChip(
+                                label: 'Speed',
+                                value: score.speed,
+                                icon: Icons.bolt_rounded,
+                                color: const Color(0xFFFFB703),
+                              ),
                             ),
                             const SizedBox(width: 8),
-                            _MetricChip(
-                              label: 'Smooth',
-                              value: score.smoothness,
-                              icon: Icons.waves_rounded,
-                              color: const Color(0xFF8ECAE6),
+                            Flexible(
+                              child: _MetricChip(
+                                label: 'Smooth',
+                                value: score.smoothness,
+                                icon: Icons.waves_rounded,
+                                color: const Color(0xFF8ECAE6),
+                              ),
                             ),
                           ],
                         ),
                       const SizedBox(height: 16),
                       _StickerActionButton(
                         title: 'Awesome! Exit',
-                        onTap: onExit,
+                        onTap: widget.onExit,
                         colors: const <Color>[
                           Color(0xFF6BCB77),
                           Color(0xFF4CAF50),
@@ -1221,12 +1412,16 @@ class _MetricChip extends StatelessWidget {
             Icon(icon, size: 16, color: accent),
             const SizedBox(width: 4),
           ],
-          Text(
-            '$label $value%',
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w800,
-              color: accent,
+          Flexible(
+            child: Text(
+              '$label $value%',
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w800,
+                color: accent,
+              ),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
             ),
           ),
         ],
@@ -1278,6 +1473,16 @@ class _StickerActionButton extends StatelessWidget {
       ),
     );
   }
+}
+
+CustomPainter _kitchenPainterFor(String country) {
+  return switch (country.trim().toLowerCase()) {
+    'ghana' => const GhanaKitchenPainter(),
+    'nigeria' => const NigeriaKitchenPainter(),
+    'usa' || 'united states' => const UsaKitchenPainter(),
+    'uk' || 'united kingdom' => const BritishKitchenPainter(),
+    _ => const _StorybookKitchenPainter(),
+  };
 }
 
 class _StorybookKitchenPainter extends CustomPainter {

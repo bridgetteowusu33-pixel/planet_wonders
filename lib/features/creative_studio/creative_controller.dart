@@ -76,6 +76,10 @@ class CreativeController extends Notifier<CreativeState> {
     final restoredBrushSize =
         (restoredMeta?['brushSize'] as num?)?.toDouble() ?? state.brushSize;
 
+    final restoredBrushType = _brushTypeFromName(
+      restoredMeta?['brushType'] as String?,
+    );
+
     final restoredColor =
         _colorFromJson(restoredMeta?['currentColor']) ?? state.currentColor;
 
@@ -91,6 +95,7 @@ class CreativeController extends Notifier<CreativeState> {
       clearSelectedStickerId: true,
       currentColor: restoredColor,
       brushSize: restoredBrushSize.clamp(2, 48).toDouble(),
+      brushType: restoredBrushType,
       canvasColor: restoredCanvasColor,
       favoriteColors: restoredFavorites,
       recentColors: restoredRecents,
@@ -109,6 +114,10 @@ class CreativeController extends Notifier<CreativeState> {
 
   void setBrushSize(double size) {
     state = state.copyWith(brushSize: size.clamp(2, 48).toDouble());
+  }
+
+  void setBrushType(BrushType type) {
+    state = state.copyWith(brushType: type);
   }
 
   void selectColor(Color color) {
@@ -145,6 +154,7 @@ class CreativeController extends Notifier<CreativeState> {
           : state.currentColor,
       width: state.brushSize,
       isEraser: state.tool == CreativeTool.eraser,
+      brushType: state.brushType,
     );
     state = state.copyWith(activeStroke: stroke);
   }
@@ -220,6 +230,7 @@ class CreativeController extends Notifier<CreativeState> {
       itemId: item.id,
       label: item.label,
       emoji: item.emoji,
+      assetPath: item.assetPath,
       // Keep default insertion near the top-left visible viewport area
       // so kids immediately see the sticker after tapping.
       position: position ?? const Offset(220, 220),
@@ -396,13 +407,6 @@ class CreativeController extends Notifier<CreativeState> {
     return null;
   }
 
-  StickerItem? stickerById(String id) {
-    for (final sticker in kStickerItems) {
-      if (sticker.id == id) return sticker;
-    }
-    return null;
-  }
-
   void _scheduleSave() {
     if (_isHydrating || !state.isLoaded || state.projectKey.isEmpty) return;
 
@@ -474,7 +478,7 @@ class CreativeController extends Notifier<CreativeState> {
             points: stroke.points,
             color: stroke.color,
             width: stroke.width,
-            brushType: BrushType.marker,
+            brushType: stroke.brushType,
             isEraser: stroke.isEraser,
           ),
         ),
@@ -486,7 +490,7 @@ class CreativeController extends Notifier<CreativeState> {
       redoStack: const <DrawingAction>[],
       activeStroke: null,
       currentTool: _mapToolToDrawingTool(current.tool),
-      currentBrushType: BrushType.marker,
+      currentBrushType: current.brushType,
       currentColor: current.currentColor,
       currentBrushSize: _mapBrushSize(current.brushSize),
       filling: false,
@@ -525,6 +529,7 @@ class CreativeController extends Notifier<CreativeState> {
           color: stroke.color,
           width: stroke.width,
           isEraser: stroke.isEraser,
+          brushType: stroke.brushType,
         ),
       );
     }
@@ -541,6 +546,7 @@ class CreativeController extends Notifier<CreativeState> {
       'canvasColor': current.canvasColor.toARGB32(),
       'currentColor': current.currentColor.toARGB32(),
       'brushSize': current.brushSize,
+      'brushType': current.brushType.name,
       'favoriteColors': current.favoriteColors
           .map((color) => color.toARGB32())
           .toList(growable: false),
@@ -554,6 +560,7 @@ class CreativeController extends Notifier<CreativeState> {
               'itemId': sticker.itemId,
               'label': sticker.label,
               'emoji': sticker.emoji,
+              'assetPath': sticker.assetPath,
               'x': sticker.position.dx,
               'y': sticker.position.dy,
               'scale': sticker.scale,
@@ -593,6 +600,7 @@ class CreativeController extends Notifier<CreativeState> {
       final itemId = map['itemId'] as String?;
       final label = map['label'] as String?;
       final emoji = map['emoji'] as String?;
+      final assetPath = map['assetPath'] as String?;
       final x = (map['x'] as num?)?.toDouble();
       final y = (map['y'] as num?)?.toDouble();
       final scale = (map['scale'] as num?)?.toDouble();
@@ -615,6 +623,7 @@ class CreativeController extends Notifier<CreativeState> {
           itemId: itemId,
           label: label,
           emoji: emoji,
+          assetPath: assetPath,
           position: Offset(x, y),
           scale: scale,
           rotation: rotation,
@@ -635,6 +644,14 @@ class CreativeController extends Notifier<CreativeState> {
       }
     }
     return colors;
+  }
+
+  BrushType _brushTypeFromName(String? name) {
+    if (name == null) return BrushType.marker;
+    for (final type in BrushType.values) {
+      if (type.name == name) return type;
+    }
+    return BrushType.marker;
   }
 
   Color? _colorFromJson(Object? raw) {

@@ -9,6 +9,7 @@ import '../../core/services/gallery_service.dart';
 import '../../core/theme/pw_theme.dart';
 import '../learning_report/models/learning_stats.dart';
 import '../learning_report/providers/learning_stats_provider.dart';
+import '../stickers/providers/sticker_provider.dart';
 import 'widgets/brush_size_selector.dart';
 import 'widgets/drawing_canvas.dart';
 import 'widgets/drawing_toolbar.dart';
@@ -55,12 +56,22 @@ class _DrawingScreenState extends ConsumerState<DrawingScreen> {
           emoji: '\u{1F3A8}',
         ),
       );
+      ref.read(stickerProvider.notifier).checkAndAward(
+            conditionType: 'drawing_saved',
+            countryId: '',
+          );
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Saved to Gallery!'),
-            backgroundColor: PWColors.mint,
+            content: const Row(
+              children: [
+                Icon(Icons.check_circle_rounded, color: Colors.white, size: 20),
+                SizedBox(width: 8),
+                Text('Saved to Gallery!'),
+              ],
+            ),
+            backgroundColor: const Color(0xFF4CAF50),
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
@@ -99,7 +110,7 @@ class _DrawingScreenState extends ConsumerState<DrawingScreen> {
                     height: 20,
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
-                : const Icon(Icons.save_rounded),
+                : const Icon(Icons.camera_alt_rounded),
             tooltip: 'Save to Gallery',
             color: PWColors.navy,
           ),

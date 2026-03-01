@@ -42,6 +42,6 @@ const _fallbackQuizzes = [
     answer: 'Cape Coast Castle',
     funFact:
         'Did you know? This castle is so important that the whole world helps protect it!',
-    image: 'assets/sliding_puzzles/ghana/ghana_01_capecoast_castle.jpg',
+    image: 'assets/sliding_puzzles/ghana/ghana_01_capecoast_castle.webp',
   ),
 ];

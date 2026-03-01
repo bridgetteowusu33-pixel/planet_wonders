@@ -41,6 +41,17 @@
       "end": [640, 520]
     }
   ],
+  "decorations": {
+    "revealAfterSegment": 0,
+    "eyes": [],
+    "nosePath": "",
+    "mouthPath": "M680,570 C695,585 710,585 725,570",
+    "tonguePath": "",
+    "blush": [
+      {"cx": 650, "cy": 580, "rx": 22, "ry": 13}
+    ],
+    "eyebrowPaths": []
+  },
   "audio": {
     "intro": "fish_intro.mp3",
     "success": "great_job.mp3"

@@ -17,6 +17,7 @@ class PotWidget extends StatefulWidget {
     required this.splashTick,
     required this.successGlow,
     required this.dropAssetPath,
+    required this.potFace,
     required this.onIngredientAccepted,
     required this.onStirStart,
     required this.onStirUpdate,
@@ -29,6 +30,7 @@ class PotWidget extends StatefulWidget {
   final int splashTick;
   final bool successGlow;
   final String? dropAssetPath;
+  final String potFace;
   final ValueChanged<Ingredient> onIngredientAccepted;
   final ValueChanged<Offset> onStirStart;
   final void Function(Offset localPosition, Size size) onStirUpdate;
@@ -128,6 +130,34 @@ class _PotWidgetState extends State<PotWidget>
                             child: CustomPaint(
                               painter: _ProgressRingPainter(
                                 progress: isStirStep ? widget.progress : 0,
+                              ),
+                            ),
+                          ),
+                        ),
+                        // Pot face emoji overlay
+                        Positioned(
+                          left: 0,
+                          right: 0,
+                          top: 0,
+                          bottom: 0,
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 12),
+                              child: AnimatedSwitcher(
+                                duration: const Duration(milliseconds: 250),
+                                switchInCurve: Curves.elasticOut,
+                                switchOutCurve: Curves.easeIn,
+                                transitionBuilder: (child, animation) {
+                                  return ScaleTransition(
+                                    scale: animation,
+                                    child: child,
+                                  );
+                                },
+                                child: Text(
+                                  widget.potFace,
+                                  key: ValueKey<String>(widget.potFace),
+                                  style: const TextStyle(fontSize: 36),
+                                ),
                               ),
                             ),
                           ),

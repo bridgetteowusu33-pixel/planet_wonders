@@ -63,9 +63,16 @@ class _ColorOutfitScreenState extends ConsumerState<ColorOutfitScreen> {
 
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Saved to Gallery!'),
+        SnackBar(
+          content: const Row(
+            children: [
+              Icon(Icons.check_circle_rounded, color: Colors.white, size: 20),
+              SizedBox(width: 8),
+              Text('Saved to Gallery!'),
+            ],
+          ),
           behavior: SnackBarBehavior.floating,
+          backgroundColor: const Color(0xFF4CAF50),
         ),
       );
     } finally {
@@ -92,7 +99,7 @@ class _ColorOutfitScreenState extends ConsumerState<ColorOutfitScreen> {
                     height: 20,
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
-                : const Icon(Icons.save_rounded),
+                : const Icon(Icons.camera_alt_rounded),
             tooltip: 'Save to Gallery',
           ),
         ],
@@ -195,14 +202,14 @@ class _ColorOutfitScreenState extends ConsumerState<ColorOutfitScreen> {
             const SizedBox(height: 8),
 
             // ── Toolbar: Brush, Fill, Eraser, Undo ──
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  DrawingToolbar(),
-                  SizedBox(width: 24),
-                  BrushSizeSelector(),
+                  const Flexible(child: DrawingToolbar()),
+                  const SizedBox(width: 24),
+                  const BrushSizeSelector(),
                 ],
               ),
             ),

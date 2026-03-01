@@ -18,6 +18,12 @@ class RecipeStoryRepository {
     'nigeria': [
       'lib/features/recipe_story/data/nigeria_recipes.json',
     ],
+    'uk': [
+      'lib/features/recipe_story/data/uk_recipes.json',
+    ],
+    'usa': [
+      'lib/features/recipe_story/data/usa_recipes.json',
+    ],
   };
 
   static const Map<String, List<String>> _recipePatchAssetsByCountry = {
@@ -74,9 +80,45 @@ class RecipeStoryRepository {
   }
 
   String? _recipeAlias(String recipeId) {
+    // Ghana cooking-game IDs → recipe-story IDs
     if (recipeId == 'ghana_jollof') return 'ghana_jollof_story';
     if (recipeId == 'ghana_waakye') return 'waakye';
     if (recipeId == 'jollof') return 'ghana_jollof_story';
+    if (recipeId == 'ghana_banku') return 'banku_tilapia';
+    if (recipeId == 'ghana_fufu') return 'ghana_fufu_story';
+    if (recipeId == 'ghana_koko') return 'ghana_koko_story';
+    if (recipeId == 'ghana_kelewele') return 'kelewele';
+    if (recipeId == 'ghana_peanut_butter_soup') return 'ghana_peanut_butter_soup_story';
+    if (recipeId == 'ghana_palmnut') return 'ghana_palmnut_story';
+    if (recipeId == 'ghana_fried_rice') return 'fried_rice';
+    // Nigeria cooking-game IDs → recipe-story IDs
+    if (recipeId == 'nigeria_jollof') return 'nigeria_jollof_story';
+    if (recipeId == 'nigeria_suya') return 'nigeria_suya_story';
+    if (recipeId == 'nigeria_pounded_yam') return 'nigeria_pounded_yam_story';
+    if (recipeId == 'nigeria_egusi') return 'nigeria_egusi_story';
+    if (recipeId == 'nigeria_chin_chin') return 'nigeria_chin_chin_story';
+    // UK cooking-game IDs → recipe-story IDs
+    if (recipeId == 'uk_fish_and_chips') return 'uk_fish_and_chips_story';
+    if (recipeId == 'uk_scones') return 'uk_scones_story';
+    if (recipeId == 'uk_full_breakfast') return 'uk_full_breakfast_story';
+    if (recipeId == 'uk_shepherds_pie') return 'uk_shepherds_pie_story';
+    if (recipeId == 'uk_trifle') return 'uk_trifle_story';
+    if (recipeId == 'uk_crumpets') return 'uk_crumpets_story';
+    if (recipeId == 'uk_bangers_and_mash') return 'uk_bangers_and_mash_story';
+    if (recipeId == 'uk_yorkshire_pudding') return 'uk_yorkshire_pudding_story';
+    if (recipeId == 'uk_cornish_pasty') return 'uk_cornish_pasty_story';
+    if (recipeId == 'uk_sticky_toffee') return 'uk_sticky_toffee_story';
+    // USA cooking-game IDs → recipe-story IDs
+    if (recipeId == 'usa_burger') return 'usa_burger_story';
+    if (recipeId == 'usa_pizza') return 'usa_pizza_story';
+    if (recipeId == 'usa_hotdog') return 'usa_hotdog_story';
+    if (recipeId == 'usa_pancakes') return 'usa_pancakes_story';
+    if (recipeId == 'usa_donut') return 'usa_donut_story';
+    if (recipeId == 'usa_icecream') return 'usa_icecream_story';
+    if (recipeId == 'usa_friedchicken') return 'usa_friedchicken_story';
+    if (recipeId == 'usa_applepie') return 'usa_applepie_story';
+    if (recipeId == 'usa_sandwich') return 'usa_sandwich_story';
+    if (recipeId == 'usa_milkshake') return 'usa_milkshake_story';
     return null;
   }
 

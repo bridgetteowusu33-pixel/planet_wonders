@@ -16,14 +16,17 @@ final List<Continent> worldContinents = [
         id: 'ghana',
         name: 'Ghana',
         flagEmoji: '\u{1F1EC}\u{1F1ED}', // 🇬🇭
+        flagAsset: 'assets/flags/ghana.webp',
         continentId: 'africa',
         isUnlocked: true,
         greeting: 'Welcome to Ghana!',
+        localGreeting: 'AKWAABA!',
       ),
       const Country(
         id: 'nigeria',
         name: 'Nigeria',
         flagEmoji: '\u{1F1F3}\u{1F1EC}', // 🇳🇬
+        flagAsset: 'assets/flags/nigeria.webp',
         continentId: 'africa',
         isUnlocked: true,
         greeting: 'Welcome to Nigeria!',
@@ -32,6 +35,7 @@ final List<Continent> worldContinents = [
         id: 'kenya',
         name: 'Kenya',
         flagEmoji: '\u{1F1F0}\u{1F1EA}', // 🇰🇪
+        flagAsset: 'assets/flags/kenya.webp',
         continentId: 'africa',
         greeting: 'Welcome to Kenya!',
       ),
@@ -39,6 +43,7 @@ final List<Continent> worldContinents = [
         id: 'egypt',
         name: 'Egypt',
         flagEmoji: '\u{1F1EA}\u{1F1EC}', // 🇪🇬
+        flagAsset: 'assets/flags/egypt.webp',
         continentId: 'africa',
         greeting: 'Welcome to Egypt!',
       ),
@@ -46,6 +51,7 @@ final List<Continent> worldContinents = [
         id: 'south_africa',
         name: 'South Africa',
         flagEmoji: '\u{1F1FF}\u{1F1E6}', // 🇿🇦
+        flagAsset: 'assets/flags/south_africa.webp',
         continentId: 'africa',
         greeting: 'Welcome to South Africa!',
       ),
@@ -60,6 +66,7 @@ final List<Continent> worldContinents = [
         id: 'japan',
         name: 'Japan',
         flagEmoji: '\u{1F1EF}\u{1F1F5}', // 🇯🇵
+        flagAsset: 'assets/flags/japan.webp',
         continentId: 'asia',
         greeting: 'Welcome to Japan!',
       ),
@@ -67,6 +74,7 @@ final List<Continent> worldContinents = [
         id: 'india',
         name: 'India',
         flagEmoji: '\u{1F1EE}\u{1F1F3}', // 🇮🇳
+        flagAsset: 'assets/flags/india.webp',
         continentId: 'asia',
         greeting: 'Welcome to India!',
       ),
@@ -74,6 +82,7 @@ final List<Continent> worldContinents = [
         id: 'south_korea',
         name: 'South Korea',
         flagEmoji: '\u{1F1F0}\u{1F1F7}', // 🇰🇷
+        flagAsset: 'assets/flags/south_korea.webp',
         continentId: 'asia',
         greeting: 'Welcome to South Korea!',
       ),
@@ -81,6 +90,7 @@ final List<Continent> worldContinents = [
         id: 'china',
         name: 'China',
         flagEmoji: '\u{1F1E8}\u{1F1F3}', // 🇨🇳
+        flagAsset: 'assets/flags/china.webp',
         continentId: 'asia',
         greeting: 'Welcome to China!',
       ),
@@ -95,6 +105,7 @@ final List<Continent> worldContinents = [
         id: 'italy',
         name: 'Italy',
         flagEmoji: '\u{1F1EE}\u{1F1F9}', // 🇮🇹
+        flagAsset: 'assets/flags/italy.webp',
         continentId: 'europe',
         greeting: 'Welcome to Italy!',
       ),
@@ -102,6 +113,7 @@ final List<Continent> worldContinents = [
         id: 'france',
         name: 'France',
         flagEmoji: '\u{1F1EB}\u{1F1F7}', // 🇫🇷
+        flagAsset: 'assets/flags/france.webp',
         continentId: 'europe',
         greeting: 'Welcome to France!',
       ),
@@ -109,6 +121,7 @@ final List<Continent> worldContinents = [
         id: 'uk',
         name: 'United Kingdom',
         flagEmoji: '\u{1F1EC}\u{1F1E7}', // 🇬🇧
+        flagAsset: 'assets/flags/uk.webp',
         continentId: 'europe',
         greeting: 'Welcome to the UK!',
         isUnlocked: true,
@@ -117,6 +130,7 @@ final List<Continent> worldContinents = [
         id: 'spain',
         name: 'Spain',
         flagEmoji: '\u{1F1EA}\u{1F1F8}', // 🇪🇸
+        flagAsset: 'assets/flags/spain.webp',
         continentId: 'europe',
         greeting: 'Welcome to Spain!',
       ),
@@ -131,6 +145,7 @@ final List<Continent> worldContinents = [
         id: 'mexico',
         name: 'Mexico',
         flagEmoji: '\u{1F1F2}\u{1F1FD}', // 🇲🇽
+        flagAsset: 'assets/flags/mexico.png',
         continentId: 'north_america',
         greeting: 'Welcome to Mexico!',
       ),
@@ -138,6 +153,7 @@ final List<Continent> worldContinents = [
         id: 'usa',
         name: 'United States',
         flagEmoji: '\u{1F1FA}\u{1F1F8}', // 🇺🇸
+        flagAsset: 'assets/flags/usa.webp',
         continentId: 'north_america',
         isUnlocked: true,
         greeting: 'Welcome to the USA!',
@@ -146,6 +162,7 @@ final List<Continent> worldContinents = [
         id: 'canada',
         name: 'Canada',
         flagEmoji: '\u{1F1E8}\u{1F1E6}', // 🇨🇦
+        flagAsset: 'assets/flags/canada.webp',
         continentId: 'north_america',
         greeting: 'Welcome to Canada!',
       ),
@@ -160,6 +177,7 @@ final List<Continent> worldContinents = [
         id: 'brazil',
         name: 'Brazil',
         flagEmoji: '\u{1F1E7}\u{1F1F7}', // 🇧🇷
+        flagAsset: 'assets/flags/brazil.webp',
         continentId: 'south_america',
         greeting: 'Welcome to Brazil!',
       ),
@@ -167,6 +185,7 @@ final List<Continent> worldContinents = [
         id: 'peru',
         name: 'Peru',
         flagEmoji: '\u{1F1F5}\u{1F1EA}', // 🇵🇪
+        flagAsset: 'assets/flags/peru.webp',
         continentId: 'south_america',
         greeting: 'Welcome to Peru!',
       ),
@@ -174,6 +193,7 @@ final List<Continent> worldContinents = [
         id: 'colombia',
         name: 'Colombia',
         flagEmoji: '\u{1F1E8}\u{1F1F4}', // 🇨🇴
+        flagAsset: 'assets/flags/colombia.webp',
         continentId: 'south_america',
         greeting: 'Welcome to Colombia!',
       ),
@@ -188,6 +208,7 @@ final List<Continent> worldContinents = [
         id: 'australia',
         name: 'Australia',
         flagEmoji: '\u{1F1E6}\u{1F1FA}', // 🇦🇺
+        flagAsset: 'assets/flags/australia.webp',
         continentId: 'oceania',
         greeting: 'Welcome to Australia!',
       ),
@@ -195,6 +216,7 @@ final List<Continent> worldContinents = [
         id: 'new_zealand',
         name: 'New Zealand',
         flagEmoji: '\u{1F1F3}\u{1F1FF}', // 🇳🇿
+        flagAsset: 'assets/flags/new_zealand.webp',
         continentId: 'oceania',
         greeting: 'Welcome to New Zealand!',
       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/theme/pw_theme.dart';
+import '../../world_explorer/data/world_data.dart';
 import '../models/learning_stats.dart';
 
 /// A single activity entry in the timeline list.
@@ -67,15 +68,25 @@ class TimelineItem extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  entry.label,
-                  style: GoogleFonts.nunito(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: PWThemeColors.of(context).textPrimary,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                Row(
+                  children: [
+                    Flexible(
+                      child: Text(
+                        entry.label,
+                        style: GoogleFonts.nunito(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          color: PWThemeColors.of(context).textPrimary,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    if (entry.countryId.isNotEmpty) ...[
+                      const SizedBox(width: 6),
+                      _CountryTag(countryId: entry.countryId),
+                    ],
+                  ],
                 ),
                 Text(
                   _timeAgo,
@@ -111,6 +122,44 @@ class TimelineDateHeader extends StatelessWidget {
           fontWeight: FontWeight.w600,
           color: PWThemeColors.of(context).textMuted,
         ),
+      ),
+    );
+  }
+}
+
+class _CountryTag extends StatelessWidget {
+  const _CountryTag({required this.countryId});
+
+  final String countryId;
+
+  @override
+  Widget build(BuildContext context) {
+    final country = findCountryById(countryId);
+    if (country == null) return const SizedBox.shrink();
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      decoration: BoxDecoration(
+        color: PWColors.blue.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            country.flagEmoji,
+            style: const TextStyle(fontSize: 12),
+          ),
+          const SizedBox(width: 4),
+          Text(
+            country.name,
+            style: GoogleFonts.nunito(
+              fontSize: 11,
+              fontWeight: FontWeight.w700,
+              color: PWColors.blue,
+            ),
+          ),
+        ],
       ),
     );
   }

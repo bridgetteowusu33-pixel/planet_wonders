@@ -395,70 +395,70 @@ with a cute kawaii face on the pot body. The pot has a small lid handle on top.
 ```
 A kawaii copper-coloured cooking pot on a stovetop ring. The pot has a cute neutral face —
 small dot eyes and a tiny line mouth. No steam, calm and waiting.
-Copper sheen with warm reflections. 3D kawaii style, transparent background.
+Copper sheen with warm reflections. 3D kawaii style, true alpha transparent background.
 ```
 
 ### pot_happy.png
 ```
 Same kawaii copper pot. Happy face — curved smiling eyes (^_^), rosy cheeks,
 small upward-curved mouth. Slight warm glow around the pot.
-3D kawaii style, transparent background.
+3D kawaii style, true alpha transparent background.
 ```
 
 ### pot_surprised.png
 ```
 Same kawaii copper pot. Surprised face — wide round eyes (O_O), small open mouth,
 slight blush. A few small sparkles nearby.
-3D kawaii style, transparent background.
+3D kawaii style, true alpha transparent background.
 ```
 
 ### pot_stir.png
 ```
 Same kawaii copper pot. Dizzy/stirring face — spiral eyes or swirly cheeks,
 wavy mouth, showing the pot is being stirred. A wooden spoon sticking out.
-3D kawaii style, transparent background.
+3D kawaii style, true alpha transparent background.
 ```
 
 ### pot_yum.png
 ```
 Same kawaii copper pot. Yummy face — closed eyes with smile (>u<), tongue sticking out slightly,
 rosy cheeks. Heart symbols floating above.
-3D kawaii style, transparent background.
+3D kawaii style, true alpha transparent background.
 ```
 
 ### pot_spicy.png
 ```
 Same kawaii copper pot. Spicy face — squinted eyes, sweating drops, mouth in a wavy line,
 red blush on cheeks. Small pepper icon nearby.
-3D kawaii style, transparent background.
+3D kawaii style, true alpha transparent background.
 ```
 
 ### pot_delicious.png
 ```
 Same kawaii copper pot. Delicious face — starry eyes with sparkles, wide happy smile,
 steam wisps rising with little hearts. Warm golden glow.
-3D kawaii style, transparent background.
+3D kawaii style, true alpha transparent background.
 ```
 
 ### pot_love.png
 ```
 Same kawaii copper pot. Love face — heart-shaped eyes, blushing cheeks, big smile.
 Small floating hearts around the pot.
-3D kawaii style, transparent background.
+3D kawaii style, true alpha transparent background.
 ```
 
 ### pot_party.png
 ```
 Same kawaii copper pot. Party/celebration face — eyes like stars, wide grin,
 a tiny party hat on the pot's rim. Confetti dots around.
-3D kawaii style, transparent background.
+3D kawaii style, true alpha transparent background.
 ```
 
 ### pot_worried.png
 ```
 Same kawaii copper pot. Worried face — one eye bigger than the other, wavy mouth,
 a sweat drop on the side. Pot slightly tilted.
-3D kawaii style, transparent background.
+3D kawaii style, true alpha transparent background.
 ```
 
 ---
@@ -466,164 +466,164 @@ a sweat drop on the side. Pot slightly tilted.
 ## UK Ingredients
 
 **Directory**: `assets/cooking/v2/uk/ingredients/`
-**Size**: 256 × 256 px each, transparent
+**Size**: 256 × 256 px each, true alpha transparent
 
 Each ingredient should look like a cute 3D object — rounded, glossy, friendly.
 
 ### fish.png
 ```
 A cute 3D piece of white fish fillet, kawaii style. Smooth, pale, slightly curved shape
-with subtle flake texture. Transparent background.
+with subtle flake texture. true alpha Transparent background.
 ```
 
 ### potato.png
 ```
 A whole golden-brown potato, 3D kawaii style. Oval, smooth with small dimples.
-Warm earthy colour. Transparent background.
+Warm earthy colour. true alpha Transparent background.
 ```
 
 ### flour.png
 ```
 A small open sack of white flour with a scoop, 3D kawaii style.
-Beige canvas sack, fluffy white powder visible on top. Transparent background.
+Beige canvas sack, fluffy white powder visible on top. true alpha Transparent background.
 ```
 
 ### salt.png
 ```
 A small white salt shaker with blue lid, 3D kawaii style.
-Round ceramic body, a few salt grains scattered. Transparent background.
+Round ceramic body, a few salt grains scattered. true alpha Transparent background.
 ```
 
 ### butter.png
 ```
 A rectangular block of golden-yellow butter on a small dish, 3D kawaii style.
-Smooth, glossy, with a butter knife resting beside it. Transparent background.
+Smooth, glossy, with a butter knife resting beside it. true alpha Transparent background.
 ```
 
 ### milk.png
 ```
 A small glass bottle of white milk with a red cap, 3D kawaii style.
-Classic British milk bottle shape. Transparent background.
+Classic British milk bottle shape. true alpha Transparent background.
 ```
 
 ### sugar.png
 ```
 A small bowl of white sugar with a tiny spoon, 3D kawaii style.
-Sparkling granules, warm lighting. Transparent background.
+Sparkling granules, warm lighting. true alpha Transparent background.
 ```
 
 ### egg.png
 ```
 A single brown egg, 3D kawaii style. Smooth, glossy, warm tan colour
-with subtle speckles. Transparent background.
+with subtle speckles. true alpha Transparent background.
 ```
 
 ### bacon.png
 ```
 Two strips of pink-and-red bacon, 3D kawaii style. Wavy, rounded edges,
-glossy surface. Transparent background.
+glossy surface. true alpha Transparent background.
 ```
 
 ### tomato.png
 ```
 A single ripe red tomato, 3D kawaii style. Glossy, round, with a small green leaf on top.
-Transparent background.
+true alpha Transparent background.
 ```
 
 ### toast.png
 ```
 A slice of golden-brown toast, 3D kawaii style. Slightly crispy edges,
-warm colour with subtle bread texture. Transparent background.
+warm colour with subtle bread texture. true alpha Transparent background.
 ```
 
 ### beans.png
 ```
 A small bowl of orange baked beans in tomato sauce, 3D kawaii style.
-Rounded white bowl, glossy sauce. Transparent background.
+Rounded white bowl, glossy sauce. true alpha Transparent background.
 ```
 
 ### lamb.png
 ```
 A small piece of pinkish-brown lamb meat, 3D kawaii style.
-Rounded, soft-looking, with subtle marbling. Transparent background.
+Rounded, soft-looking, with subtle marbling. true alpha Transparent background.
 ```
 
 ### carrot.png
 ```
 A single bright orange carrot with green leafy top, 3D kawaii style.
-Smooth, tapered shape. Transparent background.
+Smooth, tapered shape. true alpha Transparent background.
 ```
 
 ### onion.png
 ```
 A golden-brown onion, 3D kawaii style. Smooth round shape with subtle layers visible.
-Transparent background.
+true alpha Transparent background.
 ```
 
 ### sponge.png
 ```
 A small cube of golden sponge cake, 3D kawaii style.
-Soft, fluffy texture, warm yellow colour. Transparent background.
+Soft, fluffy texture, warm yellow colour. true alpha Transparent background.
 ```
 
 ### custard.png
 ```
 A small jug pouring thick yellow custard, 3D kawaii style.
-Creamy smooth texture, white ceramic jug. Transparent background.
+Creamy smooth texture, white ceramic jug. true alpha Transparent background.
 ```
 
 ### fruit.png
 ```
 A small pile of mixed berries (strawberry, blueberry, raspberry), 3D kawaii style.
-Bright colours, glossy and plump. Transparent background.
+Bright colours, glossy and plump. true alpha Transparent background.
 ```
 
 ### cream.png
 ```
 A small bowl of whipped cream with a swirl peak, 3D kawaii style.
-Pure white, fluffy, glossy highlight. Transparent background.
+Pure white, fluffy, glossy highlight. true alpha Transparent background.
 ```
 
 ### crumpet.png
 ```
 A single golden crumpet with visible holes on top, 3D kawaii style.
-Round, thick, warm golden colour with spongy texture. Transparent background.
+Round, thick, warm golden colour with spongy texture. true alpha Transparent background.
 ```
 
 ### honey.png
 ```
 A small glass jar of golden honey with a wooden dipper, 3D kawaii style.
-Rich amber colour, warm glow. Transparent background.
+Rich amber colour, warm glow. true alpha Transparent background.
 ```
 
 ### sausage.png
 ```
 A plump brown breakfast sausage (banger), 3D kawaii style.
-Curved, glossy, golden-brown skin. Transparent background.
+Curved, glossy, golden-brown skin. true alpha Transparent background.
 ```
 
 ### gravy.png
 ```
 A small jug of rich brown gravy, 3D kawaii style.
-White ceramic jug, thick glossy brown liquid. Transparent background.
+White ceramic jug, thick glossy brown liquid. true alpha Transparent background.
 ```
 
 ### pastry.png
 ```
 A round piece of golden puff pastry dough, 3D kawaii style.
-Flaky layers visible, warm golden colour. Transparent background.
+Flaky layers visible, warm golden colour. true alpha Transparent background.
 ```
 
 ### dates.png
 ```
 A small pile of dark brown dates, 3D kawaii style.
-Glossy, wrinkled surface, rich caramel colour. Transparent background.
+Glossy, wrinkled surface, rich caramel colour. true alpha Transparent background.
 ```
 
 ### treacle.png
 ```
 A small tin of dark treacle/golden syrup, 3D kawaii style.
-Classic green-and-gold tin, dark glossy syrup dripping from lip. Transparent background.
+Classic green-and-gold tin, dark glossy syrup dripping from lip. true alpha Transparent background.
 ```
 
 ---
@@ -636,19 +636,19 @@ Classic green-and-gold tin, dark glossy syrup dripping from lip. Transparent bac
 ### knife.png (256 × 256)
 ```
 A cute kitchen knife, 3D kawaii style. Rounded blade edge (child-safe looking),
-wooden handle with warm tones. Shiny blade surface. Transparent background.
+wooden handle with warm tones. Shiny blade surface. true alpha Transparent background.
 ```
 
 ### cutting_board.png (512 × 256)
 ```
 A wooden cutting board, 3D kawaii style. Rectangular with rounded corners,
-warm wood grain visible. Flat perspective, slightly angled. Transparent background.
+warm wood grain visible. Flat perspective, slightly angled. true alpha Transparent background.
 ```
 
 ### spice_shaker.png (128 × 128)
 ```
 A small spice/salt shaker, 3D kawaii style. White ceramic top with holes,
-glass body showing colourful spice inside. Transparent background.
+glass body showing colourful spice inside. true alpha Transparent background.
 ```
 
 ### spoon.png (128 × 128)

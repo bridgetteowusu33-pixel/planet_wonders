@@ -4,9 +4,12 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../coloring/color_button.dart';
 import '../../core/services/gallery_service.dart';
+import '../stickers/providers/sticker_provider.dart';
 import '../../core/theme/pw_theme.dart';
 import 'background_panel.dart';
 import 'color_panel.dart';
@@ -77,7 +80,7 @@ class _CreativeCanvasScreenState extends ConsumerState<CreativeCanvasScreen>
     }
   }
 
-  Future<void> _openColorPanel() async {
+  Future<void> _openMoreColors() async {
     await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -158,6 +161,11 @@ class _CreativeCanvasScreenState extends ConsumerState<CreativeCanvasScreen>
       ref.invalidate(galleryProvider);
       await _controller.saveNow(updateSavingState: false);
 
+      ref.read(stickerProvider.notifier).checkAndAward(
+        conditionType: 'drawing_saved',
+        countryId: '',
+      );
+
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
@@ -194,7 +202,7 @@ class _CreativeCanvasScreenState extends ConsumerState<CreativeCanvasScreen>
         appBar: AppBar(
           title: Text(
             creativeState.canvasTitle,
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
           centerTitle: true,
           backgroundColor: Colors.transparent,
@@ -211,25 +219,15 @@ class _CreativeCanvasScreenState extends ConsumerState<CreativeCanvasScreen>
                   ),
                 ),
               ),
-            IconButton(
-              onPressed: _exporting ? null : _exportToGallery,
-              icon: _exporting
-                  ? const SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : const Icon(Icons.save_rounded),
-              tooltip: 'Save to My Art',
-            ),
           ],
         ),
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: creativeState.isLoaded
                 ? Column(
                     children: [
+                      // --- 1. Prompt card (optional) ---
                       if (prompt != null)
                         Container(
                           width: double.infinity,
@@ -257,55 +255,207 @@ class _CreativeCanvasScreenState extends ConsumerState<CreativeCanvasScreen>
                             ],
                           ),
                         ),
+
+                      // --- 2. Inline color palette bar ---
+                      _CreativePaletteBar(
+                        colors: kDefaultCreativePalette,
+                        activeColor: creativeState.currentColor,
+                        onColorSelected: controller.selectColor,
+                        onMoreColors: _openMoreColors,
+                      ),
+
+                      const SizedBox(height: 10),
+
+                      // --- 3. Canvas ---
                       Expanded(
                         child: CanvasArea(
                           repaintKey: _canvasRepaintKey,
                           backgroundPainter: widget.backgroundPainter,
                         ),
                       ),
-                      const SizedBox(height: 8),
+
+                      const SizedBox(height: 10),
+
+                      // --- 4. Toolbar (horizontal scroll) ---
+                      CreativeToolbar(
+                        onResetRequested: _confirmReset,
+                      ),
+
+                      const SizedBox(height: 6),
+
+                      // --- 5. Brush type (horizontal scroll) ---
+                      const CreativeBrushTypeSelector(),
+
+                      const SizedBox(height: 6),
+
+                      // --- 6. Brush size (horizontal scroll) ---
+                      const CreativeBrushSizeSelector(),
+
+                      const SizedBox(height: 10),
+
+                      // --- 5. Bottom actions ---
                       Row(
                         children: [
-                          const Icon(Icons.tune_rounded, size: 20),
-                          const SizedBox(width: 6),
-                          Text(
-                            'Brush',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
                           Expanded(
-                            child: Slider(
-                              value: creativeState.brushSize,
-                              min: 2,
-                              max: 32,
-                              divisions: 15,
-                              label: creativeState.brushSize.round().toString(),
-                              onChanged: controller.setBrushSize,
+                            child: OutlinedButton.icon(
+                              onPressed: _openStickerPanel,
+                              icon: const Icon(
+                                Icons.emoji_emotions_rounded,
+                                size: 18,
+                              ),
+                              label: const Text('Stickers'),
+                              style: OutlinedButton.styleFrom(
+                                minimumSize: const Size(0, 44),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14),
+                                ),
+                                side: BorderSide(
+                                  color: PWColors.yellow,
+                                ),
+                              ),
                             ),
                           ),
-                          Text(
-                            '${creativeState.brushSize.round()} px',
-                            style: Theme.of(context).textTheme.bodySmall,
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: OutlinedButton.icon(
+                              onPressed: _openBackgroundPanel,
+                              icon: const Icon(
+                                Icons.landscape_rounded,
+                                size: 18,
+                              ),
+                              label: const Text('Scenes'),
+                              style: OutlinedButton.styleFrom(
+                                minimumSize: const Size(0, 44),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14),
+                                ),
+                                side: BorderSide(
+                                  color: PWColors.navy.withValues(alpha: 0.15),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          FilledButton.icon(
+                            onPressed: _exporting ? null : _exportToGallery,
+                            icon: _exporting
+                                ? const SizedBox(
+                                    width: 16,
+                                    height: 16,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                : const Icon(Icons.camera_alt_rounded),
+                            label: const Text('Save'),
+                            style: FilledButton.styleFrom(
+                              minimumSize: const Size(120, 44),
+                              backgroundColor: PWColors.mint,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(14),
+                              ),
+                            ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 2),
-                      Text(
-                        'Draw with one finger. Pinch with two fingers to zoom/pan up to 4x.',
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: PWColors.navy.withValues(alpha: 0.62),
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      CreativeToolbar(
-                        onOpenColors: _openColorPanel,
-                        onOpenStickers: _openStickerPanel,
-                        onOpenBackgrounds: _openBackgroundPanel,
-                        onReset: _confirmReset,
-                      ),
+                      const SizedBox(height: 12),
                     ],
                   )
                 : const Center(child: CircularProgressIndicator()),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Inline horizontal palette bar matching coloring pages' PaletteBar.
+// ---------------------------------------------------------------------------
+
+class _CreativePaletteBar extends StatelessWidget {
+  const _CreativePaletteBar({
+    required this.colors,
+    required this.activeColor,
+    required this.onColorSelected,
+    required this.onMoreColors,
+  });
+
+  final List<Color> colors;
+  final Color activeColor;
+  final ValueChanged<Color> onColorSelected;
+  final VoidCallback onMoreColors;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 58,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(
+          parent: AlwaysScrollableScrollPhysics(),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 4),
+        itemCount: colors.length + 1,
+        separatorBuilder: (_, _) => const SizedBox(width: 2),
+        itemBuilder: (context, index) {
+          if (index == colors.length) {
+            return _MoreColorsButton(onTap: onMoreColors);
+          }
+
+          final color = colors[index];
+          final isSelected = color.toARGB32() == activeColor.toARGB32();
+          return PaletteColorButton(
+            color: color,
+            selected: isSelected,
+            onTap: () {
+              HapticFeedback.selectionClick();
+              onColorSelected(color);
+            },
+            semanticLabel: 'Color ${index + 1}',
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _MoreColorsButton extends StatelessWidget {
+  const _MoreColorsButton({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+      child: Semantics(
+        button: true,
+        label: 'More colors',
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: onTap,
+          child: Container(
+            width: 42,
+            height: 42,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white,
+              border: Border.all(color: const Color(0xFFCFD8DC), width: 2),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.08),
+                  blurRadius: 5,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: const Icon(
+              Icons.add_rounded,
+              size: 22,
+              color: Color(0xFF37474F),
+            ),
           ),
         ),
       ),

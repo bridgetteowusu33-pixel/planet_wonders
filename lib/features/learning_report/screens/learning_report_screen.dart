@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/theme/pw_theme.dart';
@@ -21,6 +22,7 @@ class LearningReportScreen extends ConsumerStatefulWidget {
 
 class _LearningReportScreenState extends ConsumerState<LearningReportScreen> {
   ReportPeriod _period = ReportPeriod.allTime;
+  bool _showAllActivities = false;
 
   // ── Period filtering ─────────────────────────────────────────────────────
 
@@ -183,6 +185,12 @@ class _LearningReportScreenState extends ConsumerState<LearningReportScreen> {
           ),
         ),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () => context.go('/'),
+            icon: const Icon(Icons.home_rounded),
+          ),
+        ],
       ),
       body: stats.loading
           ? const Center(child: CircularProgressIndicator())
@@ -315,9 +323,44 @@ class _LearningReportScreenState extends ConsumerState<LearningReportScreen> {
                       emoji: '\u{1F4C5}', // 📅
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: _buildTimeline(
-                          filtered.take(20).toList(),
-                        ),
+                        children: [
+                          ..._buildTimeline(
+                            _showAllActivities
+                                ? filtered
+                                : filtered.take(20).toList(),
+                          ),
+                          if (filtered.length > 20) ...[
+                            const SizedBox(height: 12),
+                            Center(
+                              child: GestureDetector(
+                                onTap: () => setState(
+                                  () => _showAllActivities =
+                                      !_showAllActivities,
+                                ),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                    vertical: 10,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: PWColors.blue.withValues(alpha: 0.1),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Text(
+                                    _showAllActivities
+                                        ? 'Show Less'
+                                        : 'View More (${filtered.length - 20})',
+                                    style: GoogleFonts.nunito(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w700,
+                                      color: PWColors.blue,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ],
                       ),
                     ),
                   ),
@@ -550,7 +593,7 @@ class _TipCard extends StatelessWidget {
                   style: GoogleFonts.nunito(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
-                    color: PWThemeColors.of(context).textMuted,
+                    color: PWThemeColors.of(context).textPrimary,
                   ),
                 ),
               ],

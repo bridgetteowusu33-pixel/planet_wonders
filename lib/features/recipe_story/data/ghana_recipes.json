@@ -244,6 +244,206 @@
           "sfx": "hold"
         }
       ]
+    },
+    {
+      "id": "ghana_fufu_story",
+      "title": "Afia Pounds Fufu!",
+      "emoji": "\uD83C\uDF72",
+      "difficulty": 2,
+      "imageAsset": "assets/food/ghana/ghana_fufu_chef.webp",
+      "thumbnailAsset": "assets/food/ghana/ghana_fufu_chef.webp",
+      "intro": "Afia and her grandma are pounding fufu together \u2014 it takes teamwork and strong arms!",
+      "introFact": "Fufu is one of the most loved foods in Ghana \u2014 families make it together!",
+      "completionMessage": "Smooth, stretchy fufu with hot soup \u2014 the perfect meal!",
+      "completionAsset": "assets/food/ghana/ghana_fufu_chef.webp",
+      "completionFact": "You swallow fufu without chewing \u2014 it slides right down into your tummy!",
+      "badgeTitle": "Fufu Master",
+      "rewardCultureStars": 1,
+      "steps": [
+        {
+          "story": "Tap to chop the cassava and plantain into pieces!",
+          "action": "tap_chop",
+          "requiredCount": 4,
+          "asset": "assets/food/ghana/ghana_fufu_chef.webp",
+          "fact": "Fufu is made from cassava and plantain boiled together!",
+          "sfx": "tap"
+        },
+        {
+          "story": "Drag the pieces into the big pot to boil!",
+          "action": "drag",
+          "requiredCount": 1,
+          "asset": "assets/food/ghana/ghana_fufu_chef.webp",
+          "fact": "The pieces need to be very soft before pounding.",
+          "sfx": "drop"
+        },
+        {
+          "story": "Pound the fufu in the mortar \u2014 tap hard!",
+          "action": "tap",
+          "requiredCount": 5,
+          "asset": "assets/food/ghana/ghana_fufu_chef.webp",
+          "fact": "One person pounds while another turns the dough \u2014 teamwork!",
+          "sfx": "tap"
+        },
+        {
+          "story": "Stir the light soup with tomatoes and chicken!",
+          "action": "stir",
+          "asset": "assets/food/ghana/ghana_fufu_chef.webp",
+          "fact": "Light soup or groundnut soup are the best partners for fufu!",
+          "sfx": "stir"
+        },
+        {
+          "story": "Hold to let the soup simmer until it\u2019s perfect!",
+          "action": "hold",
+          "holdDurationMs": 2000,
+          "asset": "assets/food/ghana/ghana_fufu_chef.webp",
+          "fact": "The pounding sound can be heard across the neighbourhood!",
+          "sfx": "hold"
+        }
+      ]
+    },
+    {
+      "id": "ghana_koko_story",
+      "title": "Afia\u2019s Morning Koko!",
+      "emoji": "\u2615",
+      "difficulty": 1,
+      "imageAsset": "assets/food/ghana/ghana_koko_chef.webp",
+      "thumbnailAsset": "assets/food/ghana/ghana_koko_chef.webp",
+      "intro": "Good morning! Afia is making warm koko porridge for a cosy breakfast!",
+      "introFact": "Koko is a warm porridge that Ghanaian families eat for breakfast every day!",
+      "completionMessage": "Warm, spicy koko with bread \u2014 the best breakfast!",
+      "completionAsset": "assets/food/ghana/ghana_koko_chef.webp",
+      "completionFact": "Koko is often sold by women carrying big pots on their heads at the market!",
+      "badgeTitle": "Koko Chef",
+      "rewardCultureStars": 1,
+      "steps": [
+        {
+          "story": "Tap to grind the millet into a smooth paste!",
+          "action": "tap",
+          "requiredCount": 3,
+          "asset": "assets/food/ghana/ghana_koko_chef.webp",
+          "fact": "Koko is made from fermented millet or corn!",
+          "sfx": "tap"
+        },
+        {
+          "story": "Drag the millet paste into the pot of hot water!",
+          "action": "drag",
+          "requiredCount": 1,
+          "asset": "assets/food/ghana/ghana_koko_chef.webp",
+          "fact": "Fermenting the grain gives koko its special tangy taste!",
+          "sfx": "drop"
+        },
+        {
+          "story": "Stir the porridge until it\u2019s thick and smooth!",
+          "action": "stir",
+          "asset": "assets/food/ghana/ghana_koko_chef.webp",
+          "fact": "You need to stir constantly so it doesn\u2019t get lumpy!",
+          "sfx": "stir"
+        },
+        {
+          "story": "Tap to add sugar and ginger for extra flavour!",
+          "action": "tap_spice_shaker",
+          "requiredCount": 3,
+          "asset": "assets/food/ghana/ghana_koko_chef.webp",
+          "fact": "Ginger makes koko warm and spicy \u2014 perfect for chilly mornings!",
+          "sfx": "tap"
+        }
+      ]
+    },
+    {
+      "id": "ghana_peanut_butter_soup_story",
+      "title": "Afia Makes Peanut Butter Soup!",
+      "emoji": "\uD83E\uDD5C",
+      "difficulty": 2,
+      "imageAsset": "assets/food/ghana/ghana_groundnut_soup_chef.png",
+      "thumbnailAsset": "assets/food/ghana/ghana_groundnut_soup_chef.png",
+      "intro": "Afia and her auntie are making the creamiest peanut butter soup for the whole family!",
+      "introFact": "Peanut butter soup is also called groundnut soup \u2014 and it\u2019s one of Ghana\u2019s favourites!",
+      "completionMessage": "Thick, creamy peanut butter soup \u2014 everyone wants seconds!",
+      "completionAsset": "assets/food/ghana/ghana_groundnut_soup_chef.png",
+      "completionFact": "Peanut butter soup is one of the most popular soups in all of Ghana!",
+      "badgeTitle": "Soup Star",
+      "rewardCultureStars": 1,
+      "steps": [
+        {
+          "story": "Tap to crush the peanuts into a smooth paste!",
+          "action": "tap",
+          "requiredCount": 4,
+          "asset": "assets/food/ghana/ghana_groundnut_soup_chef.png",
+          "fact": "Grinding the peanuts into paste is what makes the soup so creamy!",
+          "sfx": "tap"
+        },
+        {
+          "story": "Drag the tomatoes and onions into the pot!",
+          "action": "drag",
+          "requiredCount": 1,
+          "asset": "assets/food/ghana/ghana_groundnut_soup_chef.png",
+          "fact": "Tomatoes and onions build the rich base of the soup!",
+          "sfx": "drop"
+        },
+        {
+          "story": "Stir the peanut paste into the soup!",
+          "action": "stir",
+          "asset": "assets/food/ghana/ghana_groundnut_soup_chef.png",
+          "fact": "The paste slowly dissolves and makes the soup thick and orange!",
+          "sfx": "stir"
+        },
+        {
+          "story": "Hold to let the soup cook low and slow!",
+          "action": "hold",
+          "holdDurationMs": 2000,
+          "asset": "assets/food/ghana/ghana_groundnut_soup_chef.png",
+          "fact": "Peanut butter soup is best eaten with fufu or rice balls!",
+          "sfx": "hold"
+        }
+      ]
+    },
+    {
+      "id": "ghana_palmnut_story",
+      "title": "Afia\u2019s Palm Nut Soup!",
+      "emoji": "\uD83C\uDF72",
+      "difficulty": 2,
+      "imageAsset": "assets/food/ghana/ghana_palmnut_soup_chef.webp",
+      "thumbnailAsset": "assets/food/ghana/ghana_palmnut_soup_chef.webp",
+      "intro": "Afia is helping her grandma make traditional palm nut soup \u2014 it\u2019s been in the family for generations!",
+      "introFact": "Palm nut soup is one of the oldest traditional recipes in Ghana!",
+      "completionMessage": "Rich, orange palm nut soup \u2014 a taste of Ghana\u2019s history!",
+      "completionAsset": "assets/food/ghana/ghana_palmnut_soup_chef.webp",
+      "completionFact": "The beautiful orange colour comes from the oil inside the palm fruits!",
+      "badgeTitle": "Palm Nut Chef",
+      "rewardCultureStars": 1,
+      "steps": [
+        {
+          "story": "Tap to pound the boiled palm fruits!",
+          "action": "tap",
+          "requiredCount": 4,
+          "asset": "assets/food/ghana/ghana_palmnut_soup_chef.webp",
+          "fact": "Palm fruits grow in big bunches on tall palm trees!",
+          "sfx": "tap"
+        },
+        {
+          "story": "Drag the palm cream into the pot with the meat!",
+          "action": "drag",
+          "requiredCount": 1,
+          "asset": "assets/food/ghana/ghana_palmnut_soup_chef.webp",
+          "fact": "The rich cream is squeezed out of the pounded palm fruits!",
+          "sfx": "drop"
+        },
+        {
+          "story": "Stir the soup as it bubbles and thickens!",
+          "action": "stir",
+          "asset": "assets/food/ghana/ghana_palmnut_soup_chef.webp",
+          "fact": "The soup turns a beautiful deep orange colour as it cooks!",
+          "sfx": "stir"
+        },
+        {
+          "story": "Hold to let the soup simmer until the oil rises to the top!",
+          "action": "hold",
+          "holdDurationMs": 2000,
+          "asset": "assets/food/ghana/ghana_palmnut_soup_chef.webp",
+          "fact": "Palm nut soup is eaten with fufu, rice balls, or boiled yam!",
+          "sfx": "hold"
+        }
+      ]
     }
   ]
 }

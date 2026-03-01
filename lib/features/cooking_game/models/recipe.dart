@@ -1,5 +1,7 @@
 import 'cooking_step.dart';
 
+enum RecipeDifficulty { easy, medium }
+
 class Ingredient {
   const Ingredient({
     required this.id,
@@ -21,6 +23,7 @@ class Recipe {
     required this.ingredients,
     required this.steps,
     required this.funFacts,
+    this.difficulty = RecipeDifficulty.easy,
   });
 
   final String id;
@@ -30,6 +33,9 @@ class Recipe {
   final List<Ingredient> ingredients;
   final List<CookingStep> steps;
   final List<String> funFacts;
+  final RecipeDifficulty difficulty;
+
+  int get stepCount => steps.length;
 
   CookingStep? stepFor(CookingState state) {
     for (final step in steps) {

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/motion/pw_animated_scale.dart';
-import '../../../core/theme/pw_theme.dart';
 
-/// A tappable game card with emoji badge, title, subtitle, and accent color.
+/// A 3D sticker-style game card with emoji, title, subtitle, and accent color.
 ///
 /// Includes a subtle press-to-shrink animation that respects reduce motion.
-/// Dark-mode-aware via [PWThemeColors].
 class GameCard extends StatefulWidget {
   const GameCard({
     super.key,
@@ -32,7 +31,10 @@ class _GameCardState extends State<GameCard> {
 
   @override
   Widget build(BuildContext context) {
-    final tc = PWThemeColors.of(context);
+    final gradTop = Color.lerp(widget.color, Colors.white, 0.25)!;
+    final gradBottom = widget.color;
+
+    const radius = BorderRadius.all(Radius.circular(18));
 
     return GestureDetector(
       onTapDown: (_) => setState(() => _pressed = true),
@@ -42,54 +44,73 @@ class _GameCardState extends State<GameCard> {
       child: PWAnimatedScale(
         scale: _pressed ? 0.95 : 1.0,
         child: Container(
-          padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: tc.cardBg,
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: tc.shadowColor.withValues(alpha: 0.12),
-                blurRadius: 14,
-                offset: const Offset(0, 5),
-              ),
-            ],
-            border: Border.all(
-              color: widget.color.withValues(alpha: 0.5),
-              width: 2,
-            ),
+            borderRadius: radius,
+            color: Color.lerp(gradBottom, Colors.black, 0.35),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 62,
-                height: 62,
-                decoration: BoxDecoration(
-                  color: widget.color.withValues(alpha: 0.18),
-                  shape: BoxShape.circle,
+          padding: const EdgeInsets.only(bottom: 4),
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              borderRadius: radius,
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [gradTop, gradBottom],
+              ),
+            ),
+            child: Stack(
+              children: [
+                // Top shine highlight
+                Positioned(
+                  left: 4,
+                  right: 4,
+                  top: 0,
+                  child: Container(
+                    height: 16,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.white.withValues(alpha: 0.4),
+                          Colors.white.withValues(alpha: 0.0),
+                        ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                    ),
+                  ),
                 ),
-                alignment: Alignment.center,
-                child: Text(widget.emoji,
-                    style: const TextStyle(fontSize: 30)),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                widget.title,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w800,
+                // Content
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(widget.emoji,
+                        style: const TextStyle(fontSize: 26)),
+                    const SizedBox(height: 6),
+                    Text(
+                      widget.title,
+                      style: GoogleFonts.fredoka(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 4),
-              Text(
-                widget.subtitle,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontSize: 12,
-                      color: tc.textMuted,
+                    const SizedBox(height: 2),
+                    Text(
+                      widget.subtitle,
+                      style: GoogleFonts.nunito(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white.withValues(alpha: 0.8),
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                textAlign: TextAlign.center,
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -8,33 +8,43 @@ import '../models/story.dart';
 
 const _ghanaStory = Story(
   countryId: 'ghana',
-  title: "Afia's Colorful Day in Ghana",
+  title: "Afia's Day in Ghana",
   badgeName: 'Ghana Story Explorer',
   pages: [
-    // Page 1 — Meet Afia
+    // Page 1 — Afia and Her Kente Dress
     StoryPage(
-      title: 'Meet Afia',
+      title: 'Afia and Her Kente Dress',
       text:
-          'This is Afia! She lives in Kumasi, a big and busy city in Ghana.\n\n'
-          'Today is a special day — Afia is wearing her favourite Kente cloth, '
-          'a beautiful fabric made of bright colours woven together.',
+          'This is Afia.\n'
+          'She lives in Kumasi, a big and lively city in Ghana.\n\n'
+          'Today is a special day. Afia wears her favourite Kente cloth, '
+          'a bright and beautiful fabric woven with many colours.\n\n'
+          'As she twirls in front of the mirror, she smiles and says,\n'
+          '\u{201C}I feel like a princess today!\u{201D}',
       emoji: '\u{1F467}\u{1F3FE}', // 👧🏾
       bgColor: Color(0xFFFFF3D0), // warm yellow tint
-      fact: 'Kente cloth tells stories with its colours and patterns. '
-          'Each design has a special meaning!',
+      imagePath: 'assets/stories/ghana/page_1.webp',
+      fact: 'Kente cloth is worn on special days like festivals and '
+          'celebrations. Each pattern has a meaning!',
       factCategory: 'Culture',
     ),
 
-    // Page 2 — Market Day
+    // Page 2 — A Walk Through Kejetia Market
     StoryPage(
-      title: 'Market Day',
+      title: 'A Walk Through Kejetia Market',
       text:
-          'Afia walks through the busy Kejetia market with her grandmother.\n\n'
-          'She sees piles of golden mangoes, stacks of colourful fabrics, '
-          'and baskets overflowing with warm spices. The air smells amazing!',
+          'Afia holds her grandmother\u{2019}s hand as they walk through '
+          'Kejetia Market.\n\n'
+          'She sees golden mangoes, colourful fabrics, '
+          'and baskets of warm spices.\n\n'
+          'People laugh, talk, and call out friendly greetings.\n\n'
+          'The air smells sweet and spicy.\n'
+          'Afia takes a deep breath and says,\n'
+          '\u{201C}I love our market, Grandma!\u{201D}',
       emoji: '\u{1F6D2}', // 🛒
       bgColor: Color(0xFFFFE5CC), // warm orange tint
-      fact: 'Kejetia Market in Kumasi is one of the largest open-air '
+      imagePath: 'assets/stories/ghana/page_2.webp',
+      fact: 'Kejetia Market is one of the biggest open-air '
           'markets in West Africa!',
       factCategory: 'Culture',
     ),
@@ -43,14 +53,19 @@ const _ghanaStory = Story(
     StoryPage(
       title: 'The Talking Drum',
       text:
-          'In the town square, a drummer plays a very special drum.\n\n'
-          'Afia listens closely — the drum seems to speak! '
-          'It goes high and low, fast and slow, '
-          'sending messages through its rhythm.',
+          'In the town square, a drummer begins to play.\n\n'
+          'Boom ta ta boom!\n\n'
+          'The drum sings high and low, fast and slow.\n'
+          'It sounds like it is talking.\n\n'
+          'Afia closes her eyes and listens.\n'
+          'Her feet start tapping.\n'
+          'Her hands start clapping.\n\n'
+          'Soon, everyone is dancing together!',
       emoji: '\u{1F941}', // 🥁
       bgColor: Color(0xFFE8F5E9), // soft green tint
-      fact: 'Talking drums can copy the rise and fall of human speech. '
-          'People use them to send messages across long distances!',
+      imagePath: 'assets/stories/ghana/page_3.webp',
+      fact: 'Talking drums can copy human speech and send messages '
+          'through music!',
       factCategory: 'History',
     ),
 
@@ -58,14 +73,18 @@ const _ghanaStory = Story(
     StoryPage(
       title: 'The Golden Stool',
       text:
-          "Afia's grandmother tells her about the Golden Stool — "
-          'a sacred symbol of the Ashanti people.\n\n'
-          '"It reminds us that we are strong together," '
-          'Grandma says with a warm smile. Afia feels proud of her home.',
+          'That evening, Afia sits beside her grandmother.\n\n'
+          'Grandma tells her about the Golden Stool, '
+          'a sacred treasure of the Ashanti people.\n\n'
+          '\u{201C}It reminds us that we are strong when we stand together,\u{201D} '
+          'Grandma says softly.\n\n'
+          'Afia looks up at the stars and smiles.\n\n'
+          '\u{201C}I\u{2019}m proud to be from Ghana,\u{201D} she whispers.',
       emoji: '\u{1F451}', // 👑
       bgColor: Color(0xFFFFF8E1), // golden tint
-      fact: 'The Golden Stool is very important to the Ashanti people '
-          'of Ghana. It represents unity and the soul of the nation.',
+      imagePath: 'assets/stories/ghana/page_4.webp',
+      fact: 'The Golden Stool represents the spirit and unity '
+          'of the Ashanti people.',
       factCategory: 'History',
     ),
   ],
@@ -90,7 +109,7 @@ const _usaStory = Story(
           'Ava loves looking up at the stars and dreaming big.',
       emoji: '\u{1F680}', // 🚀
       bgColor: Color(0xFFE3F2FD),
-      imagePath: 'assets/stories/usa/page_1.png',
+      imagePath: 'assets/stories/usa/page_1.webp',
       fact: 'The Saturn V rocket that took astronauts to the Moon was '
           'built in Huntsville. You can see a real one at the U.S. Space '
           '& Rocket Center!',
@@ -107,7 +126,7 @@ const _usaStory = Story(
           'Ava can not wait to explore!',
       emoji: '\u{1F3E0}', // 🏠
       bgColor: Color(0xFFE8F5E9),
-      imagePath: 'assets/stories/usa/page_2.png',
+      imagePath: 'assets/stories/usa/page_2.webp',
       fact: 'Virginia was one of the original 13 colonies and the birthplace '
           'of eight American presidents — more than any other state!',
       factCategory: 'History',
@@ -123,7 +142,7 @@ const _usaStory = Story(
           'could learn, play, and dream together.',
       emoji: '\u{1F4DA}', // 📚
       bgColor: Color(0xFFFFF3E0),
-      imagePath: 'assets/stories/usa/page_3.png',
+      imagePath: 'assets/stories/usa/page_3.webp',
       fact: 'The Civil Rights Movement helped change unfair laws. '
           'Leaders like Dr. Martin Luther King Jr. dreamed of a world '
           'where everyone is treated equally.',
@@ -140,7 +159,7 @@ const _usaStory = Story(
           '"There\'s so much to explore!" Ava says with a big smile.',
       emoji: '\u{1F30E}', // 🌎
       bgColor: Color(0xFFFCE4EC),
-      imagePath: 'assets/stories/usa/page_4.png',
+      imagePath: 'assets/stories/usa/page_4.webp',
       fact: 'America has 63 national parks! Yellowstone was the very first '
           'national park in the world, created in 1872.',
       factCategory: 'Nature',
@@ -167,7 +186,7 @@ const _nigeriaStory = Story(
           'patterns — she is ready for a special day!',
       emoji: '\u{1F467}\u{1F3FE}', // 👧🏾
       bgColor: Color(0xFFE8F5E9),
-      imagePath: 'assets/stories/nigeria/page_1.png',
+      imagePath: 'assets/stories/nigeria/page_1.webp',
       fact: 'Lagos is the largest city in Africa with over 20 million '
           'people — that is more than many whole countries!',
       factCategory: 'Geography',
@@ -183,7 +202,7 @@ const _nigeriaStory = Story(
           'The energy is amazing!',
       emoji: '\u{1F6D2}', // 🛒
       bgColor: Color(0xFFFFF3E0),
-      imagePath: 'assets/stories/nigeria/page_2.png',
+      imagePath: 'assets/stories/nigeria/page_2.webp',
       fact: 'Nigeria has over 250 different languages — more than '
           'almost any other country in the world!',
       factCategory: 'Culture',
@@ -199,7 +218,7 @@ const _nigeriaStory = Story(
           'and clap along. Adetutu taps her feet to the beat!',
       emoji: '\u{1F941}', // 🥁
       bgColor: Color(0xFFFCE4EC),
-      imagePath: 'assets/stories/nigeria/page_3.png',
+      imagePath: 'assets/stories/nigeria/page_3.webp',
       fact: 'Afrobeats is a popular music genre that started in Nigeria '
           'and is now loved all around the world!',
       factCategory: 'Culture',
@@ -215,7 +234,7 @@ const _nigeriaStory = Story(
           'Adetutu feels proud of her beautiful home.',
       emoji: '\u{26F0}\u{FE0F}', // ⛰️
       bgColor: Color(0xFFFFF8E1),
-      imagePath: 'assets/stories/nigeria/page_4.png',
+      imagePath: 'assets/stories/nigeria/page_4.webp',
       fact: 'Zuma Rock is a massive 725-metre rock near Abuja. '
           "Some people call it the 'Gateway to Abuja!'",
       factCategory: 'Nature',
@@ -250,7 +269,7 @@ const _ukStory = Story(
           'Heze adds softly.',
       emoji: '\u{1F467}\u{1F3FD}', // 👧🏽
       bgColor: Color(0xFFE3F2FD), // light blue tint
-      imagePath: 'assets/stories/uk/page_1.png',
+      imagePath: 'assets/stories/uk/page_1.webp',
       fact: 'London is one of the biggest cities in Europe with '
           'nearly 9 million people! It has been an important city '
           'for over 2,000 years.',
@@ -275,7 +294,7 @@ const _ukStory = Story(
           'Together, they watch the water sparkle like tiny stars.',
       emoji: '\u{1F309}', // 🌉
       bgColor: Color(0xFFFFF8E1), // golden tint
-      imagePath: 'assets/stories/uk/page_2.png',
+      imagePath: 'assets/stories/uk/page_2.webp',
       fact: 'Tower Bridge was built in 1894 and can open in the middle '
           'to let tall ships pass through on the River Thames!',
       factCategory: 'History',
@@ -299,7 +318,7 @@ const _ukStory = Story(
           '\u{201C}You make a great team.\u{201D}',
       emoji: '\u{1F4DA}', // 📚
       bgColor: Color(0xFFFCE4EC), // soft pink tint
-      imagePath: 'assets/stories/uk/page_3.png',
+      imagePath: 'assets/stories/uk/page_3.webp',
       fact: 'Everyone\u{2019}s brain works differently! Some people are '
           'extra good at noticing patterns, details, and solving puzzles. '
           'We all have our own special strengths.',
@@ -326,7 +345,7 @@ const _ukStory = Story(
           '\u{201C}We can do anything.\u{201D}',
       emoji: '\u{2B50}', // ⭐
       bgColor: Color(0xFFE8F5E9), // soft green tint
-      imagePath: 'assets/stories/uk/page_4.png',
+      imagePath: 'assets/stories/uk/page_4.webp',
       fact: 'The UK has over 1,500 castles! Some are over 900 years old. '
           'Big Ben\u{2019}s bell weighs as much as a small elephant!',
       factCategory: 'Nature',

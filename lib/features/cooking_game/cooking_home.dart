@@ -1,12 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme/pw_theme.dart';
+import '../../shared/widgets/flying_airplane.dart';
 import 'cooking_entry.dart';
+import 'data/recipes_ghana.dart';
 import 'models/recipe.dart';
+
+// Countries that have cooking recipes.
+const _cookingCountries = [
+  (id: 'ghana', name: 'Ghana', emoji: '\u{1F1EC}\u{1F1ED}', flag: 'assets/flags/ghana.webp'),
+  (id: 'nigeria', name: 'Nigeria', emoji: '\u{1F1F3}\u{1F1EC}', flag: 'assets/flags/nigeria.webp'),
+  (id: 'uk', name: 'United Kingdom', emoji: '\u{1F1EC}\u{1F1E7}', flag: 'assets/flags/uk.webp'),
+  (id: 'usa', name: 'United States', emoji: '\u{1F1FA}\u{1F1F8}', flag: 'assets/flags/usa.webp'),
+];
 
 /// Unified Cooking Hub.
 ///
-/// All entry points (Home, Food, Games) should land here first.
+/// When [countryId] is null, shows a country picker.
+/// When set, shows the per-country cooking mode options.
 class CookingHubScreen extends StatelessWidget {
   const CookingHubScreen({
     super.key,
@@ -16,15 +29,19 @@ class CookingHubScreen extends StatelessWidget {
   });
 
   final String source;
-  final String countryId;
+  final String? countryId;
   final Recipe? recipe;
 
   @override
   Widget build(BuildContext context) {
+    if (countryId == null) {
+      return _CookingCountryPicker(source: source);
+    }
+
     final title = switch (source) {
-      'food' => '🍲 Let\'s Cook ${_countryLabel(countryId)} Food!',
-      'games' => '🍳 Let\'s Play Cooking!',
-      _ => '🍳 Cooking Fun',
+      'food' => '\u{1F372} Let\'s Cook ${_countryLabel(countryId!)} Food!',
+      'games' => '\u{1F373} Let\'s Play Cooking!',
+      _ => '\u{1F373} Cooking Fun',
     };
 
     return Scaffold(
@@ -33,8 +50,17 @@ class CookingHubScreen extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
+        actions: [
+          IconButton(
+            onPressed: () => context.go('/'),
+            icon: const Icon(Icons.home_rounded),
+          ),
+        ],
       ),
-      body: SafeArea(
+      body: Stack(
+        children: [
+          const FlyingAirplane(),
+          SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
@@ -90,44 +116,197 @@ class CookingHubScreen extends StatelessWidget {
                 actionLabel: 'Play Free Cook',
                 onTap: () => _openFreeCooking(context),
               ),
-              const SizedBox(height: 12),
-              _ModeCard(
-                color: const Color(0xFF8E24AA),
-                emoji: '\u{1F4D6}', // 📖
-                title: 'Recipe Stories',
-                subtitle: 'Guided cultural food story mode',
-                actionLabel: 'Open Recipe Story',
-                onTap: () => _openRecipeStory(context),
-              ),
               const SizedBox(height: 16),
             ],
           ),
         ),
       ),
+        ],
+      ),
     );
   }
 
   void _openFreeCooking(BuildContext context) {
-    if (recipe == null) {
+    final cid = countryId;
+    if (cid == null || cid.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('No cooking recipe found yet.')),
+        const SnackBar(content: Text('Please pick a country first.')),
       );
       return;
     }
-    openCookingGame(
-      context,
-      source: source,
-      countryId: countryId,
-      recipeId: recipe!.id,
+    // Launch V2 kitchen screen for the selected country.
+    context.push(
+      Uri(
+        path: '/cooking-v2-kitchen',
+        queryParameters: {'countryId': cid},
+      ).toString(),
     );
   }
 
-  void _openRecipeStory(BuildContext context) {
-    openCookingRecipeStory(
-      context,
-      source: source,
-      countryId: countryId,
-      recipeId: null,
+}
+
+// ---------------------------------------------------------------------------
+// Country picker shown when no country is specified
+// ---------------------------------------------------------------------------
+
+class _CookingCountryPicker extends StatelessWidget {
+  const _CookingCountryPicker({required this.source});
+
+  final String source;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Cooking Fun'),
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        actions: [
+          IconButton(
+            onPressed: () => context.go('/'),
+            icon: const Icon(Icons.home_rounded),
+          ),
+        ],
+      ),
+      body: Stack(
+        children: [
+          const FlyingAirplane(),
+          SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                children: [
+                  const SizedBox(height: 8),
+                  Text(
+                    'Pick a Country!',
+                    style: GoogleFonts.fredoka(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
+                      color: PWColors.navy,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Which kitchen do you want to cook in?',
+                    style: GoogleFonts.nunito(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: PWColors.navy.withValues(alpha: 0.7),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 14,
+                      crossAxisSpacing: 14,
+                      childAspectRatio: 1.1,
+                    ),
+                    itemCount: _cookingCountries.length,
+                    itemBuilder: (context, index) {
+                      final c = _cookingCountries[index];
+                      final recipeCount =
+                          cookingRecipesForCountry(c.id).length;
+                      return _CountryCard(
+                        name: c.name,
+                        flagAsset: c.flag,
+                        recipeCount: recipeCount,
+                        onTap: () => context.push(
+                          cookingRoute(
+                            source: source,
+                            view: 'hub',
+                            countryId: c.id,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 24),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CountryCard extends StatelessWidget {
+  const _CountryCard({
+    required this.name,
+    required this.flagAsset,
+    required this.recipeCount,
+    required this.onTap,
+  });
+
+  final String name;
+  final String flagAsset;
+  final int recipeCount;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: PWColors.yellow.withValues(alpha: 0.4),
+            width: 2,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: PWColors.navy.withValues(alpha: 0.10),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.asset(
+                flagAsset,
+                width: 56,
+                height: 38,
+                fit: BoxFit.cover,
+                errorBuilder: (_, _, _) => const Text(
+                  '\u{1F3F3}',
+                  style: TextStyle(fontSize: 36),
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              name,
+              style: GoogleFonts.fredoka(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: PWColors.navy,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 2),
+            Text(
+              '$recipeCount recipes',
+              style: GoogleFonts.nunito(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: PWColors.navy.withValues(alpha: 0.55),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

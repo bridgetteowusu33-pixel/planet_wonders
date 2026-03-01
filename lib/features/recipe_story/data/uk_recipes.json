@@ -1,0 +1,526 @@
+{
+  "country": "uk",
+  "recipes": [
+    {
+      "id": "uk_fish_and_chips_story",
+      "title": "Heze & Aza Make Fish & Chips!",
+      "emoji": "\uD83D\uDC1F",
+      "difficulty": 1,
+      "imageAsset": "assets/food/uk/fish_and_chips.webp",
+      "thumbnailAsset": "assets/food/uk/fish_and_chips.webp",
+      "intro": "The twins are at the seaside! Let\u2019s make the UK\u2019s favourite meal together!",
+      "introFact": "Fish and chips is the UK\u2019s most famous takeaway!",
+      "completionMessage": "Crispy fish and golden chips \u2014 dinner is served!",
+      "completionAsset": "assets/food/uk/fish_and_chips.webp",
+      "completionFact": "The first fish and chip shop opened in Britain in the 1860s.",
+      "badgeTitle": "Fish & Chips Chef",
+      "rewardCultureStars": 1,
+      "steps": [
+        {
+          "story": "Aza peels the potatoes \u2014 tap to chop them into chips!",
+          "action": "tap_chop",
+          "requiredCount": 4,
+          "asset": "assets/food/uk/fish_and_chips.webp",
+          "fact": "British chips are thick and chunky, not thin like French fries!",
+          "sfx": "tap"
+        },
+        {
+          "story": "Heze mixes the batter \u2014 drag the flour into the bowl!",
+          "action": "drag",
+          "requiredCount": 1,
+          "asset": "assets/food/uk/fish_and_chips.webp",
+          "fact": "The batter is made bubbly with fizzy water for extra crunch.",
+          "sfx": "drop"
+        },
+        {
+          "story": "Dip the fish in the batter \u2014 tap to coat it!",
+          "action": "tap",
+          "requiredCount": 3,
+          "asset": "assets/food/uk/fish_and_chips.webp",
+          "fact": "Cod and haddock are the most popular fish for this dish.",
+          "sfx": "tap"
+        },
+        {
+          "story": "Stir the chips in the fryer so they turn golden!",
+          "action": "stir",
+          "asset": "assets/food/uk/fish_and_chips.webp",
+          "fact": "Golden chips should be crispy outside and fluffy inside!",
+          "sfx": "stir"
+        },
+        {
+          "story": "Hold to let everything cook to a perfect golden brown!",
+          "action": "hold",
+          "holdDurationMs": 2000,
+          "asset": "assets/food/uk/fish_and_chips.webp",
+          "fact": "British people love to add salt, vinegar, and mushy peas on the side.",
+          "sfx": "hold"
+        }
+      ]
+    },
+    {
+      "id": "uk_scones_story",
+      "title": "Aza Bakes Scones!",
+      "emoji": "\uD83E\uDDC1",
+      "difficulty": 1,
+      "imageAsset": "assets/food/uk/Scones.webp",
+      "thumbnailAsset": "assets/food/uk/Scones.webp",
+      "intro": "It\u2019s afternoon tea time! Aza is baking scones with clotted cream and jam.",
+      "introFact": "Afternoon tea was invented in the 1840s by a duchess who got hungry between meals!",
+      "completionMessage": "Warm, fluffy scones with cream and jam \u2014 time for tea!",
+      "completionAsset": "assets/food/uk/Scones.webp",
+      "completionFact": "People in Devon put cream first, but people in Cornwall put jam first!",
+      "badgeTitle": "Scone Baker",
+      "rewardCultureStars": 1,
+      "steps": [
+        {
+          "story": "Tap to sift the flour into the bowl!",
+          "action": "tap",
+          "requiredCount": 3,
+          "asset": "assets/food/uk/Scones.webp",
+          "fact": "Sifting flour adds air and makes scones extra fluffy.",
+          "sfx": "tap"
+        },
+        {
+          "story": "Drag the butter into the flour and rub it with your fingers!",
+          "action": "drag",
+          "requiredCount": 1,
+          "asset": "assets/food/uk/Scones.webp",
+          "fact": "Cold butter makes the best scones \u2014 it creates flaky layers!",
+          "sfx": "drop"
+        },
+        {
+          "story": "Stir the dough gently \u2014 don\u2019t mix too much!",
+          "action": "stir",
+          "asset": "assets/food/uk/Scones.webp",
+          "fact": "Over-stirring makes scones tough \u2014 gentle hands make them light!",
+          "sfx": "stir"
+        },
+        {
+          "story": "Hold to bake the scones in the oven until golden!",
+          "action": "hold",
+          "holdDurationMs": 2000,
+          "asset": "assets/food/uk/Scones.webp",
+          "fact": "Scones have been baked in Britain for hundreds of years!",
+          "sfx": "hold"
+        }
+      ]
+    },
+    {
+      "id": "uk_full_breakfast_story",
+      "title": "Heze Makes a Full Breakfast!",
+      "emoji": "\uD83C\uDF73",
+      "difficulty": 1,
+      "imageAsset": "assets/food/uk/English_breakfast.webp",
+      "thumbnailAsset": "assets/food/uk/English_breakfast.webp",
+      "intro": "Good morning! Heze is making a proper Full English breakfast for the whole family!",
+      "introFact": "A Full English is also called a \u201Cfry-up\u201D because almost everything is fried!",
+      "completionMessage": "A huge, sizzling breakfast plate \u2014 the best way to start the day!",
+      "completionAsset": "assets/food/uk/English_breakfast.webp",
+      "completionFact": "Every region in the UK has its own version \u2014 Scottish, Welsh, and Irish too!",
+      "badgeTitle": "Breakfast Chef",
+      "rewardCultureStars": 1,
+      "steps": [
+        {
+          "story": "Tap to crack the eggs into the pan!",
+          "action": "tap",
+          "requiredCount": 3,
+          "asset": "assets/food/uk/English_breakfast.webp",
+          "fact": "Fried eggs with runny yolks are the classic British style!",
+          "sfx": "tap"
+        },
+        {
+          "story": "Drag the bacon and sausages into the pan!",
+          "action": "drag",
+          "requiredCount": 1,
+          "asset": "assets/food/uk/English_breakfast.webp",
+          "fact": "Back bacon is the most popular type of bacon in the UK.",
+          "sfx": "drop"
+        },
+        {
+          "story": "Stir the baked beans in their pot!",
+          "action": "stir",
+          "asset": "assets/food/uk/English_breakfast.webp",
+          "fact": "British people eat over 2 million cans of baked beans every day!",
+          "sfx": "stir"
+        },
+        {
+          "story": "Hold to toast the bread until it\u2019s golden and crunchy!",
+          "action": "hold",
+          "holdDurationMs": 2000,
+          "asset": "assets/food/uk/English_breakfast.webp",
+          "fact": "Toast soldiers \u2014 thin strips of toast \u2014 are perfect for dipping into eggs!",
+          "sfx": "hold"
+        }
+      ]
+    },
+    {
+      "id": "uk_shepherds_pie_story",
+      "title": "The Twins Make Shepherd\u2019s Pie!",
+      "emoji": "\uD83E\uDD67",
+      "difficulty": 2,
+      "imageAsset": "assets/food/uk/Shepherds_pie.webp",
+      "thumbnailAsset": "assets/food/uk/Shepherds_pie.webp",
+      "intro": "It\u2019s a cosy evening! Heze and Aza are making a warm shepherd\u2019s pie together.",
+      "introFact": "Shepherd\u2019s pie uses lamb \u2014 if you use beef, it\u2019s called cottage pie!",
+      "completionMessage": "Golden, bubbly shepherd\u2019s pie is ready \u2014 dig in!",
+      "completionAsset": "assets/food/uk/Shepherds_pie.webp",
+      "completionFact": "Shepherd\u2019s pie was invented to use up leftover Sunday roast meat!",
+      "badgeTitle": "Pie Master",
+      "rewardCultureStars": 1,
+      "steps": [
+        {
+          "story": "Tap to chop the carrots, onions, and celery!",
+          "action": "tap_chop",
+          "requiredCount": 5,
+          "asset": "assets/food/uk/Shepherds_pie.webp",
+          "fact": "These three vegetables together are called a \u201Cmirepoix\u201D \u2014 the flavour base!",
+          "sfx": "tap"
+        },
+        {
+          "story": "Drag the lamb into the pan to brown it!",
+          "action": "drag",
+          "requiredCount": 1,
+          "asset": "assets/food/uk/Shepherds_pie.webp",
+          "fact": "Browning the meat first gives the pie a rich, deep flavour.",
+          "sfx": "drop"
+        },
+        {
+          "story": "Stir the filling with gravy until it\u2019s thick and yummy!",
+          "action": "stir",
+          "asset": "assets/food/uk/Shepherds_pie.webp",
+          "fact": "Gravy is one of the most important parts of British cooking!",
+          "sfx": "stir"
+        },
+        {
+          "story": "Heze mashes the potatoes \u2014 tap to mash them smooth!",
+          "action": "tap",
+          "requiredCount": 4,
+          "asset": "assets/food/uk/Shepherds_pie.webp",
+          "fact": "Adding butter and milk makes mashed potatoes extra creamy.",
+          "sfx": "tap"
+        },
+        {
+          "story": "Hold to bake the pie until the top is crispy and golden!",
+          "action": "hold",
+          "holdDurationMs": 2000,
+          "asset": "assets/food/uk/Shepherds_pie.webp",
+          "fact": "The mashed potato top gets crispy and golden brown in the oven!",
+          "sfx": "hold"
+        }
+      ]
+    },
+    {
+      "id": "uk_trifle_story",
+      "title": "Aza\u2019s Trifle Tower!",
+      "emoji": "\uD83C\uDF70",
+      "difficulty": 2,
+      "imageAsset": "assets/food/uk/Trifle.webp",
+      "thumbnailAsset": "assets/food/uk/Trifle.webp",
+      "intro": "Party time! Aza is building the tallest, yummiest trifle for a celebration!",
+      "introFact": "Trifle has been a British dessert for over 400 years!",
+      "completionMessage": "A beautiful layered trifle \u2014 the most colourful dessert!",
+      "completionAsset": "assets/food/uk/Trifle.webp",
+      "completionFact": "The word \u201Ctrifle\u201D means something small and fun!",
+      "badgeTitle": "Dessert Star",
+      "rewardCultureStars": 1,
+      "steps": [
+        {
+          "story": "Tap to break the sponge cake into pieces for the bottom layer!",
+          "action": "tap",
+          "requiredCount": 4,
+          "asset": "assets/food/uk/Trifle.webp",
+          "fact": "Sponge cake soaks up the fruit juice and becomes extra yummy!",
+          "sfx": "tap"
+        },
+        {
+          "story": "Drag the fresh fruit on top of the sponge!",
+          "action": "drag",
+          "requiredCount": 1,
+          "asset": "assets/food/uk/Trifle.webp",
+          "fact": "Strawberries, raspberries, and blueberries are the most popular trifle fruits.",
+          "sfx": "drop"
+        },
+        {
+          "story": "Stir the custard until it\u2019s smooth and pour it over the fruit!",
+          "action": "stir",
+          "asset": "assets/food/uk/Trifle.webp",
+          "fact": "Custard is made from eggs, milk, and sugar \u2014 a very old British recipe!",
+          "sfx": "stir"
+        },
+        {
+          "story": "Drag the whipped cream on top \u2014 make it thick and fluffy!",
+          "action": "drag",
+          "requiredCount": 1,
+          "asset": "assets/food/uk/Trifle.webp",
+          "fact": "Whipped cream on top makes trifle look like a cloud!",
+          "sfx": "drop"
+        },
+        {
+          "story": "Tap to add sprinkles and decorations on top!",
+          "action": "tap_spice_shaker",
+          "requiredCount": 3,
+          "asset": "assets/food/uk/Trifle.webp",
+          "fact": "Every family layers and decorates their trifle a little differently!",
+          "sfx": "tap"
+        }
+      ]
+    },
+    {
+      "id": "uk_crumpets_story",
+      "title": "Heze\u2019s Cosy Crumpets!",
+      "emoji": "\uD83E\uDD5E",
+      "difficulty": 1,
+      "imageAsset": "assets/food/uk/Crumpets.webp",
+      "thumbnailAsset": "assets/food/uk/Crumpets.webp",
+      "intro": "It\u2019s raining outside! Heze is making warm, buttery crumpets for a cosy afternoon.",
+      "introFact": "Crumpets have been eaten in Britain since the 1600s!",
+      "completionMessage": "Warm crumpets dripping with butter and honey \u2014 perfect for a rainy day!",
+      "completionAsset": "assets/food/uk/Crumpets.webp",
+      "completionFact": "British people eat over 80 million crumpets every year!",
+      "badgeTitle": "Crumpet King",
+      "rewardCultureStars": 1,
+      "steps": [
+        {
+          "story": "Tap to mix the batter \u2014 flour, yeast, and warm milk!",
+          "action": "tap",
+          "requiredCount": 3,
+          "asset": "assets/food/uk/Crumpets.webp",
+          "fact": "Yeast makes tiny bubbles that create the famous crumpet holes!",
+          "sfx": "tap"
+        },
+        {
+          "story": "Stir the batter in circles until it\u2019s smooth!",
+          "action": "stir",
+          "asset": "assets/food/uk/Crumpets.webp",
+          "fact": "The batter needs to rest so the bubbles grow bigger.",
+          "sfx": "stir"
+        },
+        {
+          "story": "Hold to cook the crumpets on the griddle until golden!",
+          "action": "hold",
+          "holdDurationMs": 2000,
+          "asset": "assets/food/uk/Crumpets.webp",
+          "fact": "The little holes in crumpets soak up melted butter perfectly!",
+          "sfx": "hold"
+        },
+        {
+          "story": "Drag the butter and honey onto the warm crumpet!",
+          "action": "drag",
+          "requiredCount": 1,
+          "asset": "assets/food/uk/Crumpets.webp",
+          "fact": "Some people like Marmite on crumpets \u2014 you love it or you hate it!",
+          "sfx": "drop"
+        }
+      ]
+    },
+    {
+      "id": "uk_bangers_and_mash_story",
+      "title": "The Twins Make Bangers & Mash!",
+      "emoji": "\uD83C\uDF56",
+      "difficulty": 1,
+      "imageAsset": "assets/food/uk/Bangers_and_mash.webp",
+      "thumbnailAsset": "assets/food/uk/Bangers_and_mash.webp",
+      "intro": "It\u2019s a chilly evening! Heze and Aza are making the cosiest dinner \u2014 bangers and mash with lots of gravy!",
+      "introFact": "Sausages are called \u201Cbangers\u201D because during the war they had so much water in them they would pop and bang in the pan!",
+      "completionMessage": "Sizzling sausages, creamy mash, and golden gravy \u2014 yum!",
+      "completionAsset": "assets/food/uk/Bangers_and_mash.webp",
+      "completionFact": "Bangers and mash has been one of Britain\u2019s favourite comfort foods for over 100 years!",
+      "badgeTitle": "Bangers & Mash Chef",
+      "rewardCultureStars": 1,
+      "steps": [
+        {
+          "story": "Heze puts the sausages in the pan \u2014 tap to turn them so they cook evenly!",
+          "action": "tap",
+          "requiredCount": 4,
+          "asset": "assets/food/uk/Bangers_and_mash.webp",
+          "fact": "Cumberland sausages are long and curly \u2014 they come from the Lake District!",
+          "sfx": "tap"
+        },
+        {
+          "story": "Aza peels the potatoes \u2014 tap to chop them into pieces!",
+          "action": "tap_chop",
+          "requiredCount": 4,
+          "asset": "assets/food/uk/Bangers_and_mash.webp",
+          "fact": "Smaller potato pieces cook faster and mash more easily!",
+          "sfx": "tap"
+        },
+        {
+          "story": "Drag the butter and milk into the pot to make the mash creamy!",
+          "action": "drag",
+          "requiredCount": 1,
+          "asset": "assets/food/uk/Bangers_and_mash.webp",
+          "fact": "The secret to perfect mash is lots of butter and warm milk!",
+          "sfx": "drop"
+        },
+        {
+          "story": "Stir the onion gravy until it\u2019s thick and bubbly!",
+          "action": "stir",
+          "asset": "assets/food/uk/Bangers_and_mash.webp",
+          "fact": "Onion gravy is the most popular topping \u2014 some families add a splash of Worcestershire sauce!",
+          "sfx": "stir"
+        },
+        {
+          "story": "Hold to let the sausages finish cooking until they\u2019re golden brown!",
+          "action": "hold",
+          "holdDurationMs": 2000,
+          "asset": "assets/food/uk/Bangers_and_mash.webp",
+          "fact": "British people eat over 175,000 tonnes of sausages every year!",
+          "sfx": "hold"
+        }
+      ]
+    },
+    {
+      "id": "uk_yorkshire_pudding_story",
+      "title": "Aza\u2019s Puffy Yorkshire Puddings!",
+      "emoji": "\uD83C\uDF5E",
+      "difficulty": 1,
+      "imageAsset": "assets/food/uk/Yorkshire_pudding.webp",
+      "thumbnailAsset": "assets/food/uk/Yorkshire_pudding.webp",
+      "intro": "It\u2019s Sunday roast day! Aza is making big, puffy Yorkshire puddings for the whole family!",
+      "introFact": "Yorkshire pudding was first made in the north of England over 300 years ago!",
+      "completionMessage": "Perfectly puffy golden Yorkshire puddings \u2014 ready for the roast!",
+      "completionAsset": "assets/food/uk/Yorkshire_pudding.webp",
+      "completionFact": "Yorkshire puddings puff up because the hot oil makes the batter rise really fast in the oven!",
+      "badgeTitle": "Yorkshire Pudding Pro",
+      "rewardCultureStars": 1,
+      "steps": [
+        {
+          "story": "Tap to crack the eggs into the bowl!",
+          "action": "tap",
+          "requiredCount": 3,
+          "asset": "assets/food/uk/Yorkshire_pudding.webp",
+          "fact": "Eggs help Yorkshire puddings puff up high and golden!",
+          "sfx": "tap"
+        },
+        {
+          "story": "Drag the flour and milk into the bowl with the eggs!",
+          "action": "drag",
+          "requiredCount": 1,
+          "asset": "assets/food/uk/Yorkshire_pudding.webp",
+          "fact": "The batter should be thin and runny \u2014 like single cream!",
+          "sfx": "drop"
+        },
+        {
+          "story": "Stir the batter until it\u2019s completely smooth with no lumps!",
+          "action": "stir",
+          "asset": "assets/food/uk/Yorkshire_pudding.webp",
+          "fact": "Letting the batter rest for 30 minutes makes even puffier puddings!",
+          "sfx": "stir"
+        },
+        {
+          "story": "Hold to bake in a very hot oven until they puff up tall and golden!",
+          "action": "hold",
+          "holdDurationMs": 2000,
+          "asset": "assets/food/uk/Yorkshire_pudding.webp",
+          "fact": "Never open the oven door while they bake \u2014 they\u2019ll deflate!",
+          "sfx": "hold"
+        }
+      ]
+    },
+    {
+      "id": "uk_cornish_pasty_story",
+      "title": "Heze\u2019s Cornish Pasty Adventure!",
+      "emoji": "\uD83E\uDD50",
+      "difficulty": 2,
+      "imageAsset": "assets/food/uk/Cornish_pasty.webp",
+      "thumbnailAsset": "assets/food/uk/Cornish_pasty.webp",
+      "intro": "Heze is learning to make a real Cornish pasty \u2014 the famous handheld pie from Cornwall!",
+      "introFact": "Cornish pasties were invented for tin miners who needed a meal they could hold with dirty hands!",
+      "completionMessage": "A golden, crimped Cornish pasty \u2014 packed with delicious filling!",
+      "completionAsset": "assets/food/uk/Cornish_pasty.webp",
+      "completionFact": "The thick crimped edge was a handle \u2014 miners threw it away because their hands had tin dust on them!",
+      "badgeTitle": "Pasty Maker",
+      "rewardCultureStars": 1,
+      "steps": [
+        {
+          "story": "Tap to chop the beef, potato, and onion into small pieces!",
+          "action": "tap_chop",
+          "requiredCount": 5,
+          "asset": "assets/food/uk/Cornish_pasty.webp",
+          "fact": "A real Cornish pasty only has beef, potato, swede, and onion inside \u2014 nothing else!",
+          "sfx": "tap"
+        },
+        {
+          "story": "Drag the filling onto the pastry circle!",
+          "action": "drag",
+          "requiredCount": 1,
+          "asset": "assets/food/uk/Cornish_pasty.webp",
+          "fact": "Everything goes in raw \u2014 the filling cooks inside the pastry in the oven!",
+          "sfx": "drop"
+        },
+        {
+          "story": "Tap to crimp the edges and seal the pasty shut!",
+          "action": "tap",
+          "requiredCount": 4,
+          "asset": "assets/food/uk/Cornish_pasty.webp",
+          "fact": "Crimping is the special folding pattern along the edge \u2014 every baker has their own style!",
+          "sfx": "tap"
+        },
+        {
+          "story": "Hold to bake the pasty until the crust is golden and flaky!",
+          "action": "hold",
+          "holdDurationMs": 2000,
+          "asset": "assets/food/uk/Cornish_pasty.webp",
+          "fact": "A proper Cornish pasty must be made in Cornwall to use the protected name!",
+          "sfx": "hold"
+        }
+      ]
+    },
+    {
+      "id": "uk_sticky_toffee_story",
+      "title": "The Twins Bake Sticky Toffee Pudding!",
+      "emoji": "\uD83C\uDF6E",
+      "difficulty": 2,
+      "imageAsset": "assets/food/uk/sticky_toffee_pudding.webp",
+      "thumbnailAsset": "assets/food/uk/sticky_toffee_pudding.webp",
+      "intro": "Time for dessert! Heze and Aza are baking the yummiest sticky toffee pudding with warm toffee sauce!",
+      "introFact": "Sticky toffee pudding was invented in the Lake District \u2014 a beautiful area in the north of England!",
+      "completionMessage": "Warm, gooey sticky toffee pudding dripping with toffee sauce \u2014 the best dessert ever!",
+      "completionAsset": "assets/food/uk/sticky_toffee_pudding.webp",
+      "completionFact": "The secret ingredient is chopped dates \u2014 they make the sponge super moist and sweet!",
+      "badgeTitle": "Pudding Star",
+      "rewardCultureStars": 1,
+      "steps": [
+        {
+          "story": "Tap to chop the dates into tiny pieces!",
+          "action": "tap_chop",
+          "requiredCount": 4,
+          "asset": "assets/food/uk/sticky_toffee_pudding.webp",
+          "fact": "Dates are a sweet fruit that grows on palm trees in hot countries!",
+          "sfx": "tap"
+        },
+        {
+          "story": "Drag the flour, butter, and eggs into the mixing bowl!",
+          "action": "drag",
+          "requiredCount": 1,
+          "asset": "assets/food/uk/sticky_toffee_pudding.webp",
+          "fact": "The sponge cake in sticky toffee pudding is extra soft because of the dates!",
+          "sfx": "drop"
+        },
+        {
+          "story": "Stir the toffee sauce \u2014 butter, sugar, and cream \u2014 until it\u2019s thick and glossy!",
+          "action": "stir",
+          "asset": "assets/food/uk/sticky_toffee_pudding.webp",
+          "fact": "Toffee sauce is made by heating butter and sugar together until it bubbles and turns golden!",
+          "sfx": "stir"
+        },
+        {
+          "story": "Hold to bake the pudding until it\u2019s risen and springy!",
+          "action": "hold",
+          "holdDurationMs": 2000,
+          "asset": "assets/food/uk/sticky_toffee_pudding.webp",
+          "fact": "Sticky toffee pudding is one of the most popular desserts in British pubs!",
+          "sfx": "hold"
+        },
+        {
+          "story": "Tap to pour the warm toffee sauce all over the top!",
+          "action": "tap",
+          "requiredCount": 3,
+          "asset": "assets/food/uk/sticky_toffee_pudding.webp",
+          "fact": "Many people serve it with vanilla ice cream or custard on the side!",
+          "sfx": "tap"
+        }
+      ]
+    }
+  ]
+}

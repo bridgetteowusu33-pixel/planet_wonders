@@ -135,7 +135,7 @@ const _ghanaFoodPack = FoodPack(
       id: 'jollof',
       name: 'Jollof',
       emoji: '\u{1F35B}', // 🍛
-      previewAsset: 'assets/food/ghana/ghana_jollof_chef.png',
+      previewAsset: 'assets/food/ghana/ghana_jollof_chef.webp',
       coloringPageId: 'food_jollof',
       funFact: 'Jollof rice is one of Ghana\'s most loved dishes.',
       didYouKnow: [
@@ -147,7 +147,7 @@ const _ghanaFoodPack = FoodPack(
       id: 'banku',
       name: 'Banku',
       emoji: '\u{1F35C}', // 🍜
-      previewAsset: 'assets/food/ghana/ghana_banku_chef.png',
+      previewAsset: 'assets/food/ghana/ghana_banku_chef.webp',
       coloringPageId: 'food_banku',
       funFact: 'Banku is often eaten with fish and pepper sauce.',
       didYouKnow: [
@@ -159,7 +159,7 @@ const _ghanaFoodPack = FoodPack(
       id: 'fufu',
       name: 'Fufu',
       emoji: '\u{1F372}', // 🍲
-      previewAsset: 'assets/food/ghana/ghana_fufu_chef.png',
+      previewAsset: 'assets/food/ghana/ghana_fufu_chef.webp',
       coloringPageId: 'food_fufu',
       funFact: 'Fufu is a famous Ghanaian dish served with soup.',
       didYouKnow: [
@@ -171,7 +171,7 @@ const _ghanaFoodPack = FoodPack(
       id: 'waakye',
       name: 'Waakye',
       emoji: '\u{1F35B}', // 🍛
-      previewAsset: 'assets/food/ghana/ghana_waakye_chef.png',
+      previewAsset: 'assets/food/ghana/ghana_waakye_chef.webp',
       coloringPageId: 'food_waakye',
       funFact: 'Waakye mixes rice and beans in one delicious meal.',
       didYouKnow: [
@@ -183,7 +183,7 @@ const _ghanaFoodPack = FoodPack(
       id: 'koko',
       name: 'Koko',
       emoji: '\u{2615}', // ☕
-      previewAsset: 'assets/food/ghana/ghana_koko_chef.png',
+      previewAsset: 'assets/food/ghana/ghana_koko_chef.webp',
       coloringPageId: 'food_koko',
       funFact: 'Koko is a warm porridge enjoyed in the morning.',
       didYouKnow: [
@@ -195,7 +195,7 @@ const _ghanaFoodPack = FoodPack(
       id: 'kelewele',
       name: 'Kelewele',
       emoji: '\u{1F958}', // 🥘
-      previewAsset: 'assets/food/ghana/ghana_kelewele_chef.png',
+      previewAsset: 'assets/food/ghana/ghana_kelewele_chef.webp',
       coloringPageId: 'food_kelewele',
       funFact: 'Kelewele is spicy fried plantain with ginger and pepper.',
       didYouKnow: [
@@ -204,34 +204,22 @@ const _ghanaFoodPack = FoodPack(
       ],
     ),
     FoodDish(
-      id: 'groundnut',
-      name: 'Groundnut Soup',
+      id: 'peanut_butter_soup',
+      name: 'Peanut Butter Soup',
       emoji: '\u{1F95C}', // 🥜
       previewAsset: 'assets/food/ghana/ghana_groundnut_soup_chef.png',
-      coloringPageId: 'food_groundnut',
-      funFact: 'Groundnut soup is creamy and rich.',
+      coloringPageId: 'food_peanut_butter_soup',
+      funFact: 'Peanut butter soup is creamy, rich, and full of flavour.',
       didYouKnow: [
-        'Groundnut means peanut in many parts of West Africa.',
-        'It is often cooked with meat or fish.',
-      ],
-    ),
-    FoodDish(
-      id: 'tilapia',
-      name: 'Tilapia',
-      emoji: '\u{1F41F}', // 🐟
-      previewAsset: 'assets/food/ghana/ghana_tilapia_chef.png',
-      coloringPageId: 'food_tilapia',
-      funFact: 'Grilled tilapia is a favorite street and home meal.',
-      didYouKnow: [
-        'Tilapia is often served with pepper and onions.',
-        'Many lakes in Ghana are known for fish farming.',
+        'Peanut butter soup is also called groundnut soup in Ghana.',
+        'It is often cooked with chicken or goat meat.',
       ],
     ),
     FoodDish(
       id: 'palmnut',
       name: 'Palm Nut Soup',
       emoji: '\u{1F372}', // 🍲
-      previewAsset: 'assets/food/ghana/ghana_palmnut_soup_chef.png',
+      previewAsset: 'assets/food/ghana/ghana_palmnut_soup_chef.webp',
       coloringPageId: 'food_palmnut',
       funFact: 'Palm nut soup is a rich and flavorful traditional dish.',
       didYouKnow: [
@@ -243,7 +231,7 @@ const _ghanaFoodPack = FoodPack(
       id: 'fried_rice',
       name: 'Fried Rice',
       emoji: '\u{1F35A}', // 🍚
-      previewAsset: 'assets/food/ghana/ghana_fried_rice_chef.png',
+      previewAsset: 'assets/food/ghana/ghana_fried_rice_chef.webp',
       coloringPageId: 'food_fried_rice',
       funFact: 'Ghana fried rice is packed with vegetables and seasoning.',
       didYouKnow: [
@@ -262,7 +250,7 @@ const _nigeriaFoodPack = FoodPack(
       id: 'jollof',
       name: 'Jollof Rice',
       emoji: '\u{1F35B}', // 🍛
-      previewAsset: 'assets/food/nigeria/ng_jollof_chef.png',
+      previewAsset: 'assets/food/nigeria/ng_jollof_chef.webp',
       coloringPageId: 'jollof',
       funFact: 'Nigerian jollof rice is famous for its smoky flavour.',
       didYouKnow: [
@@ -274,7 +262,7 @@ const _nigeriaFoodPack = FoodPack(
       id: 'suya',
       name: 'Suya',
       emoji: '\u{1F356}', // 🍖
-      previewAsset: 'assets/food/nigeria/ng_suya_chef.png',
+      previewAsset: 'assets/food/nigeria/ng_suya_chef.webp',
       coloringPageId: 'suya',
       funFact: 'Suya is spicy grilled meat sold on the streets.',
       didYouKnow: [
@@ -286,7 +274,7 @@ const _nigeriaFoodPack = FoodPack(
       id: 'pounded_yam',
       name: 'Pounded Yam',
       emoji: '\u{1F372}', // 🍲
-      previewAsset: 'assets/food/nigeria/ng_pounded_yam_chef.png',
+      previewAsset: 'assets/food/nigeria/ng_pounded_yam_chef.webp',
       coloringPageId: 'cooking',
       funFact: 'Pounded yam is soft and stretchy, served with soup.',
       didYouKnow: [
@@ -298,7 +286,7 @@ const _nigeriaFoodPack = FoodPack(
       id: 'egusi',
       name: 'Egusi Soup',
       emoji: '\u{1F958}', // 🥘
-      previewAsset: 'assets/food/nigeria/ng_egusi_chef.png',
+      previewAsset: 'assets/food/nigeria/ng_egusi_chef.webp',
       coloringPageId: 'cooking',
       funFact: 'Egusi soup is made from ground melon seeds.',
       didYouKnow: [
@@ -310,7 +298,7 @@ const _nigeriaFoodPack = FoodPack(
       id: 'chin_chin',
       name: 'Chin Chin',
       emoji: '\u{1F36A}', // 🍪
-      previewAsset: 'assets/food/nigeria/ng_chin_chin_chef.png',
+      previewAsset: 'assets/food/nigeria/ng_chin_chin_chef.webp',
       coloringPageId: 'cooking',
       funFact: 'Chin chin is a crunchy fried snack loved by kids.',
       didYouKnow: [
@@ -329,7 +317,7 @@ const _ukFoodPack = FoodPack(
       id: 'fishandchips',
       name: 'Fish & Chips',
       emoji: '\u{1F41F}', // 🐟
-      previewAsset: 'assets/food/uk/Fish and chips.png',
+      previewAsset: 'assets/food/uk/fish_and_chips.webp',
       coloringPageId: 'food_fishandchips',
       funFact: 'Fish and chips is the UK\'s most famous takeaway meal.',
       didYouKnow: [
@@ -341,7 +329,7 @@ const _ukFoodPack = FoodPack(
       id: 'shepherdspie',
       name: 'Shepherd\'s Pie',
       emoji: '\u{1F967}', // 🥧
-      previewAsset: 'assets/food/uk/Shepherds_pie.png',
+      previewAsset: 'assets/food/uk/Shepherds_pie.webp',
       coloringPageId: 'food_shepherdspie',
       funFact: 'Shepherd\'s pie has mashed potato on top and tasty meat inside.',
       didYouKnow: [
@@ -353,7 +341,7 @@ const _ukFoodPack = FoodPack(
       id: 'scones',
       name: 'Scones',
       emoji: '\u{1F9C1}', // 🧁
-      previewAsset: 'assets/food/uk/Scones.png',
+      previewAsset: 'assets/food/uk/Scones.webp',
       coloringPageId: 'food_scones',
       funFact: 'Scones are a favourite treat for afternoon tea.',
       didYouKnow: [
@@ -365,7 +353,7 @@ const _ukFoodPack = FoodPack(
       id: 'englishbreakfast',
       name: 'English Breakfast',
       emoji: '\u{1F373}', // 🍳
-      previewAsset: 'assets/food/uk/English_breakfast.png',
+      previewAsset: 'assets/food/uk/English_breakfast.webp',
       coloringPageId: 'food_englishbreakfast',
       funFact: 'A full English breakfast is a big, hearty meal to start the day.',
       didYouKnow: [
@@ -377,7 +365,7 @@ const _ukFoodPack = FoodPack(
       id: 'bangersandmash',
       name: 'Bangers & Mash',
       emoji: '\u{1F356}', // 🍖
-      previewAsset: 'assets/food/uk/Bangers_and_mash.png',
+      previewAsset: 'assets/food/uk/Bangers_and_mash.webp',
       coloringPageId: 'food_bangersandmash',
       funFact: 'Bangers and mash is sausages with creamy mashed potatoes.',
       didYouKnow: [
@@ -389,7 +377,7 @@ const _ukFoodPack = FoodPack(
       id: 'crumpets',
       name: 'Crumpets',
       emoji: '\u{1F95E}', // 🥞
-      previewAsset: 'assets/food/uk/Crumpets.png',
+      previewAsset: 'assets/food/uk/Crumpets.webp',
       coloringPageId: 'food_crumpets',
       funFact: 'Crumpets are soft, spongy, and full of little holes for butter.',
       didYouKnow: [
@@ -401,7 +389,7 @@ const _ukFoodPack = FoodPack(
       id: 'trifle',
       name: 'Trifle',
       emoji: '\u{1F370}', // 🍰
-      previewAsset: 'assets/food/uk/Trifle.png',
+      previewAsset: 'assets/food/uk/Trifle.webp',
       coloringPageId: 'food_trifle',
       funFact: 'Trifle is a layered dessert with cake, fruit, custard, and cream.',
       didYouKnow: [
@@ -413,7 +401,7 @@ const _ukFoodPack = FoodPack(
       id: 'yorkshirepudding',
       name: 'Yorkshire Pudding',
       emoji: '\u{1F35E}', // 🍞
-      previewAsset: 'assets/food/uk/Yorkshire_pudding.png',
+      previewAsset: 'assets/food/uk/Yorkshire_pudding.webp',
       coloringPageId: 'food_yorkshirepudding',
       funFact: 'Yorkshire pudding is puffy and golden, served with a roast dinner.',
       didYouKnow: [
@@ -425,7 +413,7 @@ const _ukFoodPack = FoodPack(
       id: 'cornishpasty',
       name: 'Cornish Pasty',
       emoji: '\u{1F950}', // 🥐
-      previewAsset: 'assets/food/uk/Cornish_pasty.png',
+      previewAsset: 'assets/food/uk/Cornish_pasty.webp',
       coloringPageId: 'food_cornishpasty',
       funFact: 'Cornish pasties are handheld pies filled with meat and vegetables.',
       didYouKnow: [
@@ -437,7 +425,7 @@ const _ukFoodPack = FoodPack(
       id: 'stickytoffee',
       name: 'Sticky Toffee Pudding',
       emoji: '\u{1F36E}', // 🍮
-      previewAsset: 'assets/food/uk/sticky_toffee_pudding.png',
+      previewAsset: 'assets/food/uk/sticky_toffee_pudding.webp',
       coloringPageId: 'food_stickytoffee',
       funFact: 'Sticky toffee pudding is a warm, sweet cake with toffee sauce.',
       didYouKnow: [

@@ -1,6 +1,8 @@
 // File: lib/features/creative_studio/creative_state.dart
 import 'package:flutter/material.dart';
 
+import '../coloring/models/drawing_state.dart' show BrushType;
+
 /// Entry modes for Creative Studio drawing sessions.
 enum CreativeEntryMode { freeDraw, drawWithMe, sceneBuilder }
 
@@ -42,11 +44,13 @@ class StickerItem {
     required this.id,
     required this.label,
     required this.emoji,
+    this.assetPath,
   });
 
   final String id;
   final String label;
   final String emoji;
+  final String? assetPath;
 }
 
 class CreativeStroke {
@@ -55,24 +59,28 @@ class CreativeStroke {
     required this.color,
     required this.width,
     required this.isEraser,
+    this.brushType = BrushType.marker,
   });
 
   final List<Offset> points;
   final Color color;
   final double width;
   final bool isEraser;
+  final BrushType brushType;
 
   CreativeStroke copyWith({
     List<Offset>? points,
     Color? color,
     double? width,
     bool? isEraser,
+    BrushType? brushType,
   }) {
     return CreativeStroke(
       points: points ?? this.points,
       color: color ?? this.color,
       width: width ?? this.width,
       isEraser: isEraser ?? this.isEraser,
+      brushType: brushType ?? this.brushType,
     );
   }
 }
@@ -86,6 +94,7 @@ class StickerInstance {
     required this.position,
     required this.scale,
     required this.rotation,
+    this.assetPath,
   });
 
   final String id;
@@ -95,6 +104,7 @@ class StickerInstance {
   final Offset position;
   final double scale;
   final double rotation;
+  final String? assetPath;
 
   StickerInstance copyWith({
     String? id,
@@ -104,6 +114,7 @@ class StickerInstance {
     Offset? position,
     double? scale,
     double? rotation,
+    String? assetPath,
   }) {
     return StickerInstance(
       id: id ?? this.id,
@@ -113,6 +124,7 @@ class StickerInstance {
       position: position ?? this.position,
       scale: scale ?? this.scale,
       rotation: rotation ?? this.rotation,
+      assetPath: assetPath ?? this.assetPath,
     );
   }
 }
@@ -145,6 +157,7 @@ class CreativeState {
     required this.tool,
     required this.currentColor,
     required this.brushSize,
+    required this.brushType,
     required this.canvasColor,
     required this.favoriteColors,
     required this.recentColors,
@@ -168,6 +181,7 @@ class CreativeState {
       tool: CreativeTool.brush,
       currentColor: Color(0xFF2F3A4A),
       brushSize: 8,
+      brushType: BrushType.marker,
       canvasColor: Color(0xFFFFFFFF),
       favoriteColors: <Color>[],
       recentColors: <Color>[],
@@ -190,6 +204,7 @@ class CreativeState {
   final CreativeTool tool;
   final Color currentColor;
   final double brushSize;
+  final BrushType brushType;
   final Color canvasColor;
   final List<Color> favoriteColors;
   final List<Color> recentColors;
@@ -218,6 +233,7 @@ class CreativeState {
     CreativeTool? tool,
     Color? currentColor,
     double? brushSize,
+    BrushType? brushType,
     Color? canvasColor,
     List<Color>? favoriteColors,
     List<Color>? recentColors,
@@ -243,6 +259,7 @@ class CreativeState {
       tool: tool ?? this.tool,
       currentColor: currentColor ?? this.currentColor,
       brushSize: brushSize ?? this.brushSize,
+      brushType: brushType ?? this.brushType,
       canvasColor: canvasColor ?? this.canvasColor,
       favoriteColors: favoriteColors ?? this.favoriteColors,
       recentColors: recentColors ?? this.recentColors,
@@ -338,32 +355,58 @@ const List<SceneOption> kSceneOptions = <SceneOption>[
   ),
 ];
 
-const List<StickerItem> kStickerItems = <StickerItem>[
-  StickerItem(id: 'star', label: 'Star', emoji: '\u2B50'),
-  StickerItem(id: 'heart', label: 'Heart', emoji: '\u2764\uFE0F'),
-  StickerItem(id: 'sun', label: 'Sun', emoji: '\u2600\uFE0F'),
-  StickerItem(id: 'tree', label: 'Tree', emoji: '\uD83C\uDF33'),
-  StickerItem(id: 'flower', label: 'Flower', emoji: '\uD83C\uDF38'),
-  StickerItem(id: 'rocket', label: 'Rocket', emoji: '\uD83D\uDE80'),
-  StickerItem(id: 'whale', label: 'Whale', emoji: '\uD83D\uDC33'),
-  StickerItem(id: 'lion', label: 'Lion', emoji: '\uD83E\uDD81'),
-  StickerItem(id: 'rainbow', label: 'Rainbow', emoji: '\uD83C\uDF08'),
-  StickerItem(id: 'sparkle', label: 'Sparkle', emoji: '\u2728'),
-  StickerItem(id: 'soccer', label: 'Ball', emoji: '\u26BD'),
-  StickerItem(id: 'cake', label: 'Cake', emoji: '\uD83C\uDF70'),
-];
 
 const List<Color> kDefaultCreativePalette = <Color>[
-  Color(0xFF2F3A4A),
-  Color(0xFFE8504D),
-  Color(0xFFF2A637),
-  Color(0xFFEBCF5C),
-  Color(0xFF69B15A),
-  Color(0xFF69B9DE),
-  Color(0xFF4D8EE6),
-  Color(0xFF8F3BB8),
-  Color(0xFFE06BA6),
-  Color(0xFF8C5A3C),
-  Color(0xFF111111),
-  Color(0xFFFFFFFF),
+  // Primaries & secondaries
+  Color(0xFFE53935), // red
+  Color(0xFFEF5350), // light red
+  Color(0xFFFB8C00), // orange
+  Color(0xFFFFA726), // amber orange
+  Color(0xFFFDD835), // yellow
+  Color(0xFFFFF176), // soft yellow
+  Color(0xFF43A047), // green
+  Color(0xFF66BB6A), // light green
+  Color(0xFF9CCC65), // lime green
+  Color(0xFF00ACC1), // cyan
+  Color(0xFF26C6DA), // aqua
+  Color(0xFF1E88E5), // blue
+  Color(0xFF42A5F5), // sky blue
+  Color(0xFF5C6BC0), // indigo blue
+  Color(0xFF5E35B1), // violet
+  Color(0xFF7E57C2), // lavender violet
+  Color(0xFFD81B60), // pink
+  Color(0xFFEC407A), // bright pink
+  Color(0xFFF06292), // soft pink
+  // Pastels
+  Color(0xFFFF8A80), // coral
+  Color(0xFFFFAB91), // salmon
+  Color(0xFFFFCC80), // peach
+  Color(0xFFFFE0B2), // apricot
+  Color(0xFFFFF59D), // lemon
+  Color(0xFFA5D6A7), // mint
+  Color(0xFFB3E5FC), // sky
+  Color(0xFFCE93D8), // lilac
+  // Skin tones
+  Color(0xFFEED9C4), // very light
+  Color(0xFFE0BFA3), // light beige
+  Color(0xFFD7A97B), // warm tan
+  Color(0xFFC68642), // tan
+  Color(0xFFB57A4A), // medium brown
+  Color(0xFFA56B46), // warm brown
+  Color(0xFF8D5524), // deep brown
+  Color(0xFF6F4627), // rich brown
+  // Browns & neutrals
+  Color(0xFF5D4037), // chocolate
+  Color(0xFF8D6E63), // mocha
+  Color(0xFFA1887F), // taupe
+  Color(0xFFD7CCC8), // warm gray beige
+  Color(0xFF3E2723), // dark brown
+  Color(0xFF263238), // blue black
+  Color(0xFF455A64), // blue gray
+  Color(0xFF2F3A4A), // navy
+  Color(0xFF424242), // charcoal
+  Color(0xFF757575), // medium gray
+  Color(0xFFBDBDBD), // light gray
+  Color(0xFFFFFFFF), // white
+  Color(0xFF000000), // black
 ];

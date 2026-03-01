@@ -1197,11 +1197,11 @@ const _franceFashion = FashionData(
   ],
 );
 
-// United Kingdom — Dress Olivia
+// United Kingdom — Dress Heze & Aza
 const _ukFashion = FashionData(
   countryId: 'uk',
-  characterName: 'Olivia',
-  characterEmoji: '\u{1F467}\u{1F3FB}', // 👧🏻
+  characterName: 'Heze & Aza',
+  characterEmoji: '\u{1F467}\u{1F3FD}\u{200D}\u{1F9D1}\u{1F3FD}', // 👧🏽🧑🏽
   categories: [
     OutfitCategory(
       id: 'dress',
@@ -1512,7 +1512,7 @@ const _usaFashion = FashionData(
   countryId: 'usa',
   characterName: 'Ava',
   characterEmoji: '\u{1F469}', // 👩
-  bodyAsset: 'assets/characters/Ava/ava.png',
+  bodyAsset: 'assets/characters/Ava/ava.webp',
   bodyShiftY: -0.14,
   bodyScale: 1.50,
   categories: [
@@ -1526,7 +1526,7 @@ const _usaFashion = FashionData(
           name: 'Summer Dress',
           emoji: '\u{1F457}',
           color: Color(0xFF6EC6E9),
-          assetPath: 'assets/clothes/USA/dresses/summer_dress.png',
+          assetPath: 'assets/clothes/USA/dresses/summer_dress.webp',
           shiftY: 0.35,
           scale: 0.68,
         ),
@@ -1535,7 +1535,7 @@ const _usaFashion = FashionData(
           name: '4th of July',
           emoji: '\u{1F457}',
           color: Color(0xFFFF7A7A),
-          assetPath: 'assets/clothes/USA/dresses/july_4_dress.png',
+          assetPath: 'assets/clothes/USA/dresses/july_4_dress.webp',
           shiftY: 0.29,
           scale: 0.82,
         ),
@@ -1551,7 +1551,7 @@ const _usaFashion = FashionData(
           name: 'Hoodie',
           emoji: '\u{1F9E5}', // 🧥
           color: Color(0xFF9C27B0),
-          assetPath: 'assets/clothes/USA/tops/hoodie.png',
+          assetPath: 'assets/clothes/USA/tops/hoodie.webp',
           shiftY: 0.21,
           scale: 0.69,
         ),
@@ -1567,7 +1567,7 @@ const _usaFashion = FashionData(
           name: 'Jeans',
           emoji: '\u{1F456}',
           color: Color(0xFF42A5F5),
-          assetPath: 'assets/clothes/USA/bottoms/jeans.png',
+          assetPath: 'assets/clothes/USA/bottoms/jeans.webp',
           shiftY: 0.32,
           scale: 0.82,
         ),
@@ -1583,7 +1583,7 @@ const _usaFashion = FashionData(
           name: 'Baseball Cap',
           emoji: '\u{1F9E2}',
           color: Color(0xFFFF7A7A),
-          assetPath: 'assets/clothes/USA/hats/baseball_cap.png',
+          assetPath: 'assets/clothes/USA/hats/baseball_cap.webp',
           shiftY: -0.18,
           scale: 0.73,
         ),

@@ -14,6 +14,7 @@ class GuidePainter extends CustomPainter {
     required this.reduceMotion,
     required this.chevronPhase,
     required this.repaintTick,
+    this.animatingSegments = const {},
   });
 
   final List<SegmentData> segments;
@@ -24,6 +25,7 @@ class GuidePainter extends CustomPainter {
   final bool reduceMotion;
   final double chevronPhase;
   final int repaintTick;
+  final Set<int> animatingSegments;
 
   static const _inactiveColor = Color(0xFFC8D5E8);
   static const _activeColor = Color(0xFF4A86FF);
@@ -81,6 +83,10 @@ class GuidePainter extends CustomPainter {
 
     for (var i = 0; i < segments.length; i++) {
       final segment = segments[i];
+
+      // Skip segments currently being animated — AnimatedSegmentPainter
+      // draws them with a transform instead.
+      if (animatingSegments.contains(i)) continue;
 
       canvas.drawPath(segment.screenPath, inactivePaint);
 

@@ -10,6 +10,8 @@ class EffectsPainter extends CustomPainter {
     required this.sparklePhase,
     required this.reduceMotion,
     required this.repaintTick,
+    this.segmentBurstCenter,
+    this.segmentBurstPhase = 0,
   });
 
   final Offset? hintGlowPoint;
@@ -18,6 +20,8 @@ class EffectsPainter extends CustomPainter {
   final double sparklePhase;
   final bool reduceMotion;
   final int repaintTick;
+  final Offset? segmentBurstCenter;
+  final double segmentBurstPhase;
 
   static const _hintColor = Color(0xFFFFB34A);
   static const _sparkleColors = <Color>[
@@ -30,6 +34,7 @@ class EffectsPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     _paintHint(canvas);
+    _paintSegmentBurst(canvas);
 
     if (!showCompletionSparkles || reduceMotion) return;
     _paintSparkles(canvas);
@@ -71,6 +76,38 @@ class EffectsPainter extends CustomPainter {
     }
   }
 
+  void _paintSegmentBurst(Canvas canvas) {
+    final center = segmentBurstCenter;
+    if (center == null || reduceMotion || segmentBurstPhase <= 0) return;
+
+    final t = segmentBurstPhase.clamp(0.0, 1.0);
+    // Scale up then fade out.
+    final scale = t < 0.3 ? t / 0.3 : 1.0;
+    final alpha = t < 0.3 ? 1.0 : 1.0 - ((t - 0.3) / 0.7);
+
+    final paint = Paint()..style = PaintingStyle.fill;
+    const burstCount = 5;
+    const burstRadius = 28.0;
+
+    for (var i = 0; i < burstCount; i++) {
+      final angle = (i / burstCount) * math.pi * 2 + t * math.pi;
+      final dist = burstRadius * scale;
+      final pos = Offset(
+        center.dx + math.cos(angle) * dist,
+        center.dy + math.sin(angle) * dist,
+      );
+      paint.color =
+          _sparkleColors[i % _sparkleColors.length].withValues(alpha: alpha);
+
+      canvas.save();
+      canvas.translate(pos.dx, pos.dy);
+      canvas.rotate(angle + t * math.pi);
+      canvas.scale(scale * 0.8, scale * 0.8);
+      _drawSparkle(canvas, paint, 5.5);
+      canvas.restore();
+    }
+  }
+
   void _drawSparkle(Canvas canvas, Paint paint, double radius) {
     final path = Path()
       ..moveTo(0, -radius)
@@ -96,6 +133,8 @@ class EffectsPainter extends CustomPainter {
         oldDelegate.hintGlowPoint != hintGlowPoint ||
         oldDelegate.showCompletionSparkles != showCompletionSparkles ||
         oldDelegate.sparklePhase != sparklePhase ||
-        oldDelegate.reduceMotion != reduceMotion;
+        oldDelegate.reduceMotion != reduceMotion ||
+        oldDelegate.segmentBurstCenter != segmentBurstCenter ||
+        oldDelegate.segmentBurstPhase != segmentBurstPhase;
   }
 }

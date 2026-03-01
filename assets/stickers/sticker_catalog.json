@@ -1,0 +1,908 @@
+{
+  "stickers": [
+    {
+      "id": "ghana_kente",
+      "countryId": "ghana",
+      "label": "Kente",
+      "emoji": "\uD83C\uDFA8",
+      "assetName": "kente.webp",
+      "funFact": "Kente is hand-woven by the Ashanti people of Ghana using silk and cotton!",
+      "earnCondition": { "type": "story_completed", "countryId": "ghana" }
+    },
+    {
+      "id": "ghana_drum",
+      "countryId": "ghana",
+      "label": "Drum",
+      "emoji": "\uD83E\uDD41",
+      "assetName": "djembe_drum.webp",
+      "funFact": "The djembe drum can make over 25 different sounds with just your hands!",
+      "earnCondition": { "type": "cooking_completed", "countryId": "ghana" }
+    },
+    {
+      "id": "ghana_crown",
+      "countryId": "ghana",
+      "label": "Crown",
+      "emoji": "\uD83D\uDC51",
+      "assetName": "golden_stool.png",
+      "funFact": "The Golden Stool is the symbol of the Ashanti kingdom and is believed to hold the spirit of the nation!",
+      "earnCondition": { "type": "pack_suitcase_completed", "countryId": "ghana" }
+    },
+    {
+      "id": "ghana_kente_pattern",
+      "countryId": "ghana",
+      "label": "Kente Icon",
+      "emoji": "\uD83E\uDDF5",
+      "assetName": "kente_pattern.webp",
+      "funFact": "Each colour in a kente pattern has a special meaning \u2014 gold means royalty and wealth!",
+      "earnCondition": { "type": "coloring_completed", "countryId": "ghana" }
+    },
+    {
+      "id": "ghana_jollof_bowl",
+      "countryId": "ghana",
+      "label": "Jollof Bowl",
+      "emoji": "\uD83C\uDF5B",
+      "assetName": "jollof_bowl.webp",
+      "funFact": "Ghana and Nigeria have a friendly rivalry over who makes the best jollof rice!",
+      "earnCondition": { "type": "cooking_completed", "countryId": "ghana" }
+    },
+    {
+      "id": "ghana_flag_badge",
+      "countryId": "ghana",
+      "label": "Flag Badge",
+      "emoji": "\uD83C\uDDEC\uD83C\uDDED",
+      "assetName": "ghana_flag_badge.webp",
+      "funFact": "The black star on Ghana's flag represents African freedom \u2014 Ghana was the first African country south of the Sahara to gain independence!",
+      "earnCondition": { "type": "pack_suitcase_completed", "countryId": "ghana" }
+    },
+    {
+      "id": "ghana_flag",
+      "countryId": "ghana",
+      "label": "Ghana Flag",
+      "emoji": "\uD83C\uDDEC\uD83C\uDDED",
+      "assetName": "ghana_flag.webp",
+      "funFact": "Ghana's flag has red for the blood of heroes, gold for mineral wealth, and green for forests and farms!",
+      "earnCondition": { "type": "story_completed", "countryId": "ghana" }
+    },
+    {
+      "id": "ghana_flag_circle",
+      "countryId": "ghana",
+      "label": "Flag Pin",
+      "emoji": "\uD83C\uDDEC\uD83C\uDDED",
+      "assetName": "ghana_flag_circle.webp",
+      "funFact": "Ghana means 'Warrior King' \u2014 it was named after the ancient Ghana Empire!",
+      "earnCondition": { "type": "quiz_completed", "countryId": "ghana" }
+    },
+    {
+      "id": "ghana_accra",
+      "countryId": "ghana",
+      "label": "Accra",
+      "emoji": "\uD83C\uDFD9\uFE0F",
+      "assetName": "accra_skyline.webp",
+      "funFact": "Accra is Ghana's capital city and sits right on the coast of the Atlantic Ocean!",
+      "earnCondition": { "type": "story_completed", "countryId": "ghana" }
+    },
+    {
+      "id": "ghana_jersey1",
+      "countryId": "ghana",
+      "label": "Black Stars",
+      "emoji": "\u26BD",
+      "assetName": "ghana_jersey1.webp",
+      "funFact": "Ghana's football team is called the Black Stars \u2014 they've played in the FIFA World Cup three times!",
+      "earnCondition": { "type": "quiz_completed", "countryId": "ghana" }
+    },
+    {
+      "id": "ghana_jersey2",
+      "countryId": "ghana",
+      "label": "Ghana Kit",
+      "emoji": "\u26BD",
+      "assetName": "ghana_jersey2.webp",
+      "funFact": "The Ghana football jersey features the colours of the national flag \u2014 red, gold, and green!",
+      "earnCondition": { "type": "quiz_completed", "countryId": "ghana" }
+    },
+    {
+      "id": "ghana_afia_excited",
+      "countryId": "ghana",
+      "label": "Afia Excited",
+      "emoji": "\uD83E\uDD29",
+      "assetName": "afia_excited.webp",
+      "funFact": "Afia loves discovering new things about Ghana \u2014 her name means 'born on Friday' in Akan!",
+      "earnCondition": { "type": "story_completed", "countryId": "ghana" }
+    },
+    {
+      "id": "ghana_afia_happy",
+      "countryId": "ghana",
+      "label": "Afia Happy",
+      "emoji": "\uD83D\uDE04",
+      "assetName": "afia_happy.webp",
+      "funFact": "In Ghana, people greet each other by asking 'How is the morning?' \u2014 it shows you care!",
+      "earnCondition": { "type": "cooking_completed", "countryId": "ghana" }
+    },
+    {
+      "id": "ghana_afia_proud",
+      "countryId": "ghana",
+      "label": "Afia Proud",
+      "emoji": "\uD83C\uDF1F",
+      "assetName": "afia_proud.webp",
+      "funFact": "Afia is proud of her Ghanaian heritage \u2014 Ghana is known as the 'Gateway to Africa'!",
+      "earnCondition": { "type": "coloring_completed", "countryId": "ghana" }
+    },
+    {
+      "id": "ghana_afia_thinking",
+      "countryId": "ghana",
+      "label": "Afia Thinking",
+      "emoji": "\uD83E\uDD14",
+      "assetName": "afia_thinking.webp",
+      "funFact": "Did you know? Ghana has over 100 different ethnic groups, each with their own language!",
+      "earnCondition": { "type": "quiz_completed", "countryId": "ghana" }
+    },
+    {
+      "id": "ghana_banku_chef",
+      "countryId": "ghana",
+      "label": "Banku Chef",
+      "emoji": "\uD83D\uDC69\u200D\uD83C\uDF73",
+      "assetName": "ghana_banku_chef.webp",
+      "funFact": "Banku is made from fermented corn and cassava dough \u2014 it's soft, sour, and eaten with your hands!",
+      "earnCondition": { "type": "cooking_completed", "countryId": "ghana" }
+    },
+    {
+      "id": "ghana_fried_rice_chef",
+      "countryId": "ghana",
+      "label": "Fried Rice Chef",
+      "emoji": "\uD83D\uDC69\u200D\uD83C\uDF73",
+      "assetName": "ghana_fried_rice_chef.webp",
+      "funFact": "Ghana fried rice is packed with vegetables and seasoned with shito \u2014 a spicy black pepper sauce!",
+      "earnCondition": { "type": "cooking_completed", "countryId": "ghana" }
+    },
+    {
+      "id": "ghana_fufu_chef",
+      "countryId": "ghana",
+      "label": "Fufu Chef",
+      "emoji": "\uD83D\uDC69\u200D\uD83C\uDF73",
+      "assetName": "ghana_fufu_chef.webp",
+      "funFact": "Fufu is pounded from cassava and plantain until it's super smooth and stretchy like dough!",
+      "earnCondition": { "type": "cooking_completed", "countryId": "ghana" }
+    },
+    {
+      "id": "ghana_jollof_chef",
+      "countryId": "ghana",
+      "label": "Jollof Chef",
+      "emoji": "\uD83D\uDC69\u200D\uD83C\uDF73",
+      "assetName": "ghana_jollof_chef.webp",
+      "funFact": "Jollof rice gets its beautiful orange colour from tomatoes, peppers, and special spices!",
+      "earnCondition": { "type": "cooking_completed", "countryId": "ghana" }
+    },
+    {
+      "id": "ghana_kelewele_chef",
+      "countryId": "ghana",
+      "label": "Kelewele Chef",
+      "emoji": "\uD83D\uDC69\u200D\uD83C\uDF73",
+      "assetName": "ghana_kelewele_chef.webp",
+      "funFact": "Kelewele is spicy fried plantain cubes \u2014 a favourite street snack sold all over Ghana at night!",
+      "earnCondition": { "type": "cooking_completed", "countryId": "ghana" }
+    },
+    {
+      "id": "ghana_koko_chef",
+      "countryId": "ghana",
+      "label": "Koko Chef",
+      "emoji": "\uD83D\uDC69\u200D\uD83C\uDF73",
+      "assetName": "ghana_koko_chef.webp",
+      "funFact": "Koko is a warm spiced porridge made from millet \u2014 it's a popular breakfast in northern Ghana!",
+      "earnCondition": { "type": "cooking_completed", "countryId": "ghana" }
+    },
+    {
+      "id": "ghana_palmnut_soup_chef",
+      "countryId": "ghana",
+      "label": "Palm Soup Chef",
+      "emoji": "\uD83D\uDC69\u200D\uD83C\uDF73",
+      "assetName": "ghana_palmnut_soup_chef.webp",
+      "funFact": "Palm nut soup is made from the fruit of the oil palm tree \u2014 it's rich, creamy, and bright orange!",
+      "earnCondition": { "type": "cooking_completed", "countryId": "ghana" }
+    },
+    {
+      "id": "ghana_tilapia_chef",
+      "countryId": "ghana",
+      "label": "Tilapia Chef",
+      "emoji": "\uD83D\uDC69\u200D\uD83C\uDF73",
+      "assetName": "ghana_tilapia_chef.webp",
+      "funFact": "Grilled tilapia is a beloved Ghanaian dish \u2014 often served with banku and hot pepper sauce!",
+      "earnCondition": { "type": "cooking_completed", "countryId": "ghana" }
+    },
+    {
+      "id": "ghana_waakye_chef",
+      "countryId": "ghana",
+      "label": "Waakye Chef",
+      "emoji": "\uD83D\uDC69\u200D\uD83C\uDF73",
+      "assetName": "ghana_waakye_chef.webp",
+      "funFact": "Waakye is rice and beans cooked with dried millet leaves that turn it a deep reddish-brown colour!",
+      "earnCondition": { "type": "cooking_completed", "countryId": "ghana" }
+    },
+
+    {
+      "id": "usa_liberty",
+      "countryId": "usa",
+      "label": "Lady Liberty",
+      "emoji": "\uD83D\uDDFD",
+      "assetName": "statue_of_liberty.webp",
+      "funFact": "The Statue of Liberty was a gift from France and arrived in 350 pieces packed in 214 crates!",
+      "earnCondition": { "type": "story_completed", "countryId": "usa" }
+    },
+    {
+      "id": "usa_eagle",
+      "countryId": "usa",
+      "label": "Eagle",
+      "emoji": "\uD83E\uDD85",
+      "assetName": "eagle.webp",
+      "funFact": "The bald eagle can spot a rabbit from over 3 kilometres away \u2014 that's superhero vision!",
+      "earnCondition": { "type": "cooking_completed", "countryId": "usa" }
+    },
+    {
+      "id": "usa_cap",
+      "countryId": "usa",
+      "label": "Baseball Cap",
+      "emoji": "\uD83E\uDDE2",
+      "assetName": "baseball_cap.webp",
+      "funFact": "Baseball is called America's pastime \u2014 the first official game was played in 1846!",
+      "earnCondition": { "type": "pack_suitcase_completed", "countryId": "usa" }
+    },
+    {
+      "id": "usa_milkshake",
+      "countryId": "usa",
+      "label": "Milkshake",
+      "emoji": "\uD83E\uDD64",
+      "assetName": "milkshake.webp",
+      "funFact": "The world's largest milkshake was made in New York and was over 6,000 litres!",
+      "earnCondition": { "type": "quiz_completed", "countryId": "usa" }
+    },
+    {
+      "id": "usa_ava_excited",
+      "countryId": "usa",
+      "label": "Ava Excited",
+      "emoji": "\uD83E\uDD29",
+      "assetName": "ava_excited.webp",
+      "funFact": "Ava loves road trips across America \u2014 the USA has over 6.5 million kilometres of roads!",
+      "earnCondition": { "type": "story_completed", "countryId": "usa" }
+    },
+    {
+      "id": "usa_ava_happy",
+      "countryId": "usa",
+      "label": "Ava Happy",
+      "emoji": "\uD83D\uDE04",
+      "assetName": "ava_happy.webp",
+      "funFact": "Americans eat about 3 billion pizzas every year \u2014 that's 100 acres of pizza a day!",
+      "earnCondition": { "type": "cooking_completed", "countryId": "usa" }
+    },
+    {
+      "id": "usa_ava_proud",
+      "countryId": "usa",
+      "label": "Ava Proud",
+      "emoji": "\uD83C\uDF1F",
+      "assetName": "ava_proud.webp",
+      "funFact": "The USA has 63 national parks \u2014 from the Grand Canyon to Yellowstone's geysers!",
+      "earnCondition": { "type": "coloring_completed", "countryId": "usa" }
+    },
+    {
+      "id": "usa_ava_thinking",
+      "countryId": "usa",
+      "label": "Ava Thinking",
+      "emoji": "\uD83E\uDD14",
+      "assetName": "ava_thinking.webp",
+      "funFact": "Did you know? The USA is the only country to have put people on the Moon \u2014 12 astronauts walked on it!",
+      "earnCondition": { "type": "quiz_completed", "countryId": "usa" }
+    },
+
+    {
+      "id": "nigeria_mask",
+      "countryId": "nigeria",
+      "label": "Mask",
+      "emoji": "\uD83C\uDFAD",
+      "assetName": "mask.png",
+      "funFact": "Nigerian masks are used in festivals and ceremonies to tell stories of ancestors and spirits!",
+      "earnCondition": { "type": "story_completed", "countryId": "nigeria" }
+    },
+    {
+      "id": "nigeria_drum",
+      "countryId": "nigeria",
+      "label": "Drum",
+      "emoji": "\uD83E\uDD41",
+      "assetName": "talking_drum.png",
+      "funFact": "The talking drum can mimic the tones of spoken Yoruba language \u2014 it actually talks!",
+      "earnCondition": { "type": "cooking_completed", "countryId": "nigeria" }
+    },
+    {
+      "id": "nigeria_ankara",
+      "countryId": "nigeria",
+      "label": "Ankara",
+      "emoji": "\uD83E\uDDF5",
+      "assetName": "ankara_fabric.png",
+      "funFact": "Ankara fabric has bold, colourful patterns and every design tells a unique story!",
+      "earnCondition": { "type": "pack_suitcase_completed", "countryId": "nigeria" }
+    },
+    {
+      "id": "nigeria_adetutu_excited",
+      "countryId": "nigeria",
+      "label": "Adetutu Excited",
+      "emoji": "\uD83E\uDD29",
+      "assetName": "adetutu_excited.webp",
+      "funFact": "Adetutu means 'the crown is gentle' in Yoruba \u2014 it's a name fit for royalty!",
+      "earnCondition": { "type": "story_completed", "countryId": "nigeria" }
+    },
+    {
+      "id": "nigeria_adetutu_happy",
+      "countryId": "nigeria",
+      "label": "Adetutu Happy",
+      "emoji": "\uD83D\uDE04",
+      "assetName": "adetutu_happy.webp",
+      "funFact": "Nigeria is called the 'Giant of Africa' because it has the most people of any African country!",
+      "earnCondition": { "type": "cooking_completed", "countryId": "nigeria" }
+    },
+    {
+      "id": "nigeria_adetutu_proud",
+      "countryId": "nigeria",
+      "label": "Adetutu Proud",
+      "emoji": "\uD83C\uDF1F",
+      "assetName": "adetutu_proud.webp",
+      "funFact": "Nigeria's film industry, Nollywood, is one of the biggest in the world \u2014 making over 2,500 films a year!",
+      "earnCondition": { "type": "coloring_completed", "countryId": "nigeria" }
+    },
+    {
+      "id": "nigeria_adetutu_thinking",
+      "countryId": "nigeria",
+      "label": "Adetutu Thinking",
+      "emoji": "\uD83E\uDD14",
+      "assetName": "adetutu_thinking.webp",
+      "funFact": "Did you know? Nigeria has over 500 different languages spoken across the country!",
+      "earnCondition": { "type": "quiz_completed", "countryId": "nigeria" }
+    },
+
+    {
+      "id": "uk_big_ben",
+      "countryId": "uk",
+      "label": "Big Ben",
+      "emoji": "\uD83D\uDD70\uFE0F",
+      "assetName": "big_ben.webp",
+      "funFact": "Big Ben's real name is the Elizabeth Tower \u2014 Big Ben is actually the nickname of the great bell inside!",
+      "earnCondition": { "type": "story_completed", "countryId": "uk" }
+    },
+    {
+      "id": "uk_bridge",
+      "countryId": "uk",
+      "label": "Tower Bridge",
+      "emoji": "\uD83C\uDF09",
+      "assetName": "london_bridge.webp",
+      "funFact": "Tower Bridge opens about 800 times a year to let tall ships pass through!",
+      "earnCondition": { "type": "story_completed", "countryId": "uk" }
+    },
+    {
+      "id": "uk_tea",
+      "countryId": "uk",
+      "label": "Cup of Tea",
+      "emoji": "\u2615",
+      "assetName": "tea.webp",
+      "funFact": "The UK drinks about 100 million cups of tea every single day!",
+      "earnCondition": { "type": "cooking_completed", "countryId": "uk" }
+    },
+    {
+      "id": "uk_crown",
+      "countryId": "uk",
+      "label": "Royal Crown",
+      "emoji": "\uD83D\uDC51",
+      "assetName": "crown.webp",
+      "funFact": "The Imperial State Crown has 2,868 diamonds, 17 sapphires, 11 emeralds, and 269 pearls!",
+      "earnCondition": { "type": "cooking_completed", "countryId": "uk" }
+    },
+    {
+      "id": "uk_flag",
+      "countryId": "uk",
+      "label": "Union Jack",
+      "emoji": "\uD83C\uDDEC\uD83C\uDDE7",
+      "assetName": "flag.webp",
+      "funFact": "The Union Jack is made up of three crosses \u2014 one each for England, Scotland, and Ireland!",
+      "earnCondition": { "type": "pack_suitcase_completed", "countryId": "uk" }
+    },
+    {
+      "id": "uk_bus",
+      "countryId": "uk",
+      "label": "Red Bus",
+      "emoji": "\uD83D\uDE8C",
+      "assetName": "red_bus.webp",
+      "funFact": "London's iconic red double-decker buses have been running since 1829!",
+      "earnCondition": { "type": "pack_suitcase_completed", "countryId": "uk" }
+    },
+    {
+      "id": "uk_eye",
+      "countryId": "uk",
+      "label": "London Eye",
+      "emoji": "\uD83C\uDFA1",
+      "assetName": "london_eye.webp",
+      "funFact": "The London Eye is 135 metres tall and you can see 40 kilometres from the top!",
+      "earnCondition": { "type": "coloring_completed", "countryId": "uk" }
+    },
+    {
+      "id": "uk_phone_box",
+      "countryId": "uk",
+      "label": "Phone Box",
+      "emoji": "\u260E\uFE0F",
+      "assetName": "telephone_booth.webp",
+      "funFact": "There are about 8,000 red phone boxes left in the UK \u2014 many have been turned into mini libraries!",
+      "earnCondition": { "type": "coloring_completed", "countryId": "uk" }
+    },
+    {
+      "id": "uk_telephone",
+      "countryId": "uk",
+      "label": "Red Telephone",
+      "emoji": "\uD83D\uDCDE",
+      "assetName": "telephone.webp",
+      "funFact": "The red telephone box was designed in 1924 and is one of the most recognised symbols of the UK!",
+      "earnCondition": { "type": "quiz_completed", "countryId": "uk" }
+    },
+    {
+      "id": "uk_twins",
+      "countryId": "uk",
+      "label": "Heze & Aza",
+      "emoji": "\uD83D\uDC6B",
+      "assetName": "twins.webp",
+      "funFact": "Heze and Aza are twins who love exploring the UK together \u2014 Heze loves patterns and Aza loves stories!",
+      "earnCondition": { "type": "story_completed", "countryId": "uk" }
+    },
+    {
+      "id": "uk_twins_excited",
+      "countryId": "uk",
+      "label": "Twins Excited",
+      "emoji": "\uD83E\uDD29",
+      "assetName": "twins_excited.webp",
+      "funFact": "The UK is made up of four countries \u2014 England, Scotland, Wales, and Northern Ireland!",
+      "earnCondition": { "type": "cooking_completed", "countryId": "uk" }
+    },
+    {
+      "id": "uk_twins_happy",
+      "countryId": "uk",
+      "label": "Twins Happy",
+      "emoji": "\uD83D\uDE04",
+      "assetName": "twins_happy.webp",
+      "funFact": "Fish and chips has been a favourite British meal since the 1860s!",
+      "earnCondition": { "type": "pack_suitcase_completed", "countryId": "uk" }
+    },
+    {
+      "id": "uk_twins_proud",
+      "countryId": "uk",
+      "label": "Twins Proud",
+      "emoji": "\uD83C\uDF1F",
+      "assetName": "twins_proud.webp",
+      "funFact": "The UK invented football, rugby, cricket, and tennis \u2014 all played around the world today!",
+      "earnCondition": { "type": "coloring_completed", "countryId": "uk" }
+    },
+    {
+      "id": "uk_twins_thinking",
+      "countryId": "uk",
+      "label": "Twins Thinking",
+      "emoji": "\uD83E\uDD14",
+      "assetName": "twins_thinking.webp",
+      "funFact": "Did you know? The Tower of London has had ravens living there for over 300 years \u2014 legend says if they ever leave, the kingdom will fall!",
+      "earnCondition": { "type": "quiz_completed", "countryId": "uk" }
+    },
+
+    {
+      "id": "general_storyteller",
+      "countryId": "general",
+      "label": "Storyteller",
+      "emoji": "\uD83D\uDCD6",
+      "assetName": "book.webp",
+      "funFact": "Every great adventure starts with a story \u2014 and you just finished your first!",
+      "earnCondition": { "type": "story_completed" }
+    },
+    {
+      "id": "general_lion",
+      "countryId": "general",
+      "label": "Story Safari",
+      "emoji": "\uD83E\uDD81",
+      "assetName": "lion.webp",
+      "funFact": "Lions are called the kings of the jungle, but they actually live on grasslands called savannas!",
+      "earnCondition": { "type": "story_completed" }
+    },
+    {
+      "id": "general_palm",
+      "countryId": "general",
+      "label": "Island Tales",
+      "emoji": "\uD83C\uDF34",
+      "assetName": "palm_tree.webp",
+      "funFact": "Coconut palms can grow up to 30 metres tall and live for over 100 years!",
+      "earnCondition": { "type": "story_completed" }
+    },
+    {
+      "id": "general_chef",
+      "countryId": "general",
+      "label": "Junior Chef",
+      "emoji": "\uD83D\uDC68\u200D\uD83C\uDF73",
+      "assetName": "chef_hat.webp",
+      "funFact": "You cooked your first dish! Chefs around the world started just like you.",
+      "earnCondition": { "type": "cooking_completed" }
+    },
+    {
+      "id": "general_pancakes",
+      "countryId": "general",
+      "label": "Breakfast Star",
+      "emoji": "\uD83E\uDD5E",
+      "assetName": "pancakes.webp",
+      "funFact": "People have been eating pancakes for over 30,000 years \u2014 they're one of the oldest foods!",
+      "earnCondition": { "type": "cooking_completed" }
+    },
+    {
+      "id": "general_sunshine",
+      "countryId": "general",
+      "label": "Sunny Cook",
+      "emoji": "\u2600\uFE0F",
+      "assetName": "sunshine.webp",
+      "funFact": "The sun is so big that about 1.3 million Earths could fit inside it!",
+      "earnCondition": { "type": "cooking_completed" }
+    },
+    {
+      "id": "general_traveler",
+      "countryId": "general",
+      "label": "Traveler",
+      "emoji": "\uD83E\uDDF3",
+      "assetName": "suitcase.webp",
+      "funFact": "You packed your very first suitcase! Where will your next adventure take you?",
+      "earnCondition": { "type": "pack_suitcase_completed" }
+    },
+    {
+      "id": "general_airplane",
+      "countryId": "general",
+      "label": "Jet Setter",
+      "emoji": "\u2708\uFE0F",
+      "assetName": "airplane.webp",
+      "funFact": "A jumbo jet can fly over 900 kilometres per hour \u2014 faster than any bird!",
+      "earnCondition": { "type": "pack_suitcase_completed" }
+    },
+    {
+      "id": "general_cloud",
+      "countryId": "general",
+      "label": "Sky Explorer",
+      "emoji": "\u2601\uFE0F",
+      "assetName": "cloud.webp",
+      "funFact": "Clouds can weigh as much as 80 elephants \u2014 they float because the air beneath them is even heavier!",
+      "earnCondition": { "type": "pack_suitcase_completed" }
+    },
+    {
+      "id": "general_artist",
+      "countryId": "general",
+      "label": "Artist",
+      "emoji": "\uD83C\uDFA8",
+      "assetName": "rainbow.webp",
+      "funFact": "Every masterpiece starts with a single colour \u2014 and you just created one!",
+      "earnCondition": { "type": "coloring_completed" }
+    },
+    {
+      "id": "general_golden_heart",
+      "countryId": "general",
+      "label": "Golden Touch",
+      "emoji": "\uD83D\uDC9B",
+      "assetName": "golden_heart.webp",
+      "funFact": "Gold is so soft you can shape it with your hands \u2014 and it never rusts or tarnishes!",
+      "earnCondition": { "type": "coloring_completed" }
+    },
+    {
+      "id": "general_dancer",
+      "countryId": "general",
+      "label": "Creative Star",
+      "emoji": "\uD83D\uDC83",
+      "assetName": "dancer.webp",
+      "funFact": "Dancing is one of the oldest art forms \u2014 people have been dancing for over 9,000 years!",
+      "earnCondition": { "type": "coloring_completed" }
+    },
+    {
+      "id": "general_brain",
+      "countryId": "general",
+      "label": "Brainiac",
+      "emoji": "\uD83E\uDDE0",
+      "assetName": "rocket.webp",
+      "funFact": "Your brain just levelled up! Quizzes help you learn fun facts about the world.",
+      "earnCondition": { "type": "quiz_completed" }
+    },
+    {
+      "id": "general_smiley",
+      "countryId": "general",
+      "label": "Happy Learner",
+      "emoji": "\uD83D\uDE0A",
+      "assetName": "smiley.webp",
+      "funFact": "Smiling is contagious \u2014 when you smile at someone, their brain automatically wants to smile back!",
+      "earnCondition": { "type": "quiz_completed" }
+    },
+    {
+      "id": "general_surprised",
+      "countryId": "general",
+      "label": "Mind Blown",
+      "emoji": "\uD83D\uDE2E",
+      "assetName": "surprised.webp",
+      "funFact": "Your brain makes about 70,000 thoughts every day \u2014 and you just learned something new!",
+      "earnCondition": { "type": "quiz_completed" }
+    },
+    {
+      "id": "general_creator",
+      "countryId": "general",
+      "label": "Creator",
+      "emoji": "\u270F\uFE0F",
+      "assetName": "blue_heart.webp",
+      "funFact": "You saved your own artwork! Every famous artist started by drawing and doodling.",
+      "earnCondition": { "type": "drawing_saved" }
+    },
+    {
+      "id": "general_red_heart",
+      "countryId": "general",
+      "label": "Art Lover",
+      "emoji": "\u2764\uFE0F",
+      "assetName": "red_heart.webp",
+      "funFact": "The heart shape has been a symbol of love for over 800 years!",
+      "earnCondition": { "type": "drawing_saved" }
+    },
+    {
+      "id": "general_purple_heart",
+      "countryId": "general",
+      "label": "Purple Star",
+      "emoji": "\uD83D\uDC9C",
+      "assetName": "purple_heart.webp",
+      "funFact": "Purple used to be the rarest colour \u2014 only kings and queens were allowed to wear it!",
+      "earnCondition": { "type": "drawing_saved" }
+    },
+    {
+      "id": "general_party",
+      "countryId": "general",
+      "label": "Celebration",
+      "emoji": "\uD83C\uDF89",
+      "assetName": "party_hat.webp",
+      "funFact": "Confetti was invented in Italy \u2014 the word means 'little sweets' in Italian!",
+      "earnCondition": { "type": "drawing_saved" }
+    },
+    {
+      "id": "general_whale",
+      "countryId": "general",
+      "label": "Ocean Friend",
+      "emoji": "\uD83D\uDC33",
+      "assetName": "whale.webp",
+      "funFact": "Blue whales are the largest animals ever \u2014 their hearts are the size of a small car!",
+      "earnCondition": { "type": "drawing_saved" }
+    },
+    {
+      "id": "general_ambulance",
+      "countryId": "general",
+      "label": "Ambulance",
+      "emoji": "\uD83D\uDE91",
+      "assetName": "ambulance.webp",
+      "funFact": "The first ambulances were horse-drawn carts used over 500 years ago in Spain!",
+      "earnCondition": { "type": "drawing_saved" }
+    },
+    {
+      "id": "general_pilot",
+      "countryId": "general",
+      "label": "Pilot",
+      "emoji": "\uD83D\uDC68\u200D\u2708\uFE0F",
+      "assetName": "pilot.webp",
+      "funFact": "Pilots fly above the clouds every day \u2014 some planes cruise at over 12 kilometres high!",
+      "earnCondition": { "type": "pack_suitcase_completed" }
+    },
+    {
+      "id": "general_baseball",
+      "countryId": "general",
+      "label": "Baseball",
+      "emoji": "\u26BE",
+      "assetName": "baseball.webp",
+      "funFact": "A baseball has exactly 108 stitches \u2014 and every single one is sewn by hand!",
+      "earnCondition": { "type": "quiz_completed" }
+    },
+    {
+      "id": "general_basketball",
+      "countryId": "general",
+      "label": "Basketball",
+      "emoji": "\uD83C\uDFC0",
+      "assetName": "basketball.webp",
+      "funFact": "Basketball was invented using a peach basket \u2014 someone had to climb a ladder to get the ball out!",
+      "earnCondition": { "type": "quiz_completed" }
+    },
+    {
+      "id": "general_bear",
+      "countryId": "general",
+      "label": "Bear",
+      "emoji": "\uD83D\uDC3B",
+      "assetName": "bear.webp",
+      "funFact": "Bears can smell food from up to 30 kilometres away \u2014 that's like smelling pizza from another town!",
+      "earnCondition": { "type": "story_completed" }
+    },
+    {
+      "id": "general_bird",
+      "countryId": "general",
+      "label": "Bird",
+      "emoji": "\uD83D\uDC26",
+      "assetName": "bird.webp",
+      "funFact": "There are about 10,000 different species of birds in the world \u2014 and they live on every continent!",
+      "earnCondition": { "type": "story_completed" }
+    },
+    {
+      "id": "general_boarding_pass",
+      "countryId": "general",
+      "label": "Boarding Pass",
+      "emoji": "\uD83C\uDFAB",
+      "assetName": "boarding_pass.webp",
+      "funFact": "The first ever airline ticket was sold in 1914 \u2014 the flight lasted just 23 minutes!",
+      "earnCondition": { "type": "pack_suitcase_completed" }
+    },
+    {
+      "id": "general_bus",
+      "countryId": "general",
+      "label": "Bus",
+      "emoji": "\uD83D\uDE8C",
+      "assetName": "bus.webp",
+      "funFact": "The word 'bus' comes from 'omnibus', which means 'for everyone' in Latin!",
+      "earnCondition": { "type": "drawing_saved" }
+    },
+    {
+      "id": "general_carrot",
+      "countryId": "general",
+      "label": "Carrot",
+      "emoji": "\uD83E\uDD55",
+      "assetName": "carrot.webp",
+      "funFact": "Carrots were originally purple, not orange \u2014 orange carrots were grown in the Netherlands about 400 years ago!",
+      "earnCondition": { "type": "cooking_completed" }
+    },
+    {
+      "id": "general_compass",
+      "countryId": "general",
+      "label": "Compass",
+      "emoji": "\uD83E\uDDED",
+      "assetName": "compass.webp",
+      "funFact": "The compass was invented in China over 2,000 years ago \u2014 it always points north because of Earth's magnetic field!",
+      "earnCondition": { "type": "pack_suitcase_completed" }
+    },
+    {
+      "id": "general_elephant",
+      "countryId": "general",
+      "label": "Elephant",
+      "emoji": "\uD83D\uDC18",
+      "assetName": "elephant.webp",
+      "funFact": "Elephants are the only animals that can't jump \u2014 but they can remember things for decades!",
+      "earnCondition": { "type": "story_completed" }
+    },
+    {
+      "id": "general_hot_air_balloon",
+      "countryId": "general",
+      "label": "Balloon",
+      "emoji": "\uD83C\uDF88",
+      "assetName": "hot_air_balloon.webp",
+      "funFact": "The first hot air balloon passengers were a sheep, a duck, and a rooster in 1783!",
+      "earnCondition": { "type": "pack_suitcase_completed" }
+    },
+    {
+      "id": "general_hot_air_balloon2",
+      "countryId": "general",
+      "label": "Sky Balloon",
+      "emoji": "\uD83C\uDF88",
+      "assetName": "hot_air_balloon2.webp",
+      "funFact": "Hot air balloons float because warm air is lighter than cool air \u2014 just like bubbles rising in water!",
+      "earnCondition": { "type": "coloring_completed" }
+    },
+    {
+      "id": "general_flower",
+      "countryId": "general",
+      "label": "Flower",
+      "emoji": "\uD83C\uDF3B",
+      "assetName": "flower.webp",
+      "funFact": "Sunflowers can grow up to 3 metres tall and always turn their faces towards the sun!",
+      "earnCondition": { "type": "coloring_completed" }
+    },
+    {
+      "id": "general_fox",
+      "countryId": "general",
+      "label": "Fox",
+      "emoji": "\uD83E\uDD8A",
+      "assetName": "fox.webp",
+      "funFact": "Foxes can hear a watch ticking from 40 metres away \u2014 they have incredible super-hearing!",
+      "earnCondition": { "type": "story_completed" }
+    },
+    {
+      "id": "general_giraffe",
+      "countryId": "general",
+      "label": "Giraffe",
+      "emoji": "\uD83E\uDD92",
+      "assetName": "giraffe.webp",
+      "funFact": "Giraffes are the tallest animals on Earth \u2014 their tongues alone are 50 centimetres long and purple!",
+      "earnCondition": { "type": "story_completed" }
+    },
+    {
+      "id": "general_hospital",
+      "countryId": "general",
+      "label": "Hospital",
+      "emoji": "\uD83C\uDFE5",
+      "assetName": "hospital.webp",
+      "funFact": "The first hospitals were built in ancient Rome over 2,000 years ago to help soldiers!",
+      "earnCondition": { "type": "drawing_saved" }
+    },
+    {
+      "id": "general_lion_cub",
+      "countryId": "general",
+      "label": "Lion Cub",
+      "emoji": "\uD83E\uDD81",
+      "assetName": "lion_cub.webp",
+      "funFact": "Lion cubs are born with spots that fade as they grow up \u2014 just like freckles!",
+      "earnCondition": { "type": "story_completed" }
+    },
+    {
+      "id": "general_nature",
+      "countryId": "general",
+      "label": "Meadow",
+      "emoji": "\uD83C\uDF3F",
+      "assetName": "nature.webp",
+      "funFact": "Meadows are home to hundreds of insects, butterflies, and wildflowers \u2014 they're like nature's garden!",
+      "earnCondition": { "type": "coloring_completed" }
+    },
+    {
+      "id": "general_passport",
+      "countryId": "general",
+      "label": "Passport",
+      "emoji": "\uD83D\uDEC2",
+      "assetName": "passport.webp",
+      "funFact": "The first modern passports were issued during World War I \u2014 before that, most people could travel freely!",
+      "earnCondition": { "type": "pack_suitcase_completed" }
+    },
+    {
+      "id": "general_puppy",
+      "countryId": "general",
+      "label": "Puppy",
+      "emoji": "\uD83D\uDC36",
+      "assetName": "puppy.webp",
+      "funFact": "Dogs have been our best friends for over 15,000 years \u2014 they were the first animals to be domesticated!",
+      "earnCondition": { "type": "story_completed" }
+    },
+    {
+      "id": "general_pw_airplane",
+      "countryId": "general",
+      "label": "PW Plane",
+      "emoji": "\u2708\uFE0F",
+      "assetName": "pw_airplane.webp",
+      "funFact": "Welcome aboard the Planet Wonders airline \u2014 your next adventure is just a flight away!",
+      "earnCondition": { "type": "pack_suitcase_completed" }
+    },
+    {
+      "id": "general_school",
+      "countryId": "general",
+      "label": "School",
+      "emoji": "\uD83C\uDFEB",
+      "assetName": "school.webp",
+      "funFact": "The oldest school in the world is in England \u2014 it was founded in the year 597, over 1,400 years ago!",
+      "earnCondition": { "type": "quiz_completed" }
+    },
+    {
+      "id": "general_soccer",
+      "countryId": "general",
+      "label": "Football",
+      "emoji": "\u26BD",
+      "assetName": "soccer.webp",
+      "funFact": "Football is the most popular sport in the world \u2014 over 4 billion people are fans!",
+      "earnCondition": { "type": "quiz_completed" }
+    },
+    {
+      "id": "general_sparkling",
+      "countryId": "general",
+      "label": "Sparkle",
+      "emoji": "\u2728",
+      "assetName": "sparkling.webp",
+      "funFact": "Stars twinkle because their light passes through Earth's atmosphere, which bends and wiggles the light around!",
+      "earnCondition": { "type": "coloring_completed" }
+    },
+    {
+      "id": "general_traffic",
+      "countryId": "general",
+      "label": "Traffic Light",
+      "emoji": "\uD83D\uDEA6",
+      "assetName": "traffic.webp",
+      "funFact": "The first traffic light was installed in London in 1868 \u2014 it was powered by gas and exploded after a month!",
+      "earnCondition": { "type": "drawing_saved" }
+    },
+    {
+      "id": "general_baby_whale",
+      "countryId": "general",
+      "label": "Baby Whale",
+      "emoji": "\uD83D\uDC33",
+      "assetName": "baby_whale.webp",
+      "funFact": "A baby blue whale gains about 90 kilograms every day \u2014 that's like gaining a whole adult human daily!",
+      "earnCondition": { "type": "drawing_saved" }
+    }
+  ]
+}

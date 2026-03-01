@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,6 +13,36 @@ import 'cooking_step.dart';
 
 enum ChefMood { happy, excited, thinking, proud }
 
+// ---------------------------------------------------------------------------
+// Character name lookup by country
+// ---------------------------------------------------------------------------
+
+String _characterFor(String country) {
+  final key = country.trim().toLowerCase();
+  return switch (key) {
+    'ghana' => 'Afia',
+    'nigeria' => 'Adetutu',
+    'uk' || 'united kingdom' => 'Heze & Aza',
+    'usa' || 'united states' => 'Ava',
+    _ => 'Chef',
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Pot face emoji constants
+// ---------------------------------------------------------------------------
+
+const _potIdle = '\u{1F60A}'; // 😊
+const _potSurprised = '\u{1F62E}'; // 😮
+const _potHappy = '\u{1F604}'; // 😄
+const _potStir = '\u{1F606}'; // 😆
+const _potYum = '\u{1F924}'; // 🤤
+const _potSpicy = '\u{1F975}'; // 🥵
+const _potDelicious = '\u{1F60B}'; // 😋
+const _potLove = '\u{1F60D}'; // 😍
+const _potParty = '\u{1F973}'; // 🥳
+const _potWorried = '\u{1F61F}'; // 😟
+
 class CookingController extends ChangeNotifier {
   CookingController({
     required this.recipe,
@@ -22,8 +53,13 @@ class CookingController extends ChangeNotifier {
          currentFact: recipe.facts.isEmpty
              ? CookingFact(text: 'Cooking is fun!', country: recipe.country)
              : recipe.facts.first,
-       ) {
-    _setChef(message: 'Drag ingredients into the pot!', mood: ChefMood.excited);
+       ),
+       characterName = _characterFor(recipe.country) {
+    _setChef(
+      message: '$characterName says: Let\u{2019}s start cooking!',
+      mood: ChefMood.excited,
+    );
+    potFace.value = _potIdle;
   }
 
   final Recipe recipe;
@@ -31,11 +67,13 @@ class CookingController extends ChangeNotifier {
   final Future<void> Function(Recipe recipe, CookingScore score)? onCompleted;
 
   final CookingState state;
+  final String characterName;
 
   final ValueNotifier<String> chefMessage = ValueNotifier<String>('');
   final ValueNotifier<ChefMood> chefMood = ValueNotifier<ChefMood>(
     ChefMood.happy,
   );
+  final ValueNotifier<String> potFace = ValueNotifier<String>(_potIdle);
   final ValueNotifier<double> stirProgressRing = ValueNotifier<double>(0);
   final ValueNotifier<int> splashTick = ValueNotifier<int>(0);
   final ValueNotifier<int> steamTick = ValueNotifier<int>(0);
@@ -48,6 +86,8 @@ class CookingController extends ChangeNotifier {
   final ValueNotifier<CookingStep?> stepCompletedEvent =
       ValueNotifier<CookingStep?>(null);
 
+  final math.Random _rng = math.Random();
+  Timer? _potFaceRevertTimer;
   int _factIndex = 0;
   int _maxCombo = 0;
   Offset? _lastStirPoint;
@@ -109,7 +149,16 @@ class CookingController extends ChangeNotifier {
     splashTick.value += 1;
     lastDroppedIngredientAsset.value = ingredient.assetPath;
     _trackCombo();
-    _setChef(message: 'Yum! ${ingredient.name} added.', mood: ChefMood.happy);
+    _setChef(
+      message: _pick(<String>[
+        'Yum! ${ingredient.name} goes in!',
+        '$characterName says: Nice pick!',
+        'In it goes \u{2014} ${ingredient.name}!',
+        'Perfect! Keep going, little chef!',
+      ]),
+      mood: ChefMood.happy,
+    );
+    _setPotFace(_potSurprised, revertTo: _potHappy, revertMs: 800);
     _pulseSuccessGlow();
     HapticFeedback.lightImpact();
 
@@ -190,7 +239,15 @@ class CookingController extends ChangeNotifier {
     state.addSpice();
     splashTick.value += 1;
     _trackCombo();
-    _setChef(message: 'Shake shake! Perfect spice!', mood: ChefMood.excited);
+    _setChef(
+      message: _pick(<String>[
+        'Shake shake! Perfect spice!',
+        'Ooh, spicy! $characterName loves it!',
+        'Shake it like a maraca!',
+      ]),
+      mood: ChefMood.excited,
+    );
+    _setPotFace(_potSpicy, revertTo: _potDelicious, revertMs: 600);
     HapticFeedback.mediumImpact();
 
     if (state.progress >= 1) {
@@ -207,7 +264,15 @@ class CookingController extends ChangeNotifier {
     state.addServe();
     splashTick.value += 1;
     _trackCombo();
-    _setChef(message: 'Great plating!', mood: ChefMood.happy);
+    _setChef(
+      message: _pick(<String>[
+        'Beautiful! $characterName is so proud!',
+        'That looks delicious!',
+        'Great plating, little chef!',
+      ]),
+      mood: ChefMood.happy,
+    );
+    _setPotFace(_potLove);
     HapticFeedback.selectionClick();
 
     if (state.progress >= 1) {
@@ -216,7 +281,15 @@ class CookingController extends ChangeNotifier {
   }
 
   Future<void> _completeRecipe() async {
-    _setChef(message: 'Chef-level cooking! You did it!', mood: ChefMood.proud);
+    _setChef(
+      message: _pick(<String>[
+        'You\u{2019}re a ${recipe.name} Master!',
+        'Chef $characterName gives you a gold star!',
+        'Amazing cooking! $characterName is so proud!',
+      ]),
+      mood: ChefMood.proud,
+    );
+    _setPotFace(_potParty);
 
     final computedScore = await engine.calculateScore(
       recipe: recipe,
@@ -253,18 +326,36 @@ class CookingController extends ChangeNotifier {
     switch (step) {
       case CookingStep.stir:
         _setChef(
-          message: 'Stir in circles! Faster = more stars!',
+          message: _pick(<String>[
+            '$characterName says: Stir stir stir!',
+            'Stir in circles! Faster = more stars!',
+            'Round and round we go!',
+          ]),
           mood: ChefMood.thinking,
         );
+        _setPotFace(_potStir);
         break;
       case CookingStep.spice:
         _setChef(
-          message: 'Shake the spice shaker to season!',
+          message: _pick(<String>[
+            'Time to add some spice!',
+            'Shake or tap the spice shaker!',
+            '$characterName says: Season it up!',
+          ]),
           mood: ChefMood.excited,
         );
+        _setPotFace(_potYum);
         break;
       case CookingStep.serve:
-        _setChef(message: 'Scoop and serve! Yum!', mood: ChefMood.happy);
+        _setChef(
+          message: _pick(<String>[
+            'Scoop and serve! Yum!',
+            'Time to plate up, little chef!',
+            '$characterName says: Serve it beautifully!',
+          ]),
+          mood: ChefMood.happy,
+        );
+        _setPotFace(_potLove);
         break;
       case CookingStep.complete:
       case CookingStep.addIngredients:
@@ -274,7 +365,15 @@ class CookingController extends ChangeNotifier {
 
   void _handleMistake(String message) {
     state.registerMistake();
-    _setChef(message: message, mood: ChefMood.thinking);
+    _setChef(
+      message: _pick(<String>[
+        'Oops! Try again, you\u{2019}ve got this!',
+        'Not quite \u{2014} keep going!',
+        message,
+      ]),
+      mood: ChefMood.thinking,
+    );
+    _setPotFace(_potWorried, revertTo: _potIdle, revertMs: 1000);
     HapticFeedback.heavyImpact();
   }
 
@@ -296,8 +395,24 @@ class CookingController extends ChangeNotifier {
     chefMood.value = mood;
   }
 
+  String _pick(List<String> options) => options[_rng.nextInt(options.length)];
+
+  void _setPotFace(String emoji, {String? revertTo, int? revertMs}) {
+    _potFaceRevertTimer?.cancel();
+    _potFaceRevertTimer = null;
+    potFace.value = emoji;
+    if (revertTo != null && revertMs != null) {
+      _potFaceRevertTimer = Timer(
+        Duration(milliseconds: revertMs),
+        () => potFace.value = revertTo,
+      );
+    }
+  }
+
   @override
   void dispose() {
+    _potFaceRevertTimer?.cancel();
+    potFace.dispose();
     score.dispose();
     lastDroppedIngredientAsset.dispose();
     stepCompletedEvent.dispose();

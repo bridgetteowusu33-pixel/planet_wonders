@@ -9,11 +9,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../achievements/providers/achievement_provider.dart';
 import '../learning_report/models/learning_stats.dart';
 import '../learning_report/providers/learning_stats_provider.dart';
+import '../stickers/providers/sticker_provider.dart';
 import '../cooking/data/ghana_recipes.dart';
+import '../cooking/data/uk_recipes.dart' as uk_premium;
 import '../cooking/models/badge.dart';
 import '../cooking/models/ingredient.dart' as upgraded;
 import '../cooking/models/recipe.dart' as upgraded;
 import '../cooking/ui/cooking_screen.dart';
+import '../../shared/widgets/recipe_detail_sheet.dart';
 import 'models/recipe.dart';
 
 class CookingGameScreen extends ConsumerWidget {
@@ -32,8 +35,20 @@ class CookingGameScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final premiumRecipe = _mapRecipe(recipe);
 
+    final recipeDetail = RecipeDetailData(
+      title: recipe.name,
+      emoji: recipe.emoji,
+      ingredients: recipe.ingredients
+          .map((i) => (name: i.name, emoji: i.emoji))
+          .toList(growable: false),
+      steps: recipe.steps
+          .map((s) => s.instruction)
+          .toList(growable: false),
+    );
+
     return CookingScreen(
       recipe: premiumRecipe,
+      recipeDetail: recipeDetail,
       onExit: () => Navigator.of(context).maybePop(),
       onCompleted: (completedRecipe, score) async {
         final countryId =
@@ -58,6 +73,10 @@ class CookingGameScreen extends ConsumerWidget {
             emoji: '\u{1F373}',
           ),
         );
+        ref.read(stickerProvider.notifier).checkAndAward(
+              conditionType: 'cooking_completed',
+              countryId: countryId,
+            );
 
         if (!context.mounted) return;
         final perfectChef = score.perfectChef;
@@ -77,6 +96,9 @@ class CookingGameScreen extends ConsumerWidget {
     if (value.id == ghanaJollofRecipe.id) {
       return ghanaJollofRecipe;
     }
+
+    final ukMatch = uk_premium.findPremiumUkRecipe(value.id);
+    if (ukMatch != null) return ukMatch;
 
     final mappedIngredients = value.ingredients
         .map(

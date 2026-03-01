@@ -24,17 +24,26 @@ class SceneBackground extends StatefulWidget {
 class _SceneBackgroundState extends State<SceneBackground>
     with SingleTickerProviderStateMixin {
   late final AnimationController _particleController;
-  late final bool _reduceMotion;
+  bool _reduceMotion = false;
+  bool _motionResolved = false;
 
   @override
   void initState() {
     super.initState();
-    _reduceMotion = MotionUtil.isReducedFromContext(context);
     _particleController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 6000),
     );
-    if (!_reduceMotion) _particleController.repeat();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_motionResolved) {
+      _motionResolved = true;
+      _reduceMotion = MotionUtil.isReducedFromContext(context);
+      if (!_reduceMotion) _particleController.repeat();
+    }
   }
 
   @override

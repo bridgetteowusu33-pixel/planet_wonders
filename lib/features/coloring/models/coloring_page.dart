@@ -18,6 +18,7 @@ class ColoringPage {
   final OutlinePainter? paintOutline;
   final String? outlineAsset; // e.g. 'assets/coloring/ghana/kente.png'
   final String? maskAsset; // e.g. 'assets/coloring/usa/masks/usa_01_map_mask.png'
+  final String? thumbnailAsset; // e.g. 'assets/sliding_puzzles/uk/big_ben.webp'
   final String? fact; // "Did You Know?" text
   final String? factCategory; // Culture, History, etc.
 
@@ -29,6 +30,7 @@ class ColoringPage {
     this.paintOutline,
     this.outlineAsset,
     this.maskAsset,
+    this.thumbnailAsset,
     this.fact,
     this.factCategory,
   }) : assert(

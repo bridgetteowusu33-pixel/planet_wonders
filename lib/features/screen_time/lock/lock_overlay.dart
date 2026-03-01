@@ -105,24 +105,23 @@ class LockOverlay extends ConsumerWidget {
                       ),
                     )
                   else
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 12,
-                      ),
-                      decoration: BoxDecoration(
-                        color: (isBedtime ? Colors.white : PWColors.navy)
-                            .withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      child: Text(
-                        isBedtime
-                            ? 'Come back in the morning!'
-                            : 'Come back tomorrow!',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                          color: textColor.withValues(alpha: 0.7),
+                    FilledButton.icon(
+                      onPressed: () => ref
+                          .read(usageTrackerProvider.notifier)
+                          .temporaryUnlock(),
+                      icon: const Icon(Icons.play_arrow_rounded),
+                      label: const Text('Keep Playing'),
+                      style: FilledButton.styleFrom(
+                        backgroundColor:
+                            isBedtime ? PWColors.blue : PWColors.mint,
+                        foregroundColor: Colors.white,
+                        minimumSize: const Size(220, 52),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        textStyle: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),
@@ -143,16 +142,20 @@ class LockOverlay extends ConsumerWidget {
         PlanetWondersApp.rootNavigatorKey.currentContext;
     if (navContext == null) return;
 
+    // Capture notifiers before the async gap so we don't use ref after
+    // the widget is potentially unmounted.
+    final stNotifier = ref.read(screenTimeSettingsProvider.notifier);
+    final usageNotifier = ref.read(usageTrackerProvider.notifier);
+
     final verified = await showPinDialog(
       context: navContext,
       mode: PinMode.verify,
-      onVerify: (pin) =>
-          ref.read(screenTimeSettingsProvider.notifier).verifyPin(pin),
+      onVerify: (pin) => stNotifier.verifyPin(pin),
       onSet: (_) {},
     );
 
     if (verified && context.mounted) {
-      ref.read(usageTrackerProvider.notifier).temporaryUnlock();
+      usageNotifier.temporaryUnlock();
     }
   }
 }

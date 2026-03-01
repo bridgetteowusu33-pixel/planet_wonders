@@ -1,0 +1,85 @@
+{
+  "style": "3D kawaii illustration, glossy finish, rounded shapes, soft shadows, transparent background, 512×512 PNG",
+  "countries": {
+    "ghana": [
+      {
+        "asset_name": "kente_cloth.png",
+        "label": "Kente",
+        "size": "512x512",
+        "prompt": "3D kawaii sticker of a colorful folded kente cloth with gold, green, and red woven stripes, glossy finish, rounded soft shape, cute smile face on the cloth, transparent background"
+      },
+      {
+        "asset_name": "djembe_drum.webp",
+        "label": "Drum",
+        "size": "512x512",
+        "prompt": "3D kawaii sticker of an African djembe drum with carved wooden body and goatskin top, cute happy face, glossy finish, rounded soft shape, transparent background"
+      },
+      {
+        "asset_name": "golden_stool.png",
+        "label": "Crown",
+        "size": "512x512",
+        "prompt": "3D kawaii sticker of a shiny golden Ashanti crown with jewel accents, cute sparkle eyes, glossy finish, rounded soft shape, transparent background"
+      }
+    ],
+    "usa": [
+      {
+        "asset_name": "rocket.webp",
+        "label": "Rocket",
+        "size": "512x512",
+        "prompt": "3D kawaii sticker of a red-white-and-blue space rocket blasting off with small flame trail, cute happy face on the body, glossy finish, rounded soft shape, transparent background"
+      },
+      {
+        "asset_name": "books.png",
+        "label": "Books",
+        "size": "512x512",
+        "prompt": "3D kawaii sticker of a stack of three colorful hardcover books (red, blue, yellow) with cute smiley face on the top book, glossy finish, rounded soft shape, transparent background"
+      },
+      {
+        "asset_name": "mountain.png",
+        "label": "Nature",
+        "size": "512x512",
+        "prompt": "3D kawaii sticker of a snow-capped mountain with pine trees at the base, cute happy face on the peak, glossy finish, rounded soft shape, transparent background"
+      }
+    ],
+    "nigeria": [
+      {
+        "asset_name": "mask.png",
+        "label": "Mask",
+        "size": "512x512",
+        "prompt": "3D kawaii sticker of a traditional Nigerian wooden mask with carved patterns and warm brown tones, cute friendly expression, glossy finish, rounded soft shape, transparent background"
+      },
+      {
+        "asset_name": "talking_drum.png",
+        "label": "Drum",
+        "size": "512x512",
+        "prompt": "3D kawaii sticker of a Nigerian talking drum (dundun) with leather straps and hourglass shape, cute happy face, glossy finish, rounded soft shape, transparent background"
+      },
+      {
+        "asset_name": "ankara_fabric.png",
+        "label": "Ankara",
+        "size": "512x512",
+        "prompt": "3D kawaii sticker of a rolled bolt of colorful ankara fabric with bold geometric patterns in orange, blue, and yellow, cute wink face, glossy finish, rounded soft shape, transparent background"
+      }
+    ],
+    "uk": [
+      {
+        "asset_name": "tower_bridge.png",
+        "label": "Bridge",
+        "size": "512x512",
+        "prompt": "3D kawaii sticker of London Tower Bridge with blue suspension towers and raised bascules, cute happy face on the bridge, glossy finish, rounded soft shape, transparent background"
+      },
+      {
+        "asset_name": "headphones.png",
+        "label": "Heze",
+        "size": "512x512",
+        "prompt": "3D kawaii sticker of blue over-ear headphones with a cute happy face, music notes floating around, glossy finish, rounded soft shape, transparent background"
+      },
+      {
+        "asset_name": "twin_stars.png",
+        "label": "Twins",
+        "size": "512x512",
+        "prompt": "3D kawaii sticker of two cute golden stars side by side, one slightly taller, both with happy smiling faces, glossy finish, rounded soft shape, sparkle accents, transparent background"
+      }
+    ]
+  }
+}

@@ -41,6 +41,21 @@
       "end": [530, 700]
     }
   ],
+  "decorations": {
+    "revealAfterSegment": 0,
+    "eyes": [
+      {"cx": 480, "cy": 330, "r": 16, "pupilR": 9, "highlightR": 4, "highlightOffset": [-3, -3]},
+      {"cx": 520, "cy": 330, "r": 16, "pupilR": 9, "highlightR": 4, "highlightOffset": [-3, -3]}
+    ],
+    "nosePath": "",
+    "mouthPath": "M488,368 C494,378 506,378 512,368",
+    "tonguePath": "",
+    "blush": [
+      {"cx": 466, "cy": 358, "rx": 12, "ry": 7},
+      {"cx": 534, "cy": 358, "rx": 12, "ry": 7}
+    ],
+    "eyebrowPaths": []
+  },
   "audio": {
     "intro": "butterfly_intro.mp3",
     "success": "great_job.mp3"

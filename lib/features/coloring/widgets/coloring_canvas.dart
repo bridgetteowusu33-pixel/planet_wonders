@@ -23,12 +23,14 @@ class ColoringCanvas extends ConsumerStatefulWidget {
     super.key,
     required this.canvasKey,
     required this.paintOutline,
-    this.regionMask, // NEW: region mask for fill tool
+    this.regionMask,
+    this.stickerOverlay,
   });
 
   final GlobalKey canvasKey;
   final OutlinePainter paintOutline;
-  final RegionMask? regionMask; // null for pages without mask support
+  final RegionMask? regionMask;
+  final Widget? stickerOverlay;
 
   @override
   ConsumerState<ColoringCanvas> createState() => _ColoringCanvasState();
@@ -179,6 +181,8 @@ class _ColoringCanvasState extends ConsumerState<ColoringCanvas> {
                         child: const SizedBox.expand(),
                       ),
                     ),
+                    if (widget.stickerOverlay != null)
+                      Positioned.fill(child: widget.stickerOverlay!),
                     if (filling)
                       const Center(
                         child: SizedBox(

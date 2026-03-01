@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/achievements/ui/achievement_tracker.dart';
+import '../../features/stickers/ui/sticker_album_screen.dart';
 import '../../features/creative_studio/canvas_screen.dart';
 import '../../features/creative_studio/creative_studio_home.dart';
 import '../../features/creative_studio/draw_mode_selector.dart';
@@ -20,10 +21,14 @@ import '../../features/fashion/screens/fashion_screen.dart';
 import '../../features/coloring/screens/all_coloring_pages_screen.dart';
 import '../../features/coloring/screens/coloring_list_screen.dart';
 import '../../features/coloring/screens/coloring_page_screen.dart';
-import '../../features/cooking_game/cooking_game_screen.dart';
 import '../../features/cooking_game/cooking_home.dart';
 import '../../features/cooking_game/cooking_recipe_story_screen.dart';
 import '../../features/cooking_game/data/recipes_ghana.dart';
+import '../../features/cooking_game/v2/data/v2_recipe_registry.dart';
+import '../../features/cooking_game/v2/data/v2_recipes_ghana.dart';
+import '../../features/cooking_game/v2/screens/country_kitchen_screen.dart';
+import '../../features/cooking_game/v2/screens/my_kitchen_screen.dart';
+import '../../features/cooking_game/v2/screens/v2_cooking_shell.dart';
 import '../../features/food/screens/food_detail_screen.dart';
 import '../../features/food/screens/food_home_screen.dart';
 import '../../features/games/screens/games_hub_screen.dart';
@@ -41,6 +46,8 @@ import '../../features/world_explorer/screens/continent_screen.dart';
 import '../../features/world_explorer/screens/country_hub_screen.dart';
 import '../../features/game_breaks/screens/memory_match_screen.dart';
 import '../../features/game_breaks/screens/sliding_puzzle_screen.dart';
+import '../../features/ingredient_rush/screens/ingredient_rush_screen.dart';
+import '../../features/pack_suitcase/screens/pack_suitcase_screen.dart';
 import '../../features/quiz/screens/quiz_screen.dart';
 import '../../features/learning_report/screens/learning_report_screen.dart';
 import '../../features/puzzles/presentation/puzzle_home_screen.dart';
@@ -81,7 +88,7 @@ TraceDifficulty _traceDifficultyFromQuery(String? raw) {
 }
 
 /// Known sub-paths under /games that are NOT country IDs.
-const _gamesSubRoutes = {'puzzles', 'memory', 'puzzle'};
+const _gamesSubRoutes = {'puzzles', 'memory', 'puzzle', 'ingredient-rush', 'pack-suitcase'};
 
 /// Builds the app-wide [GoRouter].
 GoRouter buildAppRouter({
@@ -274,18 +281,16 @@ GoRouter buildAppRouter({
               : recipe?.countryId ?? 'ghana';
 
           if (view == 'play') {
-            if (recipe == null) {
-              return CookingHubScreen(
-                source: source,
-                countryId: resolvedCountryId,
-                recipe: null,
-              );
+            // Always use V2 cooking engine.
+            final v2Id = recipeId != null ? '${recipeId}_v2' : null;
+            final v2Recipe =
+                (v2Id != null ? findV2Recipe(v2Id) : null) ??
+                (recipeId != null ? findV2Recipe(recipeId) : null);
+            if (v2Recipe != null) {
+              return V2CookingShell(recipe: v2Recipe);
             }
-            return CookingGameScreen(
-              recipe: recipe,
-              entrySource: source,
-              entryCountryId: resolvedCountryId,
-            );
+            // Fall back to country kitchen picker.
+            return CountryKitchenScreen(countryId: resolvedCountryId);
           }
 
           if (view == 'story') {
@@ -311,8 +316,34 @@ GoRouter buildAppRouter({
         },
       ),
       GoRoute(
+        path: '/cooking-v2',
+        builder: (context, state) {
+          final recipeId = state.uri.queryParameters['recipeId'];
+          // Look up V2 recipe from global registry; fall back to Ghana Jollof.
+          final recipe = (recipeId != null ? findV2Recipe(recipeId) : null) ??
+              ghanaJollofV2;
+          return V2CookingShell(recipe: recipe);
+        },
+      ),
+      GoRoute(
+        path: '/cooking-v2-kitchen',
+        builder: (context, state) {
+          final countryId =
+              state.uri.queryParameters['countryId'] ?? 'ghana';
+          return CountryKitchenScreen(countryId: countryId);
+        },
+      ),
+      GoRoute(
+        path: '/my-kitchen',
+        builder: (context, state) => const MyKitchenScreen(),
+      ),
+      GoRoute(
         path: '/achievements',
         builder: (context, state) => const AchievementTrackerScreen(),
+      ),
+      GoRoute(
+        path: '/sticker-album',
+        builder: (context, state) => const StickerAlbumScreen(),
       ),
       GoRoute(
         path: '/screen-time',
@@ -369,6 +400,24 @@ GoRouter buildAppRouter({
             path: 'puzzle/:countryId',
             builder: (context, state) => SlidingPuzzleScreen(
               countryId: state.pathParameters['countryId']!,
+            ),
+          ),
+          GoRoute(
+            path: 'ingredient-rush',
+            builder: (context, state) => IngredientRushScreen(
+              countryId:
+                  state.uri.queryParameters['countryId'] ?? 'ghana',
+              recipeId: state.uri.queryParameters['recipeId'],
+              initialDifficulty:
+                  state.uri.queryParameters['difficulty'] ?? 'easy',
+            ),
+          ),
+          GoRoute(
+            path: 'pack-suitcase',
+            builder: (context, state) => PackSuitcaseScreen(
+              countryId:
+                  state.uri.queryParameters['countryId'] ?? 'ghana',
+              packId: state.uri.queryParameters['packId'],
             ),
           ),
         ],

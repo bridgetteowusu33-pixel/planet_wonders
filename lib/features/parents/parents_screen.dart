@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../core/audio/narration_settings_provider.dart';
 import '../../core/motion/motion_settings_provider.dart';
 import '../../core/theme/pw_theme.dart';
 import '../../core/theme/theme_provider.dart';
@@ -24,6 +25,8 @@ class ParentsScreen extends ConsumerWidget {
     final motion = ref.watch(motionSettingsProvider);
     final motionNotifier = ref.read(motionSettingsProvider.notifier);
     final stSettings = ref.watch(screenTimeSettingsProvider);
+    final narrationSettings = ref.watch(narrationSettingsProvider);
+    final narrationNotifier = ref.read(narrationSettingsProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(
@@ -159,6 +162,38 @@ class ParentsScreen extends ConsumerWidget {
                   activeThumbColor: PWColors.mint,
                 ),
               ],
+            ],
+          ),
+
+          const SizedBox(height: 24),
+
+          // ── Audio section ──
+          _SectionHeader(
+            title: 'Audio',
+            emoji: '\u{1F50A}', // 🔊
+          ),
+          const SizedBox(height: 8),
+          _SettingsCard(
+            children: [
+              SwitchListTile(
+                title: Text(
+                  'Story Voice',
+                  style: GoogleFonts.nunito(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 15,
+                  ),
+                ),
+                subtitle: Text(
+                  'Use a natural voice for story narration',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: PWThemeColors.of(context).textMuted,
+                  ),
+                ),
+                value: narrationSettings.storyVoiceEnabled,
+                onChanged: (v) => narrationNotifier.setStoryVoiceEnabled(v),
+                activeThumbColor: PWColors.mint,
+              ),
             ],
           ),
 
@@ -389,7 +424,7 @@ class ParentsScreen extends ConsumerWidget {
             child: Column(
               children: [
                 Image.asset(
-                  'assets/logos/planet_wonders_logo.png',
+                  'assets/logos/planet_wonders_logo.webp',
                   height: 40,
                   filterQuality: FilterQuality.low,
                   errorBuilder: (_, _, _) => const SizedBox.shrink(),
@@ -714,3 +749,4 @@ class _ThemeTile extends StatelessWidget {
     );
   }
 }
+

@@ -165,7 +165,7 @@ class _StickerBottomNav extends StatelessWidget {
     _StickerTabData(
       label: 'Home',
       icon: Icons.home_rounded,
-      iconAsset: 'assets/icons/home.png',
+      iconAsset: 'assets/icons/home.webp',
       fallbackEmoji: '\u{1F3E0}',
       top: Color(0xFF2A66E5),
       bottom: Color(0xFF1D46AA),
@@ -173,7 +173,7 @@ class _StickerBottomNav extends StatelessWidget {
     _StickerTabData(
       label: 'Gallery',
       icon: Icons.photo_size_select_actual_rounded,
-      iconAsset: 'assets/icons/gallery.png',
+      iconAsset: 'assets/icons/gallery.webp',
       fallbackEmoji: '\u{1F5BC}',
       top: Color(0xFFFFD54F),
       bottom: Color(0xFFEEA820),
@@ -181,7 +181,7 @@ class _StickerBottomNav extends StatelessWidget {
     _StickerTabData(
       label: 'Passport',
       icon: Icons.public_rounded,
-      iconAsset: 'assets/icons/passport.png',
+      iconAsset: 'assets/icons/passport.webp',
       fallbackEmoji: '\u{1F30D}',
       top: Color(0xFF5CCBFF),
       bottom: Color(0xFF268FD8),
@@ -189,7 +189,7 @@ class _StickerBottomNav extends StatelessWidget {
     _StickerTabData(
       label: 'Parents',
       icon: Icons.lock_rounded,
-      iconAsset: 'assets/icons/parents.png',
+      iconAsset: 'assets/icons/parents.webp',
       fallbackEmoji: '\u{1F512}',
       top: Color(0xFF2A66E5),
       bottom: Color(0xFF1D46AA),

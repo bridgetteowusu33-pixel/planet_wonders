@@ -12,27 +12,36 @@ class BrushTypeSelector extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final current = ref.watch(drawingProvider.select((s) => s.currentBrushType));
 
-    return Wrap(
-      alignment: WrapAlignment.center,
-      spacing: 8,
-      runSpacing: 8,
-      children: [
-        _BrushChip(
-          label: 'Marker',
-          active: current == BrushType.marker,
-          onTap: () => ref.read(drawingProvider.notifier).setBrushType(BrushType.marker),
+    final chips = <Widget>[
+      _BrushChip(
+        label: 'Marker',
+        active: current == BrushType.marker,
+        onTap: () => ref.read(drawingProvider.notifier).setBrushType(BrushType.marker),
+      ),
+      _BrushChip(
+        label: 'Crayon',
+        active: current == BrushType.crayon,
+        onTap: () => ref.read(drawingProvider.notifier).setBrushType(BrushType.crayon),
+      ),
+      _BrushChip(
+        label: 'Soft',
+        active: current == BrushType.softBrush,
+        onTap: () => ref.read(drawingProvider.notifier).setBrushType(BrushType.softBrush),
+      ),
+    ];
+
+    return SizedBox(
+      height: 40,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(
+          parent: AlwaysScrollableScrollPhysics(),
         ),
-        _BrushChip(
-          label: 'Crayon',
-          active: current == BrushType.crayon,
-          onTap: () => ref.read(drawingProvider.notifier).setBrushType(BrushType.crayon),
-        ),
-        _BrushChip(
-          label: 'Soft',
-          active: current == BrushType.softBrush,
-          onTap: () => ref.read(drawingProvider.notifier).setBrushType(BrushType.softBrush),
-        ),
-      ],
+        padding: const EdgeInsets.symmetric(horizontal: 4),
+        itemCount: chips.length,
+        separatorBuilder: (_, _) => const SizedBox(width: 8),
+        itemBuilder: (_, index) => chips[index],
+      ),
     );
   }
 }

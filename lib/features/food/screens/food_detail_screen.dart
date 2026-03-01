@@ -52,10 +52,6 @@ class _FoodDetailScreenState extends State<FoodDetailScreen>
     final country = findCountryById(countryId);
     final countryName = country?.name ?? countryId;
     final recipeId = _recipeIdForDish(countryId: countryId, dishId: dishId);
-    final storyRecipeId = _storyRecipeIdForDish(
-      countryId: countryId,
-      dishId: dishId,
-    );
 
     if (dish == null) {
       return Scaffold(
@@ -73,6 +69,12 @@ class _FoodDetailScreenState extends State<FoodDetailScreen>
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
+        actions: [
+          IconButton(
+            onPressed: () => context.go('/'),
+            icon: const Icon(Icons.home_rounded),
+          ),
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -181,29 +183,16 @@ class _FoodDetailScreenState extends State<FoodDetailScreen>
                 Row(
                   children: [
                     Expanded(
-                      child: CookingEntryButton(
-                        recipeId: recipeId,
-                        countryId: countryId,
-                        source: 'food',
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-              if (storyRecipeId != null) ...[
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    Expanded(
                       child: FilledButton.icon(
-                        onPressed: () => context.push(
-                          '/recipe-story/$countryId/$storyRecipeId?source=food',
+                        onPressed: () => openCookingGameV2(
+                          context,
+                          recipeId: '${recipeId}_v2',
                         ),
-                        icon: const Icon(Icons.menu_book_rounded),
-                        label: const Text('RECIPE STORY MODE'),
+                        icon: const Icon(Icons.soup_kitchen_rounded),
+                        label: const Text('COOK IT!'),
                         style: FilledButton.styleFrom(
                           minimumSize: const Size(0, 52),
-                          backgroundColor: PWColors.blue,
+                          backgroundColor: PWColors.mint,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(14),
                           ),
@@ -273,21 +262,66 @@ class _FoodDetailScreenState extends State<FoodDetailScreen>
     if (findCookingRecipe(exactId) != null) {
       return exactId;
     }
-    if (countryId == 'ghana' && dishId == 'jollof') {
-      return 'ghana_jollof';
+    // Dish IDs that don't match cooking recipe IDs directly.
+    final alias = _cookingRecipeAlias(countryId, dishId);
+    if (alias != null && findCookingRecipe(alias) != null) {
+      return alias;
     }
     return null;
   }
 
-  String? _storyRecipeIdForDish({
-    required String countryId,
-    required String dishId,
-  }) {
-    if (countryId != 'ghana') return null;
-    if (dishId == 'jollof') return 'ghana_jollof_story';
-    if (dishId == 'waakye') return 'waakye';
-    if (dishId == 'banku') return 'banku_tilapia';
-    if (dishId == 'kelewele') return 'kelewele';
+  static String? _cookingRecipeAlias(String countryId, String dishId) {
+    if (countryId == 'ghana') {
+      return switch (dishId) {
+        'jollof' => 'ghana_jollof',
+        'banku' => 'ghana_banku',
+        'fufu' => 'ghana_fufu',
+        'waakye' => 'ghana_waakye',
+        'koko' => 'ghana_koko',
+        'kelewele' => 'ghana_kelewele',
+        'peanut_butter_soup' => 'ghana_peanut_butter_soup',
+        'palmnut' => 'ghana_palmnut',
+        'fried_rice' => 'ghana_fried_rice',
+        _ => null,
+      };
+    }
+    if (countryId == 'nigeria') {
+      return switch (dishId) {
+        'jollof' => 'nigeria_jollof',
+        'suya' => 'nigeria_suya',
+        'pounded_yam' => 'nigeria_pounded_yam',
+        'egusi' => 'nigeria_egusi',
+        'chin_chin' => 'nigeria_chin_chin',
+        _ => null,
+      };
+    }
+    if (countryId == 'uk') {
+      return switch (dishId) {
+        'fishandchips' => 'uk_fish_and_chips',
+        'shepherdspie' => 'uk_shepherds_pie',
+        'englishbreakfast' => 'uk_full_breakfast',
+        'bangersandmash' => 'uk_bangers_and_mash',
+        'yorkshirepudding' => 'uk_yorkshire_pudding',
+        'cornishpasty' => 'uk_cornish_pasty',
+        'stickytoffee' => 'uk_sticky_toffee',
+        _ => null,
+      };
+    }
+    if (countryId == 'usa') {
+      return switch (dishId) {
+        'burger' => 'usa_burger',
+        'pizza' => 'usa_pizza',
+        'hotdog' => 'usa_hotdog',
+        'pancakes' => 'usa_pancakes',
+        'donut' => 'usa_donut',
+        'icecream' => 'usa_icecream',
+        'friedchicken' => 'usa_friedchicken',
+        'applepie' => 'usa_applepie',
+        'sandwich' => 'usa_sandwich',
+        'milkshake' => 'usa_milkshake',
+        _ => null,
+      };
+    }
     return null;
   }
 }

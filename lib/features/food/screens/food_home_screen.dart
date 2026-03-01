@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/theme/pw_theme.dart';
-import '../../cooking_game/cooking_entry.dart';
 import '../../world_explorer/data/world_data.dart';
 import '../data/food_data.dart';
 import '../models/food_dish.dart';
@@ -28,6 +28,12 @@ class FoodHomeScreen extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
+        actions: [
+          IconButton(
+            onPressed: () => context.go('/'),
+            icon: const Icon(Icons.home_rounded),
+          ),
+        ],
       ),
       body: SafeArea(
         child: pack == null || pack.dishes.isEmpty
@@ -94,32 +100,14 @@ class _FoodModeRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: _FoodModeCard(
-            color: PWColors.mint,
-            icon: Icons.soup_kitchen_rounded,
-            title: 'Cooking Game',
-            subtitle: 'Play and cook',
-            onTap: () => openCookingHub(
-              context,
-              source: 'food',
-              countryId: countryId,
-            ),
-          ),
-        ),
-        const SizedBox(width: 10),
-        Expanded(
-          child: _FoodModeCard(
-            color: PWColors.coral,
-            icon: Icons.menu_book_rounded,
-            title: 'Recipe Story',
-            subtitle: 'Cook with a story',
-            onTap: () => context.push('/recipe-story/$countryId?source=food'),
-          ),
-        ),
-      ],
+    return _FoodModeCard(
+      color: PWColors.mint,
+      icon: Icons.soup_kitchen_rounded,
+      title: 'Cooking Game',
+      subtitle: 'Play and cook',
+      onTap: () => context.push(
+        '/cooking-v2-kitchen?countryId=$countryId',
+      ),
     );
   }
 }
@@ -141,55 +129,65 @@ class _FoodModeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final gradTop = Color.lerp(color, Colors.white, 0.25)!;
+    final gradBottom = color;
+    const radius = BorderRadius.all(Radius.circular(18));
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: color.withValues(alpha: 0.5), width: 2),
-          boxShadow: [
-            BoxShadow(
-              color: PWColors.navy.withValues(alpha: 0.1),
-              blurRadius: 10,
-              offset: const Offset(0, 3),
-            ),
-          ],
+          borderRadius: radius,
+          color: Color.lerp(gradBottom, Colors.black, 0.35),
         ),
-        child: Row(
-          children: [
-            Container(
-              width: 34,
-              height: 34,
-              decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Icon(icon, size: 20, color: PWColors.navy),
+        padding: const EdgeInsets.only(bottom: 4),
+        child: Container(
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+          decoration: BoxDecoration(
+            borderRadius: radius,
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [gradTop, gradBottom],
             ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          fontWeight: FontWeight.w800,
-                          fontSize: 13,
-                        ),
-                  ),
-                  Text(
-                    subtitle,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: PWColors.navy.withValues(alpha: 0.72),
-                        ),
-                  ),
-                ],
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 34,
+                height: 34,
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.3),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(icon, size: 20, color: Colors.white),
               ),
-            ),
-          ],
+              const SizedBox(width: 8),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: GoogleFonts.fredoka(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Text(
+                      subtitle,
+                      style: GoogleFonts.nunito(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white.withValues(alpha: 0.8),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -277,59 +275,62 @@ class _FoodCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const gradTop = Color(0xFFFFC23B);
+    const gradBottom = Color(0xFFEA8B1D);
+    const radius = BorderRadius.all(Radius.circular(22));
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: PWColors.navy.withValues(alpha: 0.12),
-              blurRadius: 14,
-              offset: const Offset(0, 5),
-            ),
-          ],
+          borderRadius: radius,
+          color: Color.lerp(gradBottom, Colors.black, 0.35),
         ),
-        child: Column(
-          children: [
-            Expanded(
-              child: ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-                child: Image.asset(
-                  dish.previewAsset,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  errorBuilder: (context, error, stackTrace) => Center(
-                    child: Text(
-                      dish.emoji,
-                      style: const TextStyle(fontSize: 52),
+        padding: const EdgeInsets.only(bottom: 4),
+        child: Container(
+          decoration: const BoxDecoration(
+            borderRadius: radius,
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [gradTop, gradBottom],
+            ),
+          ),
+          child: Column(
+            children: [
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(22)),
+                  child: Image.asset(
+                    dish.previewAsset,
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    errorBuilder: (context, error, stackTrace) => Center(
+                      child: Text(
+                        dish.emoji,
+                        style: const TextStyle(fontSize: 52),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(10, 8, 10, 10),
-              child: Column(
-                children: [
-                  Text(
-                    dish.emoji,
-                    style: const TextStyle(fontSize: 18),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8, 6, 8, 10),
+                child: Text(
+                  dish.name,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.fredoka(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w800,
+                    color: Colors.white,
                   ),
-                  const SizedBox(height: 2),
-                  Text(
-                    dish.name,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w800,
-                        ),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

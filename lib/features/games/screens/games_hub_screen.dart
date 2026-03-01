@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/pw_theme.dart';
-import '../../cooking_game/cooking_entry.dart';
+import '../../../shared/widgets/flying_airplane.dart';
 import '../../cooking_game/data/recipes_ghana.dart';
 import '../providers/game_country_provider.dart';
 import '../widgets/game_card.dart';
@@ -51,8 +51,17 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
+        actions: [
+          IconButton(
+            onPressed: () => context.go('/'),
+            icon: const Icon(Icons.home_rounded),
+          ),
+        ],
       ),
-      body: SafeArea(
+      body: Stack(
+        children: [
+          const FlyingAirplane(),
+          SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
             final w = constraints.maxWidth;
@@ -145,7 +154,7 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
                           crossAxisCount: crossAxisCount,
                           crossAxisSpacing: 12,
                           mainAxisSpacing: 12,
-                          childAspectRatio: 0.94,
+                          childAspectRatio: 1.15,
                           children: [
                             GameCard(
                               emoji: '\u{1F9E0}', // 🧠
@@ -186,6 +195,22 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
                               onTap: () => context.push('/draw-with-me'),
                             ),
                             GameCard(
+                              emoji: '\u{1F3AF}', // 🎯
+                              title: 'Ingredient Rush',
+                              subtitle: 'Tap the right ingredients!',
+                              color: PWColors.coral,
+                              onTap: () => context.push(
+                                  '/games/ingredient-rush?countryId=$selectedCountry'),
+                            ),
+                            GameCard(
+                              emoji: '\u{1F9F3}', // 🧳
+                              title: 'Pack the Suitcase',
+                              subtitle: 'Pack for your trip!',
+                              color: PWColors.blue,
+                              onTap: () => context.push(
+                                  '/games/pack-suitcase?countryId=$selectedCountry'),
+                            ),
+                            GameCard(
                               emoji: '\u{1F373}', // 🍳
                               title: 'Cooking Fun',
                               subtitle: recipes.isEmpty
@@ -202,12 +227,8 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
                                   );
                                   return;
                                 }
-                                openCookingHub(
-                                  context,
-                                  source: 'games',
-                                  countryId: selectedCountry,
-                                  recipeId: recipes.first.id,
-                                );
+                                context.push(
+                                    '/cooking-v2-kitchen?countryId=$selectedCountry');
                               },
                             ),
                           ],
@@ -220,6 +241,8 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
             );
           },
         ),
+      ),
+        ],
       ),
     );
   }

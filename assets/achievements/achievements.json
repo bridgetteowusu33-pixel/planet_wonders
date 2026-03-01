@@ -1,64 +1,239 @@
 {
   "achievements": [
     {
-      "id": "ghana_chef_star",
-      "title": "Ghana Chef Star",
-      "description": "Complete the Ghana Jollof story recipe.",
-      "iconPath": "assets/badges/ghana_chef_star.png",
-      "score": 20,
+      "id": "first_cook",
+      "title": "First Cook",
+      "description": "Cook your first recipe!",
+      "iconPath": "assets/badges/little_chef.webp",
+      "score": 10,
       "unlockCondition": {
-        "type": "recipe_story_completed",
-        "countryId": "ghana",
-        "recipeId": "ghana_jollof_story",
+        "type": "cooking_recipe_completed",
         "minCount": 1
       }
     },
     {
-      "id": "waakye_master",
-      "title": "Waakye Master",
-      "description": "Cook the Waakye story recipe in Ghana.",
-      "iconPath": "assets/badges/waakye_master.png",
-      "score": 20,
+      "id": "ghana_chef",
+      "title": "Ghana Chef",
+      "description": "Cook 3 Ghana recipes.",
+      "iconPath": "assets/badges/ghana_chef_star.webp",
+      "score": 25,
       "unlockCondition": {
-        "type": "recipe_story_completed",
-        "countryId": "ghana",
-        "recipeId": "waakye",
-        "minCount": 1
-      }
-    },
-    {
-      "id": "ghana_food_hero",
-      "title": "Ghana Food Hero",
-      "description": "Complete 3 Ghana recipe stories.",
-      "iconPath": "assets/badges/ghana_food_hero.png",
-      "score": 35,
-      "unlockCondition": {
-        "type": "recipe_story_completed",
+        "type": "cooking_recipe_completed",
         "countryId": "ghana",
         "minCount": 3
       }
     },
     {
-      "id": "little_chef",
-      "title": "Little Chef",
-      "description": "Complete 5 recipes from any country.",
-      "iconPath": "assets/badges/little_chef.png",
-      "score": 40,
+      "id": "nigeria_chef",
+      "title": "Nigeria Chef",
+      "description": "Cook 3 Nigeria recipes.",
+      "iconPath": "assets/badges/nigeria_chef.png",
+      "score": 25,
       "unlockCondition": {
-        "type": "any_recipe_completed",
-        "minCount": 5
+        "type": "cooking_recipe_completed",
+        "countryId": "nigeria",
+        "minCount": 3
       }
     },
     {
-      "id": "world_chef",
-      "title": "World Chef",
-      "description": "Complete 10 recipes across at least 2 countries.",
-      "iconPath": "assets/badges/world_chef.png",
+      "id": "uk_chef",
+      "title": "UK Chef",
+      "description": "Cook 3 UK recipes.",
+      "iconPath": "assets/badges/uk_chef.png",
+      "score": 25,
+      "unlockCondition": {
+        "type": "cooking_recipe_completed",
+        "countryId": "uk",
+        "minCount": 3
+      }
+    },
+    {
+      "id": "usa_chef",
+      "title": "USA Chef",
+      "description": "Cook 3 USA recipes.",
+      "iconPath": "assets/badges/usa_chef.png",
+      "score": 25,
+      "unlockCondition": {
+        "type": "cooking_recipe_completed",
+        "countryId": "usa",
+        "minCount": 3
+      }
+    },
+    {
+      "id": "ghana_master",
+      "title": "Ghana Master Chef",
+      "description": "Cook 6 Ghana recipes!",
+      "iconPath": "assets/badges/ghana_food_hero.webp",
+      "score": 50,
+      "unlockCondition": {
+        "type": "cooking_recipe_completed",
+        "countryId": "ghana",
+        "minCount": 6
+      }
+    },
+    {
+      "id": "world_traveller",
+      "title": "World Traveller",
+      "description": "Cook recipes from at least 2 countries.",
+      "iconPath": "assets/badges/world_chef.webp",
+      "score": 40,
+      "unlockCondition": {
+        "type": "any_recipe_completed",
+        "minCount": 4,
+        "minCountries": 2
+      }
+    },
+    {
+      "id": "master_chef",
+      "title": "Master Chef",
+      "description": "Cook 15 recipes across at least 3 countries!",
+      "iconPath": "assets/badges/master_chef.png",
       "score": 80,
       "unlockCondition": {
         "type": "any_recipe_completed",
-        "minCount": 10,
-        "minCountries": 2
+        "minCount": 15,
+        "minCountries": 3
+      }
+    },
+    {
+      "id": "ingredient_hunter",
+      "title": "Ingredient Hunter",
+      "description": "Complete your first Ingredient Rush!",
+      "iconPath": "assets/badges/ingredient_hunter.png",
+      "score": 10,
+      "unlockCondition": {
+        "type": "ingredient_rush_completed",
+        "minCount": 1
+      }
+    },
+    {
+      "id": "perfect_tapper",
+      "title": "Perfect Tapper",
+      "description": "Finish a rush with zero wrong taps!",
+      "iconPath": "assets/badges/perfect_tapper.png",
+      "score": 25,
+      "unlockCondition": {
+        "type": "ingredient_rush_completed",
+        "minCount": 1,
+        "qualifier": "perfect"
+      }
+    },
+    {
+      "id": "speedy_chef_rush",
+      "title": "Speedy Chef",
+      "description": "Finish with lots of time to spare!",
+      "iconPath": "assets/badges/speedy_chef_rush.png",
+      "score": 25,
+      "unlockCondition": {
+        "type": "ingredient_rush_completed",
+        "minCount": 1,
+        "qualifier": "speedy"
+      }
+    },
+    {
+      "id": "first_pack_complete",
+      "title": "First Flight",
+      "description": "Pack your first suitcase!",
+      "iconPath": "assets/badges/first_flight.png",
+      "score": 10,
+      "unlockCondition": {
+        "type": "pack_suitcase_completed",
+        "minCount": 1
+      }
+    },
+    {
+      "id": "perfect_packer",
+      "title": "Perfect Packer",
+      "description": "Pack with zero wrong items!",
+      "iconPath": "assets/badges/perfect_packer.png",
+      "score": 25,
+      "unlockCondition": {
+        "type": "pack_suitcase_completed",
+        "minCount": 1,
+        "qualifier": "perfect"
+      }
+    },
+    {
+      "id": "world_traveler_packer",
+      "title": "World Traveler",
+      "description": "Pack for 3 different countries!",
+      "iconPath": "assets/badges/world_traveler_packer.png",
+      "score": 40,
+      "unlockCondition": {
+        "type": "pack_suitcase_completed",
+        "minCount": 3,
+        "minCountries": 3
+      }
+    },
+    {
+      "id": "first_story",
+      "title": "First Story",
+      "description": "Read your first story!",
+      "iconPath": "assets/badges/first_story.png",
+      "score": 10,
+      "unlockCondition": {
+        "type": "story_completed",
+        "minCount": 1
+      }
+    },
+    {
+      "id": "ghana_story",
+      "title": "Ghana Story Explorer",
+      "description": "Complete Ghana's story!",
+      "iconPath": "assets/badges/ghana_story.png",
+      "score": 15,
+      "unlockCondition": {
+        "type": "story_completed",
+        "countryId": "ghana",
+        "minCount": 1
+      }
+    },
+    {
+      "id": "nigeria_story",
+      "title": "Nigeria Story Explorer",
+      "description": "Complete Nigeria's story!",
+      "iconPath": "assets/badges/nigeria_story.png",
+      "score": 15,
+      "unlockCondition": {
+        "type": "story_completed",
+        "countryId": "nigeria",
+        "minCount": 1
+      }
+    },
+    {
+      "id": "uk_story",
+      "title": "UK Story Explorer",
+      "description": "Complete the UK's story!",
+      "iconPath": "assets/badges/uk_story.png",
+      "score": 15,
+      "unlockCondition": {
+        "type": "story_completed",
+        "countryId": "uk",
+        "minCount": 1
+      }
+    },
+    {
+      "id": "usa_story",
+      "title": "USA Story Explorer",
+      "description": "Complete the USA's story!",
+      "iconPath": "assets/badges/usa_story.png",
+      "score": 15,
+      "unlockCondition": {
+        "type": "story_completed",
+        "countryId": "usa",
+        "minCount": 1
+      }
+    },
+    {
+      "id": "story_collector",
+      "title": "Story Collector",
+      "description": "Read stories from 3 different countries!",
+      "iconPath": "assets/badges/story_collector.png",
+      "score": 40,
+      "unlockCondition": {
+        "type": "story_completed",
+        "minCount": 3,
+        "minCountries": 3
       }
     }
   ]

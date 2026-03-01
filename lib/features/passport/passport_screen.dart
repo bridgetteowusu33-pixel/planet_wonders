@@ -3,10 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../core/services/passport_service.dart';
 import '../../core/theme/pw_theme.dart';
+import '../../shared/widgets/flying_airplane.dart';
 import '../achievements/providers/achievement_provider.dart';
 import '../achievements/ui/badge_unlock_animation.dart';
 import '../coloring/data/coloring_data.dart';
+import '../stickers/providers/sticker_provider.dart';
+import '../stickers/ui/sticker_unlock_animation.dart';
 import '../stories/data/story_data.dart';
 import '../world_explorer/data/world_data.dart';
 
@@ -14,16 +18,18 @@ import '../world_explorer/data/world_data.dart';
 class PassportScreen extends ConsumerWidget {
   const PassportScreen({super.key});
 
-  List<_ExploredCountry> get _exploredCountries {
+  /// Build list of countries the user has actually explored (added to passport).
+  List<_ExploredCountry> _exploredCountries(Set<String> badges) {
     final explored = <_ExploredCountry>[];
     for (final continent in worldContinents) {
       for (final country in continent.countries) {
-        if (country.isUnlocked) {
+        if (badges.contains('story_complete_${country.id}')) {
           explored.add(
             _ExploredCountry(
               id: country.id,
               name: country.name,
               flag: country.flagEmoji,
+              flagAsset: country.flagAsset,
               continent: continent.name,
               hasStory: storyRegistry.containsKey(country.id),
               hasColoring: coloringRegistry.containsKey(country.id),
@@ -37,14 +43,23 @@ class PassportScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final countries = _exploredCountries;
+    final badgesAsync = ref.watch(passportBadgesProvider);
+    final badges = badgesAsync.when(
+      data: (d) => d,
+      loading: () => const <String>{},
+      error: (_, _) => const <String>{},
+    );
+    final countries = _exploredCountries(badges);
+    final storiesRead = badges.where((b) => b.startsWith('story_complete_')).length;
     final achievementState = ref.watch(achievementProvider);
+    final stickerState = ref.watch(stickerProvider);
 
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: SafeArea(
         child: Stack(
           children: [
+            const FlyingAirplane(),
             Align(
               alignment: Alignment.topCenter,
               child: ConstrainedBox(
@@ -87,8 +102,17 @@ class PassportScreen extends ConsumerWidget {
                       const SizedBox(width: 12),
                       Expanded(
                         child: _StatCard(
+                          emoji: '\u{2B50}', // ⭐
+                          value: '${stickerState.collectedCount}',
+                          label: 'Stickers\nCollected',
+                          color: PWColors.coral,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _StatCard(
                           emoji: '\u{1F4D6}', // 📖
-                          value: '${storyRegistry.length}',
+                          value: '$storiesRead',
                           label: 'Stories\nRead',
                           color: const Color(0xFFFF9800),
                         ),
@@ -103,6 +127,74 @@ class PassportScreen extends ConsumerWidget {
                     style: FilledButton.styleFrom(
                       minimumSize: const Size.fromHeight(48),
                       backgroundColor: PWColors.mint,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  if (stickerState.newCount > 0)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: GestureDetector(
+                        onTap: () => context.push('/sticker-album'),
+                        child: Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 14,
+                            horizontal: 16,
+                          ),
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [Color(0xFFFFD54F), Color(0xFFFF8A65)],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            borderRadius: BorderRadius.circular(16),
+                            boxShadow: [
+                              BoxShadow(
+                                color: PWColors.coral.withValues(alpha: 0.35),
+                                blurRadius: 12,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                '\u{2728}', // ✨
+                                style: TextStyle(fontSize: 22),
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                stickerState.newCount == 1
+                                    ? '1 New Sticker!'
+                                    : '${stickerState.newCount} New Stickers!',
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              const Text(
+                                '\u{2728}', // ✨
+                                style: TextStyle(fontSize: 22),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  FilledButton.icon(
+                    onPressed: () => context.push('/sticker-album'),
+                    icon: const Icon(Icons.auto_awesome_mosaic_rounded),
+                    label: const Text('My Sticker Album'),
+                    style: FilledButton.styleFrom(
+                      minimumSize: const Size.fromHeight(48),
+                      backgroundColor: PWColors.yellow,
+                      foregroundColor: PWColors.navy,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),
                       ),
@@ -172,6 +264,7 @@ class PassportScreen extends ConsumerWidget {
               ),
             ),
             const BadgeUnlockAnimationListener(),
+            const StickerUnlockAnimationListener(),
           ],
         ),
       ),
@@ -250,42 +343,50 @@ class _StatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final gradTop = Color.lerp(color, Colors.white, 0.3)!;
+    final gradBottom = color;
+    const radius = BorderRadius.all(Radius.circular(22));
+
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 16),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: PWColors.navy.withValues(alpha: 0.08),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        borderRadius: radius,
+        color: Color.lerp(gradBottom, Colors.black, 0.35),
       ),
-      child: Column(
-        children: [
-          Text(emoji, style: const TextStyle(fontSize: 28)),
-          const SizedBox(height: 6),
-          Text(
-            value,
-            style: GoogleFonts.baloo2(
-              fontSize: 24,
-              fontWeight: FontWeight.w800,
-              color: color,
-            ),
+      padding: const EdgeInsets.only(bottom: 4),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        decoration: BoxDecoration(
+          borderRadius: radius,
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [gradTop, gradBottom],
           ),
-          const SizedBox(height: 2),
-          Text(
-            label,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.w700,
-              color: PWColors.navy.withValues(alpha: 0.5),
+        ),
+        child: Column(
+          children: [
+            Text(emoji, style: const TextStyle(fontSize: 28)),
+            const SizedBox(height: 6),
+            Text(
+              value,
+              style: GoogleFonts.baloo2(
+                fontSize: 24,
+                fontWeight: FontWeight.w800,
+                color: Colors.white,
+              ),
             ),
-          ),
-        ],
+            const SizedBox(height: 2),
+            Text(
+              label,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w700,
+                color: Colors.white.withValues(alpha: 0.8),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -296,6 +397,7 @@ class _ExploredCountry {
     required this.id,
     required this.name,
     required this.flag,
+    this.flagAsset,
     required this.continent,
     required this.hasStory,
     required this.hasColoring,
@@ -304,6 +406,7 @@ class _ExploredCountry {
   final String id;
   final String name;
   final String flag;
+  final String? flagAsset;
   final String continent;
   final bool hasStory;
   final bool hasColoring;
@@ -347,7 +450,21 @@ class _CountryStamp extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
             ),
             child: Center(
-              child: Text(country.flag, style: const TextStyle(fontSize: 32)),
+              child: country.flagAsset != null
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(6),
+                      child: Image.asset(
+                        country.flagAsset!,
+                        width: 40,
+                        height: 40,
+                        fit: BoxFit.contain,
+                        errorBuilder: (context, error, stackTrace) => Text(
+                          country.flag,
+                          style: const TextStyle(fontSize: 32),
+                        ),
+                      ),
+                    )
+                  : Text(country.flag, style: const TextStyle(fontSize: 32)),
             ),
           ),
           const SizedBox(width: 14),

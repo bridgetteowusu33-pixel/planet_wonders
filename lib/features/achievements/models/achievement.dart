@@ -5,6 +5,7 @@ class AchievementUnlockCondition {
     this.recipeId,
     this.minCount = 1,
     this.minCountries = 0,
+    this.qualifier,
   });
 
   final String type;
@@ -12,6 +13,7 @@ class AchievementUnlockCondition {
   final String? recipeId;
   final int minCount;
   final int minCountries;
+  final String? qualifier;
 
   factory AchievementUnlockCondition.fromJson(Map<String, dynamic> json) {
     return AchievementUnlockCondition(
@@ -20,6 +22,7 @@ class AchievementUnlockCondition {
       recipeId: _optString(json['recipeId']),
       minCount: _optInt(json['minCount']) ?? 1,
       minCountries: _optInt(json['minCountries']) ?? 0,
+      qualifier: _optString(json['qualifier']),
     );
   }
 }

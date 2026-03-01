@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/pw_theme.dart';
+import '../../domain/character_expression.dart';
 
 class CulturePanel extends StatefulWidget {
-  const CulturePanel({super.key, required this.fact});
+  const CulturePanel({super.key, required this.fact, this.countryId});
 
   final String fact;
+  final String? countryId;
 
   @override
   State<CulturePanel> createState() => _CulturePanelState();
@@ -89,7 +91,7 @@ class _CulturePanelState extends State<CulturePanel>
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       Text(
-                        '🇬🇭 Did you know?',
+                        '${widget.countryId != null ? flagForCountry(widget.countryId!) : '🌍'} Did you know?',
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w900,

@@ -71,11 +71,13 @@ class _StirSceneState extends State<StirScene>
                   color: Color(0xFF1D3557),
                 ),
               ),
-              const SizedBox(height: 10),
-              SizedBox(
-                width: 240,
-                height: 240,
-                child: AnimatedBuilder(
+              const SizedBox(height: 8),
+              Flexible(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 240, maxHeight: 240),
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: AnimatedBuilder(
                   animation: _swirlAnim,
                   builder: (context, child) {
                     return Stack(
@@ -120,7 +122,9 @@ class _StirSceneState extends State<StirScene>
                   },
                 ),
               ),
-              const SizedBox(height: 8),
+                ),
+              ),
+              const SizedBox(height: 6),
               Text(
                 isDone
                     ? 'Perfect stir!'

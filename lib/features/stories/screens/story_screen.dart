@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_tts/flutter_tts.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/audio/narration_service.dart';
+import '../../../core/audio/narration_state.dart';
 import '../../../core/theme/pw_theme.dart';
 import '../../world_explorer/data/world_data.dart';
 import '../data/story_data.dart';
@@ -27,7 +30,8 @@ class StoryScreen extends StatefulWidget {
 
 class _StoryScreenState extends State<StoryScreen> {
   late final PageController _pageController;
-  final FlutterTts _tts = FlutterTts();
+  final _narration = NarrationService.instance;
+  StreamSubscription<NarrationState>? _narrationSub;
   int _currentPage = 0;
   bool _audioEnabled = false;
   bool _speaking = false;
@@ -36,22 +40,19 @@ class _StoryScreenState extends State<StoryScreen> {
   void initState() {
     super.initState();
     _pageController = PageController();
-    _initTts();
-  }
-
-  Future<void> _initTts() async {
-    await _tts.setLanguage('en-US');
-    await _tts.setSpeechRate(0.4); // Slow and clear for kids
-    await _tts.setPitch(1.1); // Slightly higher pitch — friendly tone
-
-    _tts.setCompletionHandler(() {
-      if (mounted) setState(() => _speaking = false);
+    // Start enabled unless globally muted
+    _audioEnabled = !_narration.isMuted;
+    _narrationSub = _narration.stateStream.listen((state) {
+      if (!mounted) return;
+      setState(() => _speaking = state == NarrationState.playing);
     });
+    if (_audioEnabled) _speakCurrentPage();
   }
 
   @override
   void dispose() {
-    _tts.stop();
+    _narrationSub?.cancel();
+    _narration.stop();
     _pageController.dispose();
     super.dispose();
   }
@@ -59,11 +60,12 @@ class _StoryScreenState extends State<StoryScreen> {
   Future<void> _toggleAudio() async {
     final willEnable = !_audioEnabled;
     setState(() => _audioEnabled = willEnable);
+    _narration.setMuted(!willEnable);
 
     if (willEnable) {
       _speakCurrentPage();
     } else {
-      await _tts.stop();
+      await _narration.stop();
       setState(() => _speaking = false);
     }
   }
@@ -73,9 +75,19 @@ class _StoryScreenState extends State<StoryScreen> {
     if (story == null || !_audioEnabled) return;
 
     final page = story.pages[_currentPage];
-    await _tts.stop();
-    setState(() => _speaking = true);
-    await _tts.speak(page.text);
+    await _narration.playStoryPage(
+      countryId: widget.countryId,
+      pageIndex: _currentPage,
+      fallbackText: page.text,
+    );
+
+    // Preload next page
+    if (_currentPage + 1 < story.pages.length) {
+      _narration.preloadStoryPage(
+        countryId: widget.countryId,
+        pageIndex: _currentPage + 1,
+      );
+    }
   }
 
   void _onPageChanged(int page) {
@@ -127,7 +139,7 @@ class _StoryScreenState extends State<StoryScreen> {
                 children: [
                   IconButton(
                     onPressed: () {
-                      _tts.stop();
+                      _narration.stop();
                       context.pop();
                     },
                     icon: const Icon(Icons.chevron_left_rounded, size: 32),
@@ -216,7 +228,7 @@ class _StoryScreenState extends State<StoryScreen> {
                           trailingText: isLastPage ? null : '  >',
                           onPressed: () {
                             if (isLastPage) {
-                              _tts.stop();
+                              _narration.stop();
                               context.pushReplacement(
                                 '/story/${widget.countryId}/complete',
                               );

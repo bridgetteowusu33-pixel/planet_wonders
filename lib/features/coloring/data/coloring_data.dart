@@ -166,6 +166,7 @@ final _ghanaPages = [
     countryId: 'ghana',
     emoji: '\u{1F35B}', // 🍛
     outlineAsset: 'assets/coloring/ghana/food/ghana_food_01_jollof.png',
+    thumbnailAsset: 'assets/food/ghana/ghana_jollof_chef.webp',
     fact: 'Jollof rice is one of Ghana\'s most popular dishes.',
     factCategory: 'Food',
   ),
@@ -184,6 +185,7 @@ final _ghanaPages = [
     countryId: 'ghana',
     emoji: '\u{1F35C}', // 🍜
     outlineAsset: 'assets/coloring/ghana/food/ghana_food_03_banku.png',
+    thumbnailAsset: 'assets/food/ghana/ghana_banku_chef.webp',
     fact: 'Banku is often served with fish and pepper.',
     factCategory: 'Food',
   ),
@@ -193,6 +195,7 @@ final _ghanaPages = [
     countryId: 'ghana',
     emoji: '\u{1F372}', // 🍲
     outlineAsset: 'assets/coloring/ghana/food/ghana_food_04_fufu.png',
+    thumbnailAsset: 'assets/food/ghana/ghana_fufu_chef.webp',
     fact: 'Fufu is a famous Ghanaian meal served with soup.',
     factCategory: 'Food',
   ),
@@ -202,6 +205,7 @@ final _ghanaPages = [
     countryId: 'ghana',
     emoji: '\u{1F35B}', // 🍛
     outlineAsset: 'assets/coloring/ghana/food/ghana_food_05_waakye.png',
+    thumbnailAsset: 'assets/food/ghana/ghana_waakye_chef.webp',
     fact: 'Waakye combines rice and beans in one tasty dish.',
     factCategory: 'Food',
   ),
@@ -211,6 +215,7 @@ final _ghanaPages = [
     countryId: 'ghana',
     emoji: '\u{2615}', // ☕
     outlineAsset: 'assets/coloring/ghana/food/ghana_food_06_koko.png',
+    thumbnailAsset: 'assets/food/ghana/ghana_koko_chef.webp',
     fact: 'Koko is a warm breakfast porridge.',
     factCategory: 'Food',
   ),
@@ -220,25 +225,18 @@ final _ghanaPages = [
     countryId: 'ghana',
     emoji: '\u{1F958}', // 🥘
     outlineAsset: 'assets/coloring/ghana/food/ghana_food_07_kelewele.png',
+    thumbnailAsset: 'assets/food/ghana/ghana_kelewele_chef.webp',
     fact: 'Kelewele is spicy fried plantain with ginger and pepper.',
     factCategory: 'Food',
   ),
   ColoringPage(
-    id: 'food_groundnut',
-    title: 'Groundnut Soup',
+    id: 'food_peanut_butter_soup',
+    title: 'Peanut Butter Soup',
     countryId: 'ghana',
     emoji: '\u{1F95C}', // 🥜
     outlineAsset: 'assets/coloring/ghana/food/ghana_food_08_groundnut.png',
-    fact: 'Groundnut soup is made from peanuts and rich spices.',
-    factCategory: 'Food',
-  ),
-  ColoringPage(
-    id: 'food_tilapia',
-    title: 'Tilapia',
-    countryId: 'ghana',
-    emoji: '\u{1F41F}', // 🐟
-    outlineAsset: 'assets/coloring/ghana/food/ghana_food_09_tilapia.png',
-    fact: 'Grilled tilapia is often served with pepper and onions.',
+    thumbnailAsset: 'assets/food/ghana/ghana_groundnut_soup_chef.png',
+    fact: 'Peanut butter soup is made from crushed peanuts and rich spices.',
     factCategory: 'Food',
   ),
   ColoringPage(
@@ -247,6 +245,7 @@ final _ghanaPages = [
     countryId: 'ghana',
     emoji: '\u{1F372}', // 🍲
     outlineAsset: 'assets/coloring/ghana/food/ghana_food_10_palmnut.png',
+    thumbnailAsset: 'assets/food/ghana/ghana_palmnut_soup_chef.webp',
     fact: 'Palm nut soup is a traditional dish in many Ghanaian homes.',
     factCategory: 'Food',
   ),
@@ -409,6 +408,7 @@ final _usaPages = [
     countryId: 'usa',
     emoji: '\u{1F354}', // 🍔
     outlineAsset: 'assets/coloring/usa/food/usa_food_01_burger.png',
+    thumbnailAsset: 'assets/coloring/usa/food/usa_food_01_burger.png',
     fact: 'Hamburgers are one of America\'s favorite foods.',
     factCategory: 'Fun Fact',
   ),
@@ -418,6 +418,7 @@ final _usaPages = [
     countryId: 'usa',
     emoji: '\u{1F355}', // 🍕
     outlineAsset: 'assets/coloring/usa/food/usa_food_02_pizza.png',
+    thumbnailAsset: 'assets/coloring/usa/food/usa_food_02_pizza.png',
     fact: 'Pizza nights are a family favorite all across the USA.',
     factCategory: 'Fun Fact',
   ),
@@ -427,6 +428,7 @@ final _usaPages = [
     countryId: 'usa',
     emoji: '\u{1F32D}', // 🌭
     outlineAsset: 'assets/coloring/usa/food/usa_food_03_hotdog.png',
+    thumbnailAsset: 'assets/coloring/usa/food/usa_food_03_hotdog.png',
     fact: 'Hotdogs are popular at baseball games and summer picnics.',
     factCategory: 'Fun Fact',
   ),
@@ -436,6 +438,7 @@ final _usaPages = [
     countryId: 'usa',
     emoji: '\u{1F95E}', // 🥞
     outlineAsset: 'assets/coloring/usa/food/usa_food_04_pancakes.png',
+    thumbnailAsset: 'assets/coloring/usa/food/usa_food_04_pancakes.png',
     fact: 'Pancakes are a classic breakfast with syrup and butter.',
     factCategory: 'Food',
   ),
@@ -445,6 +448,7 @@ final _usaPages = [
     countryId: 'usa',
     emoji: '\u{1F369}', // 🍩
     outlineAsset: 'assets/coloring/usa/food/usa_food_05_donut.png',
+    thumbnailAsset: 'assets/coloring/usa/food/usa_food_05_donut.png',
     fact: 'Donuts can be glazed, frosted, and covered in colorful sprinkles.',
     factCategory: 'Food',
   ),
@@ -454,6 +458,7 @@ final _usaPages = [
     countryId: 'usa',
     emoji: '\u{1F368}', // 🍨
     outlineAsset: 'assets/coloring/usa/food/usa_food_06_icecream.png',
+    thumbnailAsset: 'assets/coloring/usa/food/usa_food_06_icecream.png',
     fact: 'Ice cream cones are a favorite treat on warm days.',
     factCategory: 'Food',
   ),
@@ -463,6 +468,7 @@ final _usaPages = [
     countryId: 'usa',
     emoji: '\u{1F357}', // 🍗
     outlineAsset: 'assets/coloring/usa/food/usa_food_07_friedchicken.png',
+    thumbnailAsset: 'assets/coloring/usa/food/usa_food_07_friedchicken.png',
     fact: 'Fried chicken is a popular comfort food in many states.',
     factCategory: 'Food',
   ),
@@ -472,6 +478,7 @@ final _usaPages = [
     countryId: 'usa',
     emoji: '\u{1F967}', // 🥧
     outlineAsset: 'assets/coloring/usa/food/usa_food_08_applepie.png',
+    thumbnailAsset: 'assets/coloring/usa/food/usa_food_08_applepie.png',
     fact: 'Apple pie is one of the most famous American desserts.',
     factCategory: 'Food',
   ),
@@ -481,6 +488,7 @@ final _usaPages = [
     countryId: 'usa',
     emoji: '\u{1F96A}', // 🥪
     outlineAsset: 'assets/coloring/usa/food/usa_food_09_sandwich.png',
+    thumbnailAsset: 'assets/coloring/usa/food/usa_food_09_sandwich.png',
     fact: 'Sandwiches are a quick and easy lunch favorite.',
     factCategory: 'Food',
   ),
@@ -490,6 +498,7 @@ final _usaPages = [
     countryId: 'usa',
     emoji: '\u{1F964}', // 🥤
     outlineAsset: 'assets/coloring/usa/food/usa_food_10_milkshake.png',
+    thumbnailAsset: 'assets/coloring/usa/food/usa_food_10_milkshake.png',
     fact: 'Milkshakes are creamy drinks often topped with whipped cream.',
     factCategory: 'Fun Fact',
   ),
@@ -556,6 +565,7 @@ final _nigeriaPages = [
     countryId: 'nigeria',
     emoji: '\u{1F373}', // 🍳
     outlineAsset: 'assets/coloring/nigeria/nigeria_07_cooking.png',
+    thumbnailAsset: 'assets/food/nigeria/ng_jollof_chef.webp',
     fact: 'Nigerian families love cooking together, especially for celebrations.',
     factCategory: 'Food',
   ),
@@ -605,6 +615,7 @@ final _ukPages = [
     countryId: 'uk',
     emoji: '\u{1F554}', // 🕔
     outlineAsset: 'assets/coloring/uk/uk_01_bigben.png',
+    thumbnailAsset: 'assets/sliding_puzzles/uk/big_ben.webp',
     fact: 'Big Ben is the nickname of the Great Bell inside the Elizabeth Tower '
         'at the Palace of Westminster.',
     factCategory: 'History',
@@ -615,6 +626,7 @@ final _ukPages = [
     countryId: 'uk',
     emoji: '\u{1F309}', // 🌉
     outlineAsset: 'assets/coloring/uk/uk_02_towerbridge.png',
+    thumbnailAsset: 'assets/sliding_puzzles/uk/tower_bridge.webp',
     fact: 'Tower Bridge can open in the middle to let tall ships pass through '
         'on the River Thames!',
     factCategory: 'History',
@@ -624,7 +636,8 @@ final _ukPages = [
     title: 'Buckingham Palace',
     countryId: 'uk',
     emoji: '\u{1F3F0}', // 🏰
-    outlineAsset: 'assets/coloring/uk/uk_03_palace.png',
+    outlineAsset: 'assets/coloring/uk/buckingham.PNG',
+    thumbnailAsset: 'assets/sliding_puzzles/uk/buckingham.webp',
     fact: 'Buckingham Palace has 775 rooms, including 78 bathrooms!',
     factCategory: 'History',
   ),
@@ -633,7 +646,8 @@ final _ukPages = [
     title: 'Double-Decker Bus',
     countryId: 'uk',
     emoji: '\u{1F68C}', // 🚌
-    outlineAsset: 'assets/coloring/uk/uk_04_doubledecker.png',
+    outlineAsset: 'assets/coloring/uk/double_decker_bus.PNG',
+    thumbnailAsset: 'assets/sliding_puzzles/uk/double_decker_bus.webp',
     fact: 'London\'s famous red double-decker buses have been running since 1956!',
     factCategory: 'Culture',
   ),
@@ -642,7 +656,8 @@ final _ukPages = [
     title: 'Red Phone Box',
     countryId: 'uk',
     emoji: '\u{260E}\u{FE0F}', // ☎️
-    outlineAsset: 'assets/coloring/uk/uk_05_phonebox.png',
+    outlineAsset: 'assets/coloring/uk/red_phone_box.PNG',
+    thumbnailAsset: 'assets/sliding_puzzles/uk/red_phone_box.webp',
     fact: 'The red telephone box was designed in 1924 and became a symbol of Britain.',
     factCategory: 'Culture',
   ),
@@ -651,7 +666,8 @@ final _ukPages = [
     title: 'Stonehenge',
     countryId: 'uk',
     emoji: '\u{1FAA8}', // 🪨
-    outlineAsset: 'assets/coloring/uk/uk_06_stonehenge.png',
+    outlineAsset: 'assets/coloring/uk/Stonehenge.PNG',
+    thumbnailAsset: 'assets/sliding_puzzles/uk/stonehenge.webp',
     fact: 'Stonehenge is about 5,000 years old and nobody knows exactly '
         'how the giant stones were moved!',
     factCategory: 'Nature',
@@ -661,7 +677,8 @@ final _ukPages = [
     title: 'Countryside',
     countryId: 'uk',
     emoji: '\u{1F33F}', // 🌿
-    outlineAsset: 'assets/coloring/uk/uk_07_countryside.png',
+    outlineAsset: 'assets/coloring/uk/country_side.PNG',
+    thumbnailAsset: 'assets/sliding_puzzles/uk/countryside.webp',
     fact: 'The British countryside has rolling green hills, stone walls, '
         'and fluffy sheep.',
     factCategory: 'Nature',
@@ -673,6 +690,7 @@ final _ukPages = [
     countryId: 'uk',
     emoji: '\u{1F41F}', // 🐟
     outlineAsset: 'assets/coloring/uk/food/uk_food_01_fishandchips.png',
+    thumbnailAsset: 'assets/food/uk/fish_and_chips.webp',
     fact: 'Fish and chips is the UK\'s most famous takeaway meal.',
     factCategory: 'Food',
   ),
@@ -682,6 +700,7 @@ final _ukPages = [
     countryId: 'uk',
     emoji: '\u{1F9C1}', // 🧁
     outlineAsset: 'assets/coloring/uk/food/uk_food_02_scones.png',
+    thumbnailAsset: 'assets/food/uk/Scones.webp',
     fact: 'Scones with clotted cream and jam are a classic afternoon tea treat.',
     factCategory: 'Food',
   ),
@@ -691,6 +710,7 @@ final _ukPages = [
     countryId: 'uk',
     emoji: '\u{1F373}', // 🍳
     outlineAsset: 'assets/coloring/uk/food/uk_food_03_englishbreakfast.png',
+    thumbnailAsset: 'assets/food/uk/English_breakfast.webp',
     fact: 'A full English breakfast can have eggs, bacon, sausages, beans, and toast.',
     factCategory: 'Food',
   ),
@@ -700,6 +720,7 @@ final _ukPages = [
     countryId: 'uk',
     emoji: '\u{1F95E}', // 🥞
     outlineAsset: 'assets/coloring/uk/food/uk_food_04_crumpets.png',
+    thumbnailAsset: 'assets/food/uk/Crumpets.webp',
     fact: 'Crumpets are soft, spongy, and full of little holes for melted butter.',
     factCategory: 'Food',
   ),
@@ -709,7 +730,58 @@ final _ukPages = [
     countryId: 'uk',
     emoji: '\u{1F370}', // 🍰
     outlineAsset: 'assets/coloring/uk/food/uk_food_05_trifle.png',
+    thumbnailAsset: 'assets/food/uk/Trifle.webp',
     fact: 'Trifle is a layered dessert with cake, fruit, custard, and cream.',
+    factCategory: 'Food',
+  ),
+  ColoringPage(
+    id: 'food_shepherdspie',
+    title: 'Shepherd\'s Pie',
+    countryId: 'uk',
+    emoji: '\u{1F967}', // 🥧
+    outlineAsset: 'assets/coloring/uk/food/uk_food_06_shepherdspie.png',
+    thumbnailAsset: 'assets/food/uk/Shepherds_pie.webp',
+    fact: 'Shepherd\'s pie is a cosy dish made with minced lamb and creamy mashed potato on top.',
+    factCategory: 'Food',
+  ),
+  ColoringPage(
+    id: 'food_bangersandmash',
+    title: 'Bangers & Mash',
+    countryId: 'uk',
+    emoji: '\u{1F32D}', // 🌭
+    outlineAsset: 'assets/coloring/uk/food/uk_food_07_bangersandmash.png',
+    thumbnailAsset: 'assets/food/uk/Bangers_and_mash.webp',
+    fact: 'Bangers and mash is sausages with mashed potatoes and onion gravy.',
+    factCategory: 'Food',
+  ),
+  ColoringPage(
+    id: 'food_yorkshirepudding',
+    title: 'Yorkshire Pudding',
+    countryId: 'uk',
+    emoji: '\u{1F35E}', // 🍞
+    outlineAsset: 'assets/coloring/uk/food/uk_food_08_yorkshirepudding.png',
+    thumbnailAsset: 'assets/food/uk/Yorkshire_pudding.webp',
+    fact: 'Yorkshire pudding puffs up in the oven and is served with a roast dinner.',
+    factCategory: 'Food',
+  ),
+  ColoringPage(
+    id: 'food_cornishpasty',
+    title: 'Cornish Pasty',
+    countryId: 'uk',
+    emoji: '\u{1F950}', // 🥐
+    outlineAsset: 'assets/coloring/uk/food/uk_food_09_cornishpasty.png',
+    thumbnailAsset: 'assets/food/uk/Cornish_pasty.webp',
+    fact: 'Cornish pasties were invented for tin miners to carry a hot lunch down into the mines.',
+    factCategory: 'Food',
+  ),
+  ColoringPage(
+    id: 'food_stickytoffee',
+    title: 'Sticky Toffee Pudding',
+    countryId: 'uk',
+    emoji: '\u{1F36E}', // 🍮
+    outlineAsset: 'assets/coloring/uk/food/uk_food_10_stickytoffee.png',
+    thumbnailAsset: 'assets/food/uk/sticky_toffee_pudding.webp',
+    fact: 'Sticky toffee pudding is a warm sponge cake drenched in sweet toffee sauce.',
     factCategory: 'Food',
   ),
 ];

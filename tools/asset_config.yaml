@@ -1,0 +1,263 @@
+# Asset optimization configuration for Planet Wonders
+# Used by tools/optimize_assets.py
+#
+# Rules are matched top-to-bottom; first match wins.
+# Patterns use fnmatch-style globbing relative to assets/ root.
+
+format_rules:
+  # Region masks -- pixel-exact, never touch
+  - pattern: "coloring/**/masks/**"
+    format: png
+    skip: true
+
+  # Coloring outlines -- lossless PNG compression only, keep full size for zoom
+  - pattern: "coloring/**"
+    format: png
+    compression: pngquant
+    max_width: 2048
+    max_height: 2048
+
+  # Cooking props (small items: knife, plate, spoon, etc.)
+  - pattern: "cooking/**/props/**"
+    format: webp
+    quality: 85
+    max_width: 256
+    max_height: 256
+
+  # Cooking effects (bubble, steam, sparkle)
+  - pattern: "cooking/**/effects/**"
+    format: webp
+    quality: 85
+    max_width: 256
+    max_height: 256
+
+  # Cooking ingredients
+  - pattern: "cooking/**/ingredients/**"
+    format: webp
+    quality: 85
+    max_width: 256
+    max_height: 256
+
+  # Cooking pot faces
+  - pattern: "cooking/**/pot/**"
+    format: webp
+    quality: 85
+    max_width: 512
+    max_height: 512
+
+  # Cooking kitchen backgrounds
+  - pattern: "cooking/**/kitchen_bg*"
+    format: webp
+    quality: 85
+    max_width: 1024
+    max_height: 1536
+
+  # Cooking character images
+  - pattern: "cooking/**/afia/**"
+    format: webp
+    quality: 85
+    max_width: 512
+    max_height: 512
+
+  - pattern: "cooking/**/ava/**"
+    format: webp
+    quality: 85
+    max_width: 512
+    max_height: 512
+
+  - pattern: "cooking/**/twins/**"
+    format: webp
+    quality: 85
+    max_width: 512
+    max_height: 512
+
+  - pattern: "cooking/**/adetutu/**"
+    format: webp
+    quality: 85
+    max_width: 512
+    max_height: 512
+
+  # Catch-all for remaining cooking images
+  - pattern: "cooking/**"
+    format: webp
+    quality: 85
+    max_width: 512
+    max_height: 512
+
+  # v2/ character images
+  - pattern: "v2/**/afia/**"
+    format: webp
+    quality: 85
+    max_width: 512
+    max_height: 512
+
+  - pattern: "v2/**/ava/**"
+    format: webp
+    quality: 85
+    max_width: 512
+    max_height: 512
+
+  - pattern: "v2/**/twins/**"
+    format: webp
+    quality: 85
+    max_width: 512
+    max_height: 512
+
+  - pattern: "v2/**/adetutu/**"
+    format: webp
+    quality: 85
+    max_width: 512
+    max_height: 512
+
+  # v2/ pot faces
+  - pattern: "v2/**/pots/**"
+    format: webp
+    quality: 85
+    max_width: 512
+    max_height: 512
+
+  # v2/ props/effects/ingredients
+  - pattern: "v2/**/props/**"
+    format: webp
+    quality: 85
+    max_width: 256
+    max_height: 256
+
+  - pattern: "v2/**/effects/**"
+    format: webp
+    quality: 85
+    max_width: 256
+    max_height: 256
+
+  - pattern: "v2/**/ingredients/**"
+    format: webp
+    quality: 85
+    max_width: 256
+    max_height: 256
+
+  # v2/ kitchen backgrounds
+  - pattern: "v2/**/kitchen_bg*"
+    format: webp
+    quality: 85
+    max_width: 1024
+    max_height: 1536
+
+  # Catch-all v2/
+  - pattern: "v2/**"
+    format: webp
+    quality: 85
+    max_width: 512
+    max_height: 768
+
+  # Stickers
+  - pattern: "stickers/**"
+    format: webp
+    quality: 85
+    max_width: 512
+    max_height: 512
+
+  # Flags
+  - pattern: "flags/**"
+    format: webp
+    quality: 90
+    max_width: 256
+    max_height: 256
+
+  # Food / chef images
+  - pattern: "food/**"
+    format: webp
+    quality: 85
+    max_width: 512
+    max_height: 768
+
+  # Story illustrations
+  - pattern: "stories/**"
+    format: webp
+    quality: 85
+    max_width: 768
+    max_height: 1024
+
+  # Puzzle thumbnails
+  - pattern: "puzzles/**/thumbs/**"
+    format: webp
+    quality: 85
+    max_width: 256
+    max_height: 256
+
+  # Puzzle full images
+  - pattern: "puzzles/**/full/**"
+    format: webp
+    quality: 85
+    max_width: 1024
+    max_height: 1024
+
+  # Sliding puzzles
+  - pattern: "sliding_puzzles/**"
+    format: webp
+    quality: 85
+    max_width: 512
+    max_height: 512
+
+  # Backgrounds
+  - pattern: "backgrounds/**"
+    format: webp
+    quality: 85
+    max_width: 1536
+    max_height: 1536
+
+  # Icons
+  - pattern: "icons/**"
+    format: webp
+    quality: 90
+    max_width: 512
+    max_height: 512
+
+  # Clothes
+  - pattern: "clothes/**"
+    format: webp
+    quality: 85
+    max_width: 512
+    max_height: 768
+
+  # Characters
+  - pattern: "characters/**"
+    format: webp
+    quality: 85
+    max_width: 512
+    max_height: 512
+
+  # Logos
+  - pattern: "logos/**"
+    format: webp
+    quality: 90
+    max_width: 512
+    max_height: 512
+
+  # App icon -- keep as PNG
+  - pattern: "app_icon/**"
+    format: png
+    skip: true
+
+  # Launch screen -- keep as PNG
+  - pattern: "launch_screen/**"
+    format: png
+    skip: true
+
+  # Badges (already tiny)
+  - pattern: "badges/**"
+    format: webp
+    quality: 90
+    max_width: 128
+    max_height: 128
+
+  # Traces (SVG-like line data, tiny)
+  - pattern: "traces/**"
+    format: png
+    skip: true
+
+  # Default catch-all
+  - pattern: "**"
+    format: webp
+    quality: 85
+    max_width: 1024
+    max_height: 1024

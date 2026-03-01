@@ -1,6 +1,7 @@
 // File: lib/features/draw_with_me/models/trace_shape.dart
 import 'package:flutter/material.dart';
 
+import 'trace_decorations.dart';
 import 'trace_segment.dart';
 
 enum TraceDifficulty { easy, medium, hard }
@@ -64,6 +65,8 @@ class TraceShape {
     required this.thumbnailEmoji,
     required this.viewBox,
     required this.segments,
+    this.segmentIds = const [],
+    this.decorations,
   });
 
   final String id;
@@ -72,6 +75,8 @@ class TraceShape {
   final String thumbnailEmoji;
   final Rect viewBox;
   final List<TraceSegment> segments;
+  final List<String> segmentIds;
+  final TraceDecorations? decorations;
 
   String get storageId => '${packId}_$id';
 
@@ -95,10 +100,20 @@ class TraceShape {
       throw const FormatException('Trace shape must contain segments.');
     }
 
-    final segments = rawSegments
-        .whereType<Map>()
+    final segmentMaps = rawSegments.whereType<Map>().toList(growable: false);
+
+    final segments = segmentMaps
         .map((entry) => TraceSegment.fromJson(entry.cast<String, dynamic>()))
         .toList(growable: false);
+
+    final segmentIds = segmentMaps
+        .map((entry) => ((entry['id'] as String?)?.trim()) ?? '')
+        .toList(growable: false);
+
+    final rawDecorations = json['decorations'];
+    final decos = rawDecorations is Map
+        ? TraceDecorations.fromJson(rawDecorations.cast<String, dynamic>())
+        : null;
 
     return TraceShape(
       id: id,
@@ -107,6 +122,8 @@ class TraceShape {
       thumbnailEmoji: emoji,
       viewBox: viewBox,
       segments: segments,
+      segmentIds: segmentIds,
+      decorations: decos,
     );
   }
 }

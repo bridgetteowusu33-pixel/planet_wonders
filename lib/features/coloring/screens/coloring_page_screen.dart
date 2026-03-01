@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -6,13 +7,17 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/services/gallery_service.dart';
 import '../../../core/theme/pw_theme.dart';
 import '../../../coloring/palette_bar.dart';
+import '../../creative_studio/creative_state.dart' show StickerItem, StickerInstance;
+import '../../creative_studio/widgets/sticker_card.dart';
 import '../../game_breaks/providers/game_break_settings_provider.dart';
 import '../../learning_report/models/learning_stats.dart';
 import '../../learning_report/providers/learning_stats_provider.dart';
+import '../../stickers/providers/sticker_provider.dart';
 import '../../game_breaks/widgets/game_break_prompt.dart';
 import '../data/coloring_data.dart';
 import '../controllers/coloring_save_controller.dart';
@@ -68,6 +73,10 @@ class _ColoringPageScreenState extends ConsumerState<ColoringPageScreen>
   // Region mask loading state (for fill tool).
   RegionMask? _regionMask;
 
+  // Sticker overlay state.
+  List<StickerInstance> _stickerInstances = [];
+  String? _selectedStickerId;
+
   String get _countryLabel =>
       widget.countryId[0].toUpperCase() + widget.countryId.substring(1);
 
@@ -115,6 +124,8 @@ class _ColoringPageScreenState extends ConsumerState<ColoringPageScreen>
       _resolvedPainter = null;
       _imageError = null;
       _regionMask = null;
+      _stickerInstances = [];
+      _selectedStickerId = null;
       _saveController = ref.read(
         coloringSaveControllerProvider(_currentPageStorageKey),
       );
@@ -185,6 +196,8 @@ class _ColoringPageScreenState extends ConsumerState<ColoringPageScreen>
     }
 
     if (!mounted || restoreSession != _restoreSession) return;
+    await _loadStickers();
+    if (!mounted || restoreSession != _restoreSession) return;
     setState(() => _restoringProgress = false);
     _lastKnownDrawingState = ref.read(drawingProvider);
   }
@@ -213,6 +226,7 @@ class _ColoringPageScreenState extends ConsumerState<ColoringPageScreen>
     }
     _lastKnownDrawingState = state;
     await saveController.saveNow(state);
+    await _persistStickers();
   }
 
   void _onDrawingStateChanged(DrawingState? previous, DrawingState next) {
@@ -310,7 +324,15 @@ class _ColoringPageScreenState extends ConsumerState<ColoringPageScreen>
 
   Future<void> _finishColoring() async {
     if (_saving) return;
-    setState(() => _saving = true);
+    // Deselect stickers so selection border doesn't appear in export.
+    setState(() {
+      _saving = true;
+      _selectedStickerId = null;
+    });
+
+    // Wait a frame so the selection border is removed before capture.
+    await WidgetsBinding.instance.endOfFrame;
+    if (!mounted) return;
 
     try {
       final boundary =
@@ -336,6 +358,10 @@ class _ColoringPageScreenState extends ConsumerState<ColoringPageScreen>
           emoji: '\u{1F58D}\u{FE0F}',
         ),
       );
+      ref.read(stickerProvider.notifier).checkAndAward(
+            conditionType: 'coloring_completed',
+            countryId: widget.countryId,
+          );
 
       if (mounted) await _showCelebration();
     } catch (_) {
@@ -457,6 +483,13 @@ class _ColoringPageScreenState extends ConsumerState<ColoringPageScreen>
     if (!mounted) return;
 
     ref.read(drawingProvider.notifier).clear();
+    setState(() {
+      _stickerInstances = [];
+      _selectedStickerId = null;
+    });
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('coloring_stickers_$_currentPageStorageKey');
+    if (!mounted) return;
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(const SnackBar(content: Text('Page reset')));
@@ -529,6 +562,168 @@ class _ColoringPageScreenState extends ConsumerState<ColoringPageScreen>
           ],
         ),
       ),
+    );
+  }
+
+  // ---------------------------------------------------------------------------
+  // Sticker methods
+  // ---------------------------------------------------------------------------
+
+  Future<void> _openStickerPanel() async {
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => _ColoringStickerPanel(
+        countryId: widget.countryId,
+        onStickerSelected: _addSticker,
+      ),
+    );
+  }
+
+  void _addSticker(StickerItem item) {
+    final instance = StickerInstance(
+      id: 'sticker_${DateTime.now().microsecondsSinceEpoch}',
+      itemId: item.id,
+      label: item.label,
+      emoji: item.emoji,
+      assetPath: item.assetPath,
+      position: const Offset(150, 150),
+      scale: 1,
+      rotation: 0,
+    );
+    setState(() {
+      _stickerInstances = [..._stickerInstances, instance];
+      _selectedStickerId = instance.id;
+    });
+    unawaited(_persistStickers());
+  }
+
+  void _updateStickerTransform({
+    required String stickerId,
+    required Offset position,
+    required double scale,
+    required double rotation,
+  }) {
+    setState(() {
+      _stickerInstances = _stickerInstances
+          .map(
+            (s) => s.id == stickerId
+                ? s.copyWith(
+                    position: position,
+                    scale: scale.clamp(0.35, 3.0).toDouble(),
+                    rotation: rotation,
+                  )
+                : s,
+          )
+          .toList(growable: false);
+      _selectedStickerId = stickerId;
+    });
+  }
+
+  void _removeSticker(String stickerId) {
+    setState(() {
+      _stickerInstances = _stickerInstances
+          .where((s) => s.id != stickerId)
+          .toList(growable: false);
+      if (_selectedStickerId == stickerId) _selectedStickerId = null;
+    });
+    unawaited(_persistStickers());
+  }
+
+  void _selectSticker(String? id) {
+    if (_selectedStickerId == id) return;
+    setState(() => _selectedStickerId = id);
+  }
+
+  Future<void> _persistStickers() async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'coloring_stickers_$_currentPageStorageKey';
+    if (_stickerInstances.isEmpty) {
+      await prefs.remove(key);
+      return;
+    }
+    final data = _stickerInstances
+        .map(
+          (s) => <String, dynamic>{
+            'id': s.id,
+            'itemId': s.itemId,
+            'label': s.label,
+            'emoji': s.emoji,
+            'assetPath': s.assetPath,
+            'x': s.position.dx,
+            'y': s.position.dy,
+            'scale': s.scale,
+            'rotation': s.rotation,
+          },
+        )
+        .toList(growable: false);
+    await prefs.setString(key, jsonEncode(data));
+  }
+
+  Future<void> _loadStickers() async {
+    final prefs = await SharedPreferences.getInstance();
+    final raw = prefs.getString('coloring_stickers_$_currentPageStorageKey');
+    if (raw == null || raw.isEmpty) {
+      setState(() {
+        _stickerInstances = [];
+        _selectedStickerId = null;
+      });
+      return;
+    }
+    try {
+      final list = jsonDecode(raw) as List;
+      setState(() {
+        _stickerInstances = list.map((item) {
+          final map = item as Map<String, dynamic>;
+          return StickerInstance(
+            id: map['id'] as String,
+            itemId: map['itemId'] as String,
+            label: map['label'] as String,
+            emoji: map['emoji'] as String,
+            assetPath: map['assetPath'] as String?,
+            position: Offset(
+              (map['x'] as num).toDouble(),
+              (map['y'] as num).toDouble(),
+            ),
+            scale: (map['scale'] as num).toDouble(),
+            rotation: (map['rotation'] as num).toDouble(),
+          );
+        }).toList();
+        _selectedStickerId = null;
+      });
+    } catch (_) {
+      setState(() {
+        _stickerInstances = [];
+        _selectedStickerId = null;
+      });
+    }
+  }
+
+  Widget? _buildStickerOverlay() {
+    if (_stickerInstances.isEmpty) return null;
+    return Stack(
+      children: _stickerInstances.map((sticker) {
+        final size = 112 * sticker.scale;
+        return Positioned(
+          left: sticker.position.dx - size / 2,
+          top: sticker.position.dy - size / 2,
+          child: _EditableColoringSticker(
+            sticker: sticker,
+            selected: _selectedStickerId == sticker.id,
+            onSelected: () => _selectSticker(sticker.id),
+            onChanged: (position, scale, rotation) =>
+                _updateStickerTransform(
+                  stickerId: sticker.id,
+                  position: position,
+                  scale: scale,
+                  rotation: rotation,
+                ),
+            onChangeEnd: () => unawaited(_persistStickers()),
+            onRemove: () => _removeSticker(sticker.id),
+          ),
+        );
+      }).toList(),
     );
   }
 
@@ -638,10 +833,14 @@ class _ColoringPageScreenState extends ConsumerState<ColoringPageScreen>
                                 ),
                               ],
                             ),
-                            child: ColoringCanvas(
-                              canvasKey: _canvasKey,
-                              paintOutline: painter,
-                              regionMask: _regionMask,
+                            child: GestureDetector(
+                              onTap: () => _selectSticker(null),
+                              child: ColoringCanvas(
+                                canvasKey: _canvasKey,
+                                paintOutline: painter,
+                                regionMask: _regionMask,
+                                stickerOverlay: _buildStickerOverlay(),
+                              ),
                             ),
                           ),
                         ),
@@ -650,40 +849,11 @@ class _ColoringPageScreenState extends ConsumerState<ColoringPageScreen>
                       const SizedBox(height: 10),
 
                       // --- 4. Toolbar + size ---
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: LayoutBuilder(
-                          builder: (context, constraints) {
-                            final isCompact = constraints.maxWidth < 430;
-                            if (isCompact) {
-                              return Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  DrawingToolbar(
-                                    onResetRequested: _confirmReset,
-                                  ),
-                                  const SizedBox(height: 8),
-                                  const BrushTypeSelector(),
-                                  const SizedBox(height: 8),
-                                  const BrushSizeSelector(),
-                                ],
-                              );
-                            }
-
-                            return Wrap(
-                              alignment: WrapAlignment.center,
-                              crossAxisAlignment: WrapCrossAlignment.center,
-                              spacing: 12,
-                              runSpacing: 8,
-                              children: [
-                                DrawingToolbar(onResetRequested: _confirmReset),
-                                const BrushTypeSelector(),
-                                const BrushSizeSelector(),
-                              ],
-                            );
-                          },
-                        ),
-                      ),
+                      DrawingToolbar(onResetRequested: _confirmReset),
+                      const SizedBox(height: 8),
+                      const BrushTypeSelector(),
+                      const SizedBox(height: 8),
+                      const BrushSizeSelector(),
 
                       const SizedBox(height: 10),
 
@@ -715,8 +885,29 @@ class _ColoringPageScreenState extends ConsumerState<ColoringPageScreen>
                               ),
                             ),
                           ),
-                          const SizedBox(width: 12),
-                          // "Done" button
+                          const SizedBox(width: 8),
+                          // "Stickers" button
+                          Expanded(
+                            child: OutlinedButton.icon(
+                              onPressed: _openStickerPanel,
+                              icon: const Icon(
+                                Icons.emoji_emotions_rounded,
+                                size: 18,
+                              ),
+                              label: const Text('Stickers'),
+                              style: OutlinedButton.styleFrom(
+                                minimumSize: const Size(0, 44),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14),
+                                ),
+                                side: BorderSide(
+                                  color: PWColors.yellow,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          // "Save" button
                           FilledButton.icon(
                             onPressed: _saving ? null : _finishColoring,
                             icon: _saving
@@ -728,8 +919,8 @@ class _ColoringPageScreenState extends ConsumerState<ColoringPageScreen>
                                       color: Colors.white,
                                     ),
                                   )
-                                : const Icon(Icons.check_circle_rounded),
-                            label: const Text('Done'),
+                                : const Icon(Icons.camera_alt_rounded),
+                            label: const Text('Save'),
                             style: FilledButton.styleFrom(
                               minimumSize: const Size(120, 44),
                               backgroundColor: PWColors.mint,
@@ -756,6 +947,281 @@ class _ColoringPageScreenState extends ConsumerState<ColoringPageScreen>
           ),
         ),
       ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Sticker picker bottom sheet for coloring pages.
+// ---------------------------------------------------------------------------
+
+class _ColoringStickerPanel extends ConsumerWidget {
+  const _ColoringStickerPanel({
+    required this.countryId,
+    required this.onStickerSelected,
+  });
+
+  final String countryId;
+  final void Function(StickerItem item) onStickerSelected;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final stickerState = ref.watch(stickerProvider);
+
+    // Show both general stickers and country-specific stickers.
+    final generalStickers = stickerState.stickersForCountry('general');
+    final countryStickers = stickerState.stickersForCountry(countryId);
+    final allStickers = [...countryStickers, ...generalStickers];
+    final collected =
+        allStickers.where((s) => stickerState.isCollected(s.id)).toList();
+    final lockedCount = allStickers.length - collected.length;
+
+    return SafeArea(
+      top: false,
+      child: Container(
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(26)),
+        ),
+        padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Container(
+                width: 48,
+                height: 5,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFCFD9E3),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+            ),
+            const SizedBox(height: 14),
+            Text(
+              'My Stickers',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 4),
+            Text(
+              'Tap a sticker to place it on your coloring page.',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                fontWeight: FontWeight.w700,
+                color: const Color(0xFF708499),
+              ),
+            ),
+            const SizedBox(height: 10),
+            if (collected.isEmpty)
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(
+                  vertical: 32,
+                  horizontal: 16,
+                ),
+                decoration: BoxDecoration(
+                  color: PWColors.navy.withValues(alpha: 0.04),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Column(
+                  children: [
+                    const Text(
+                      '\u{1F31F}',
+                      style: TextStyle(fontSize: 36),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      'No stickers yet!',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w800,
+                        color: PWColors.navy,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      'Complete stories, cook recipes, and play games\n'
+                      'to earn stickers you can use here!',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: PWColors.navy.withValues(alpha: 0.5),
+                        height: 1.4,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            else
+              SizedBox(
+                height: 280,
+                child: GridView.builder(
+                  itemCount: collected.length,
+                  gridDelegate:
+                      const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4,
+                    childAspectRatio: 0.92,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                  ),
+                  itemBuilder: (context, index) {
+                    final sticker = collected[index];
+                    final item = StickerItem(
+                      id: sticker.id,
+                      label: sticker.label,
+                      emoji: sticker.emoji,
+                      assetPath: sticker.assetPath,
+                    );
+                    return StickerCard(
+                      sticker: item,
+                      onTap: () {
+                        onStickerSelected(item);
+                        Navigator.of(context).pop();
+                      },
+                    );
+                  },
+                ),
+              ),
+            if (lockedCount > 0) ...[
+              const SizedBox(height: 12),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 14,
+                ),
+                decoration: BoxDecoration(
+                  color: PWColors.yellow.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: PWColors.yellow.withValues(alpha: 0.3),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    const Text(
+                      '\u{1F513}',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        '$lockedCount more sticker${lockedCount == 1 ? '' : 's'} to earn! '
+                        'Complete activities to unlock them.',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          color: PWColors.navy.withValues(alpha: 0.7),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Editable sticker placed on the coloring canvas.
+// ---------------------------------------------------------------------------
+
+class _EditableColoringSticker extends StatefulWidget {
+  const _EditableColoringSticker({
+    required this.sticker,
+    required this.selected,
+    required this.onSelected,
+    required this.onChanged,
+    required this.onChangeEnd,
+    required this.onRemove,
+  });
+
+  final StickerInstance sticker;
+  final bool selected;
+  final VoidCallback onSelected;
+  final void Function(Offset position, double scale, double rotation) onChanged;
+  final VoidCallback onChangeEnd;
+  final VoidCallback onRemove;
+
+  @override
+  State<_EditableColoringSticker> createState() =>
+      _EditableColoringStickerState();
+}
+
+class _EditableColoringStickerState extends State<_EditableColoringSticker> {
+  Offset _startPosition = Offset.zero;
+  double _startScale = 1;
+  double _startRotation = 0;
+  Offset _startFocal = Offset.zero;
+
+  @override
+  Widget build(BuildContext context) {
+    final size = 112 * widget.sticker.scale;
+
+    return GestureDetector(
+      onTap: widget.onSelected,
+      onDoubleTap: widget.onRemove,
+      onScaleStart: (details) {
+        widget.onSelected();
+        _startPosition = widget.sticker.position;
+        _startScale = widget.sticker.scale;
+        _startRotation = widget.sticker.rotation;
+        _startFocal = details.focalPoint;
+      },
+      onScaleUpdate: (details) {
+        final delta = details.focalPoint - _startFocal;
+        widget.onChanged(
+          _startPosition + delta,
+          (_startScale * details.scale).clamp(0.35, 3.0).toDouble(),
+          _startRotation + details.rotation,
+        );
+      },
+      onScaleEnd: (_) => widget.onChangeEnd(),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 120),
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          border: widget.selected
+              ? Border.all(color: const Color(0xFF2F3A4A), width: 2)
+              : null,
+          color: Colors.white.withValues(alpha: 0.2),
+        ),
+        child: Center(
+          child: Transform.rotate(
+            angle: widget.sticker.rotation,
+            child: _buildContent(),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildContent() {
+    final scale = widget.sticker.scale;
+    final path = widget.sticker.assetPath;
+    if (path != null && path.isNotEmpty) {
+      final imgSize = 80.0 * scale;
+      return Image.asset(
+        path,
+        width: imgSize,
+        height: imgSize,
+        fit: BoxFit.contain,
+        errorBuilder: (_, _, _) => Text(
+          widget.sticker.emoji,
+          style: TextStyle(fontSize: 44 * scale),
+        ),
+      );
+    }
+    return Text(
+      widget.sticker.emoji,
+      style: TextStyle(fontSize: 44 * scale),
     );
   }
 }

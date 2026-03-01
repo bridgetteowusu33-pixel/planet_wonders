@@ -8,6 +8,7 @@ import '../../../core/theme/pw_theme.dart';
 import '../../achievements/providers/achievement_provider.dart';
 import '../../learning_report/models/learning_stats.dart';
 import '../../learning_report/providers/learning_stats_provider.dart';
+import '../../stickers/providers/sticker_provider.dart';
 import '../../achievements/ui/badge_unlock_animation.dart';
 import '../data/recipe_story_repository.dart';
 import '../domain/character_expression.dart';
@@ -15,6 +16,7 @@ import '../domain/recipe.dart';
 import '../engine/audio_manager.dart';
 import '../providers/recipe_album_provider.dart';
 import '../providers/recipe_controller.dart';
+import '../../../shared/widgets/recipe_detail_sheet.dart';
 import 'scenes/step_scene.dart';
 import 'widgets/culture_panel.dart';
 import 'widgets/journey_map.dart';
@@ -105,6 +107,20 @@ class _RecipeStoryBody extends ConsumerStatefulWidget {
 class _RecipeStoryBodyState extends ConsumerState<_RecipeStoryBody> {
   final Set<String> _precachedAssets = <String>{};
 
+  void _showRecipeSheet(BuildContext context) {
+    final recipe = widget.recipe;
+    showRecipeDetailSheet(
+      context,
+      RecipeDetailData(
+        title: recipe.title,
+        emoji: recipe.emoji,
+        steps: recipe.steps
+            .map((s) => s.story)
+            .toList(growable: false),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(recipeStoryControllerProvider);
@@ -131,6 +147,11 @@ class _RecipeStoryBodyState extends ConsumerState<_RecipeStoryBody> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
+          // Recipe detail
+          IconButton(
+            icon: const Icon(Icons.menu_book_rounded, size: 22),
+            onPressed: () => _showRecipeSheet(context),
+          ),
           // Mute toggle
           IconButton(
             icon: Icon(
@@ -280,6 +301,10 @@ class _RecipeStoryBodyState extends ConsumerState<_RecipeStoryBody> {
             emoji: '\u{1F4D6}',
           ),
         );
+        ref.read(stickerProvider.notifier).checkAndAward(
+              conditionType: 'cooking_completed',
+              countryId: widget.countryId,
+            );
       });
     }
   }
@@ -522,7 +547,7 @@ class _IntroViewState extends State<_IntroView> with TickerProviderStateMixin {
                       ),
                       if (widget.recipe.introFact != null) ...[
                         const SizedBox(height: 10),
-                        CulturePanel(fact: widget.recipe.introFact!),
+                        CulturePanel(fact: widget.recipe.introFact!, countryId: widget.countryId),
                       ],
                       const SizedBox(height: 10),
                       // Info chips
@@ -698,7 +723,7 @@ class _StepFlowViewState extends State<_StepFlowView> {
         ),
         if (step.fact != null) ...[
           const SizedBox(height: 6),
-          CulturePanel(fact: step.fact!),
+          CulturePanel(fact: step.fact!, countryId: widget.countryId),
         ],
         const SizedBox(height: 8),
         JourneyMap(
@@ -734,7 +759,7 @@ class _StepFlowViewState extends State<_StepFlowView> {
       'hold_to_cook' ||
       'hold' ||
       'hold_cook' => 'Press and hold gently while steam rises.',
-      _ => 'Follow Afia and complete this story step.',
+      _ => 'Follow ${characterNameForCountry(widget.countryId)} and complete this story step.',
     };
   }
 
@@ -1263,7 +1288,7 @@ class _CompletedViewState extends State<_CompletedView>
                       ),
                       if (widget.recipe.completionFact != null) ...[
                         const SizedBox(height: 10),
-                        CulturePanel(fact: widget.recipe.completionFact!),
+                        CulturePanel(fact: widget.recipe.completionFact!, countryId: widget.countryId),
                       ],
                     ],
                   ),

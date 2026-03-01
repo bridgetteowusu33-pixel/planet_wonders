@@ -20,45 +20,54 @@ class BrushSizeSelector extends ConsumerWidget {
     final currentSize =
         ref.watch(drawingProvider.select((s) => s.currentBrushSize));
 
-    return Wrap(
-      alignment: WrapAlignment.center,
-      spacing: 8,
-      runSpacing: 8,
-      children: BrushSize.values.map((size) {
-        final isActive = currentSize == size;
-        final dotDiameter = _dotSizes[size]!;
+    final sizes = BrushSize.values;
 
-        return GestureDetector(
-          onTap: () => ref.read(drawingProvider.notifier).setBrushSize(size),
-          // Fixed outer box keeps spacing even between different dot sizes.
-          child: Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
+    return SizedBox(
+      height: 52,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(
+          parent: AlwaysScrollableScrollPhysics(),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 4),
+        itemCount: sizes.length,
+        separatorBuilder: (_, _) => const SizedBox(width: 8),
+        itemBuilder: (_, index) {
+          final size = sizes[index];
+          final isActive = currentSize == size;
+          final dotDiameter = _dotSizes[size]!;
+
+          return GestureDetector(
+            onTap: () => ref.read(drawingProvider.notifier).setBrushSize(size),
+            child: Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: isActive
+                      ? PWColors.blue
+                      : PWColors.navy.withValues(alpha: 0.12),
+                  width: isActive ? 2 : 1,
+                ),
                 color: isActive
-                    ? PWColors.blue
-                    : PWColors.navy.withValues(alpha: 0.12),
-                width: isActive ? 2 : 1,
+                    ? PWColors.blue.withValues(alpha: 0.08)
+                    : Colors.white,
               ),
-              color: isActive
-                  ? PWColors.blue.withValues(alpha: 0.08)
-                  : Colors.white,
-            ),
-            child: Center(
-              child: Container(
-                width: dotDiameter,
-                height: dotDiameter,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: isActive ? PWColors.blue : PWColors.navy,
+              child: Center(
+                child: Container(
+                  width: dotDiameter,
+                  height: dotDiameter,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: isActive ? PWColors.blue : PWColors.navy,
+                  ),
                 ),
               ),
             ),
-          ),
-        );
-      }).toList(),
+          );
+        },
+      ),
     );
   }
 }
